@@ -1,10 +1,10 @@
 
+let nbr_carte = [0,0,0,0,0,0,0,0,0,0,0,0]
+
 class Equipe {
     constructor(){
-        this.cartes = [0,0,0,0,0]
-        for (let i=0; i<5;i++){
-            this.cartes[i] = Math.floor(Math.random()*12) +1
-        }
+        // ajout des cartes pour chaques équipes
+        recharge_carte(this)
     }
 
 }
@@ -34,4 +34,29 @@ function load(){
     var allCarte = document.createTextNode("Equipe d'Allemagne : "+String(all.cartes[0])+" - "+String(all.cartes[1])+" - "+String(all.cartes[2])+" - "+String(all.cartes[3])+" - "+String(all.cartes[4]));
     pCarte.appendChild(allCarte)
     add_br()
+}
+
+/**
+ * Recharge les cartes de l'équipe passer en paramètre
+ * 
+ * @class 
+ * @see Equipe
+ * @param {Equipe} equipe l'équipe qui a besoin de nouvelle carte
+ * @return {list} cartes les 5 cartes secondes de l'équipe.
+ */
+function recharge_carte(equipe){
+    equipe.cartes = [0,0,0,0,0]
+    for (let i=0; i<5;i++){
+        let ok = false
+        while (ok==false){
+            let carte = Math.floor(Math.random()*12) +1
+            if (nbr_carte[carte-1]<8){
+                nbr_carte[carte-1]+=1
+                equipe.cartes[i] = carte
+                ok = true
+            }
+        }
+    }
+    const by_value = (a,b) => a -b
+    equipe.cartes.sort(by_value)
 }
