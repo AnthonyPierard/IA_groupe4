@@ -1,3 +1,9 @@
-#game_map { background-image: url("img/map.png");
+#game_map {
+        background-image: url("img/map_large.png");
         background-repeat: no-repeat;
-        background-attachment: fixed; }
+        background-attachment: fixed;
+        background-size: 50%; }
+
+div{
+        vertical-align: center;
+}
