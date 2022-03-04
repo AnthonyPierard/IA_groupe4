@@ -52,8 +52,7 @@ const all = new Equipe("Allemagne");
 const all_equipe = [bel,it,hol,all]
 
 
-function add_br(){
-    var pCarte = document.getElementById("carte");
+function add_br(pCarte){
     var br = document.createElement("br");
     pCarte.appendChild(br)
 }
@@ -61,19 +60,7 @@ function add_br(){
 function load(){
     //partie initialisation des cartes//
 
-    let pCarte = document.getElementById("carte");
-    let itCarte = document.createTextNode("Equipe d'Italie : "+String(it.cartes[0])+" - "+String(it.cartes[1])+" - "+String(it.cartes[2])+" - "+String(it.cartes[3])+" - "+String(it.cartes[4]));
-    pCarte.appendChild(itCarte)
-    add_br()
-    let holCarte = document.createTextNode("Equipe de Hollande : "+String(hol.cartes[0])+" - "+String(hol.cartes[1])+" - "+String(hol.cartes[2])+" - "+String(hol.cartes[3])+" - "+String(hol.cartes[4]));
-    pCarte.appendChild(holCarte)
-    add_br()
-    let belCarte = document.createTextNode("Equipe de Belgique : "+String(bel.cartes[0])+" - "+String(bel.cartes[1])+" - "+String(bel.cartes[2])+" - "+String(bel.cartes[3])+" - "+String(bel.cartes[4]));
-    pCarte.appendChild(belCarte)
-    add_br()
-    let allCarte = document.createTextNode("Equipe d'Allemagne : "+String(all.cartes[0])+" - "+String(all.cartes[1])+" - "+String(all.cartes[2])+" - "+String(all.cartes[3])+" - "+String(all.cartes[4]));
-    pCarte.appendChild(allCarte)
-    add_br()
+    affiche_carte()
 
     //partie initialisation de l'entrée des actions//
     let laction = document.getElementById("label_action")
@@ -120,25 +107,70 @@ function recharge_carte(equipe){
 function action(){
 
     let action = parseInt(document.getElementById("action").value)
-    if (all_equipe[current_equip].cartes.includes(action)){
+    let cartes = all_equipe[current_equip].cartes
+
+    if (cartes.includes(action)){
         all_equipe[current_equip].coureurs[id_current_coureur].position += action
-        
-        console.log(all_equipe[current_equip])
+
         if (next_coureur==4 && id_current_coureur<3){
             id_current_coureur+=1
         }
-        if (current_equip==4){ current_equip= 0}
+
+        cartes.splice(cartes.indexOf(action),1)
+        if (cartes.length==0){
+            recharge_carte(all_equipe[current_equip])
+        }
+        if (current_equip==3){ current_equip= 0}
         else { current_equip+=1 }
         let name_next_equipe = all_equipe[current_equip].nom
         let new_label = document.createTextNode(name_next_equipe + ":")
         let laction = document.getElementById("label_action")
         let old_label = laction.childNodes
-        console.log(old_label)
         laction.removeChild(old_label[1])
         laction.appendChild(new_label)
-
-        //ensuite il faut retirer la carte
-    
+        affiche_carte()
     }
 
+}
+
+function affiche_carte(){
+    let pCarte = document.getElementById("carte");
+    
+    while (pCarte.firstChild) {
+        pCarte.removeChild(pCarte.firstChild)
+    }
+    let br = document.createElement("br");
+    let itText = "Equipe d'Italie :" + String(it.cartes[0] + " ")
+    for (i=1; i<it.cartes.length;i++){
+        itText += ' - '
+        itText += it.cartes[i]
+    }
+    let itCarte = document.createTextNode(itText)
+    pCarte.appendChild(itCarte)
+    pCarte.appendChild(br)
+    let holText = "Equipe de Hollande : " + String(hol.cartes[0])
+    for (i=1; i<hol.cartes.length;i++){
+        holText += ' - '
+        holText += hol.cartes[i]
+    }
+    let holCarte = document.createTextNode(holText);
+    pCarte.appendChild(holCarte)
+    let br2 = document.createElement("br");
+    pCarte.appendChild(br2)
+    let belText = "Equipe de Belgique : " + String(bel.cartes[0])
+    for (i=1; i<bel.cartes.length;i++){
+        belText += ' - '
+        belText += bel.cartes[i]
+    }
+    let belCarte = document.createTextNode(belText)
+    pCarte.appendChild(belCarte)
+    let br3 = document.createElement("br");
+    pCarte.appendChild(br3)
+    let allText = "Equipe d'Allemagne : " + String(all.cartes[0])
+    for (i=1; i<all.cartes.length;i++){
+        allText += ' - '
+        allText += all.cartes[i]
+    }
+    let allCarte = document.createTextNode(allText)
+    pCarte.appendChild(allCarte)
 }
