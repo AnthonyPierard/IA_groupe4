@@ -1,14 +1,16 @@
 <html>
     <head>
         <title>Jeu du tour de France</title>
+        <link rel="stylesheet" href="game.css">
     </head>
     <body onload="load()">
         <div></div>
         <h1></h1>
-         <!-- div contenant le jeu-->
+        <div id="game_map">
+            <canvas id="game" width="960" height="720" style="border:1px solid #d3d3d3;"></canvas>
+        </div> <!-- div contenant le jeu-->
         <div></div> <!-- div contenant le bot-->
-        <div></div></div> <!-- div contenant les infos du jeu-->
-        <img src="img/plateau.PNG">
+        <div></div> <!-- div contenant les infos du jeu-->
         <br>
         <span id ="carte"> 
         </span>
