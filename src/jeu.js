@@ -4,25 +4,28 @@
 let nbr_carte = [0,0,0,0,0,0,0,0,0,0,0,0]
 
 //sert juste pour le premier tour de jeu
-let tour = true
+let premier_tour = true
+let round = 1
 let current_equip
 let id_current_coureur = 0
-let next_coureur = 0
+
+//sert pour les tours d'après
+let current_coureur
 
 class Equipe {
     constructor(nom){
         // ajout des cartes pour chaques équipes
         recharge_carte(this)
         this.nom = nom
-        this.coureurs = [new Coureur(),new Coureur(),new Coureur()]
+        this.coureurs = [new Coureur(1,this.nom),new Coureur(2,this.nom),new Coureur(3,this.nom)]
     }
-
-
 }
 
 class Coureur {
-    constructor(){
+    constructor(numero,equipe){
         this.position = 0
+        this.numero = numero
+        this.equipe = equipe
     }
 }
 
@@ -51,7 +54,18 @@ const hol = new Equipe("Hollande");
 const all = new Equipe("Allemagne");
 const all_equipe = [bel,it,hol,all]
 
+//Initialisation des coureurs
+function initialize_coureur(all_coureur){
+    for (const equipe of all_equipe){
+        for (const coureur of equipe.coureurs){
+            all_coureur.push(coureur)
+        }
+    }
+}
+let all_coureur = []
+initialize_coureur(all_coureur)
 
+//Ajoute un br
 function add_br(pCarte){
     var br = document.createElement("br");
     pCarte.appendChild(br)
@@ -74,7 +88,7 @@ function load(){
             first_equipe = equip
         }
     }
-    let nEquip = document.createTextNode(first_nom + ":")
+    let nEquip = document.createTextNode(first_nom + " coureur 1 :")
     laction.appendChild(nEquip)
     current_equip = all_equipe.indexOf(first_equipe)
 }
@@ -106,29 +120,78 @@ function recharge_carte(equipe){
 
 function action(){
 
+    //On prends la valeur de l'input
     let action = parseInt(document.getElementById("action").value)
     let cartes = all_equipe[current_equip].cartes
+    //si c'est le premier tour c'est comme ça que ça fonctionne
+    if (premier_tour==true) {
+        //on vérifie si la valeur est bien dans les cartes de l'équipe actuelle
+        if (cartes.includes(action)){
+            //On avance la position du coureur
+            all_equipe[current_equip].coureurs[id_current_coureur].position += action
+            
+            cartes.splice(cartes.indexOf(action),1)
+            if (cartes.length==0){
+                recharge_carte(all_equipe[current_equip])
+            }
+            //On prends le prochain coureur si on arrive a la prochaine équipe
+            //et on remet la premiere équipe a jouer
+            if (current_equip==3){ current_equip= 0 }
+            //sinon on passe a la prochaine
+            else{ current_equip+=1 }
+            //tout les 4 rounds on change de coureur
+            if(round%4==0){ id_current_coureur ++ }
+            //on passe au round suivant
+            //si nous somme au round 12 alors c'est la fin du premier tour
+            if(round==12){
+                premier_tour = false
+                round = 1
+                console.log(all_coureur)
+                //on affiche le prochain coureur a passer
+                let max_position = 0
+                //On selectionne le coureur qui est le plus à l'avant de la course
+                all_coureur.forEach(function(coureur){
+                    if (coureur.position>max_position){
+                        max_position = coureur.position
+                        current_coureur = coureur
+                    }
+                })
+                var name_next_equipe = current_coureur.equipe 
+                id_current_coureur = current_coureur.numero -1
 
-    if (cartes.includes(action)){
-        all_equipe[current_equip].coureurs[id_current_coureur].position += action
+            }
+            else {
+                var name_next_equipe = all_equipe[current_equip].nom
+            }
+            //on passe au round suivant
+            round ++
+            let laction = document.getElementById("label_action")
+            let new_label = document.createTextNode(name_next_equipe + " coureur " + (id_current_coureur+1) + ":")
+            let old_label = laction.childNodes
+            laction.removeChild(old_label[1])
+            laction.appendChild(new_label)
 
-        if (next_coureur==4 && id_current_coureur<3){
-            id_current_coureur+=1
+            affiche_carte()
+
         }
 
-        cartes.splice(cartes.indexOf(action),1)
-        if (cartes.length==0){
-            recharge_carte(all_equipe[current_equip])
-        }
-        if (current_equip==3){ current_equip= 0}
-        else { current_equip+=1 }
-        let name_next_equipe = all_equipe[current_equip].nom
-        let new_label = document.createTextNode(name_next_equipe + ":")
-        let laction = document.getElementById("label_action")
-        let old_label = laction.childNodes
-        laction.removeChild(old_label[1])
-        laction.appendChild(new_label)
-        affiche_carte()
+    }
+    else{
+        //On n'est plus dans le premier tour donc c'est au tour du coureur le plus
+        //loin de commencer ect.
+        console.log("hello")
+        
+
+        let max_position = 0
+        //On selectionne le coureur qui est le plus à l'avant de la course
+        all_coureur.forEach(function(coureur){
+            if (coureur.position>max_position){
+                max_position = coureur.position
+                current_coureur = coureur
+            }
+        })
+
+
     }
 
 }
