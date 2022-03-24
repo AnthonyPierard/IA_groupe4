@@ -7,17 +7,31 @@
         <div></div>
         <h1></h1>
         <div id="game_map">
-            <canvas id="game" width="960" height="720" style="border:1px solid #d3d3d3;"></canvas>
+            <canvas id="game" width="630" height="460" style="border:1px solid #d3d3d3;"></canvas>
         </div> <!-- div contenant le jeu-->
-        <div></div> <!-- div contenant le bot-->
+        
+        <div class="chat-box">
+            <div class="conversation">
+            
+            </div>
+            <div class="chat-form">
+                <div class="text-box">
+                    <input type="text">
+                </div>
+                <div class="submit-button">
+                    <!-- <img src="img/send.svg"> -->
+                </div>
+            </div>
+        </div> <!-- div contenant le bot-->
         <div></div> <!-- div contenant les infos du jeu-->
         <br>
         <span id ="carte"> 
         </span>
+        <br>
 
-        <p>
-            
-        </p>
+        <labe id="label_action" for="action"> A l'équipe de </labe>
+        <input id="action" type="text">
+        <button type="button" onclick="action()">OK</button>
 
         <script src="jeu.js"></script>
     </body>    

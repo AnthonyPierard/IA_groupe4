@@ -1,32 +1,33 @@
-<script type="text/javascript" src="tau-prolog.js"></script>
+<script  src="tau-prolog.js"></script>
+<script  src="tbot.js"></script>
+<script src="prolog_session.js"></script>
 
 <script>
-    let session = pl.create();
+    const plSession = new PrologSession();
+
+    plSession.query('nb_coureurs(7).')
+    // let session = pl.create();
     
-    
-    // var program = "                   \
-    // parent(patrick).                   \
-    // "
-    var program = 'tp2.pl'
-    goal = "parent(patrick)."
-    session.consult(program, {
-    success: function() {
-        console.log('program is a success')
-        // Query
-        session.query(goal, {
-            success: function(goal) {
-                console.log('query is a success')
-                // Answers
-                session.answer({
-                    success: function(answer) { console.log(session.format_answer(answer)); },
-                    error:   function(err) { console.log(err) },
-                    fail:    function() { /* Fail */ },
-                    limit:   function() { /* Limit exceeded */ }
-                })
-            },
-            error: function(err) { /* Error parsing goal */ }
-        });
-    },
-    error: function(err) { console.log('progam not ok') }
-});
+
+    // goal = "nb_coureurs(3)."
+    // session.consult(TBOT, {
+    // success: function() {
+    //     console.log('program is a success')
+    //     // Query
+    //     session.query(goal, {
+    //         success: function(goal) {
+    //             console.log('query is a success')
+    //             // Answers
+    //             session.answer({
+    //                 success: function(answer) { if(answer == '{}'){console.log('true.')} },
+    //                 error:   function(err) { console.log(err) },
+    //                 fail:    function() { console.log('false.') },
+    //                 limit:   function() { console.log('limit') }
+    //             })
+    //         },
+    //         error: function(err) { /* Error parsing goal */ }
+    //     });
+    // },
+    // error: function(err) { console.log('progam not ok') }
+// });
 </script>
