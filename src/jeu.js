@@ -13,10 +13,11 @@ let id_current_coureur = 0
 let current_coureur
 
 class Equipe {
-    constructor(nom){
+    constructor(nom,id){
         // ajout des cartes pour chaques équipes
         recharge_carte(this)
         this.nom = nom
+        this.id = id
         this.coureurs = [new Coureur(1,this.nom),new Coureur(2,this.nom),new Coureur(3,this.nom)]
     }
 }
@@ -30,9 +31,15 @@ class Coureur {
 }
 
 class Case {
-    constructor(numero, chance){
+    constructor(numero, position, chance){
+        // l'avancement de la case 
         this.numero = numero
+        // la position horizontale de la case 
+        this.position = position
+        // si la case est une case chance ou non
         this.chance = chance
+        // par exemple la case(2,2,True) est la deuxième rangée de case 
+        //à la deuxième position (gauche ou milieu)
     }
 }
 
@@ -48,10 +55,10 @@ for (let i=0; i<10;i++){
 }
 
 //Initialisation des équipes
-const bel = new Equipe("Belgique");
-const it = new Equipe("Italie");
-const hol = new Equipe("Hollande");
-const all = new Equipe("Allemagne");
+const bel = new Equipe("Belgique",0);
+const it = new Equipe("Italie",1);
+const hol = new Equipe("Hollande",2);
+const all = new Equipe("Allemagne",3);
 const all_equipe = [bel,it,hol,all]
 
 //Initialisation des coureurs
@@ -146,7 +153,6 @@ function action(){
             if(round==12){
                 premier_tour = false
                 round = 1
-                console.log(all_coureur)
                 //on affiche le prochain coureur a passer
                 let max_position = 0
                 //On selectionne le coureur qui est le plus à l'avant de la course
@@ -156,8 +162,15 @@ function action(){
                         current_coureur = coureur
                     }
                 })
+                let id = all_coureur.indexOf(current_coureur)
+                all_coureur.splice(id, 1)
                 var name_next_equipe = current_coureur.equipe 
                 id_current_coureur = current_coureur.numero -1
+                all_equipe.forEach(function(equipe){
+                    if(equipe.nom==current_coureur.equipe){
+                        current_equip = equipe.id
+                    }
+                })
 
             }
             else {
@@ -165,13 +178,6 @@ function action(){
             }
             //on passe au round suivant
             round ++
-            let laction = document.getElementById("label_action")
-            let new_label = document.createTextNode(name_next_equipe + " coureur " + (id_current_coureur+1) + ":")
-            let old_label = laction.childNodes
-            laction.removeChild(old_label[1])
-            laction.appendChild(new_label)
-
-            affiche_carte()
 
         }
 
@@ -179,21 +185,44 @@ function action(){
     else{
         //On n'est plus dans le premier tour donc c'est au tour du coureur le plus
         //loin de commencer ect.
-        console.log("hello")
         
+        if(cartes.includes(action)){
+            console.log(all_coureur)
+            if (all_coureur.length==0){ initialize_coureur(all_coureur)}
+            current_coureur.position += action
 
-        let max_position = 0
-        //On selectionne le coureur qui est le plus à l'avant de la course
-        all_coureur.forEach(function(coureur){
-            if (coureur.position>max_position){
-                max_position = coureur.position
-                current_coureur = coureur
+            cartes.splice(cartes.indexOf(action),1)
+            if (cartes.length==0){
+                recharge_carte(all_equipe[current_equip])
             }
-        })
-
-
+            let max_position = 0
+            //On selectionne le coureur qui est le plus à l'avant de la course pour le prochain round
+            all_coureur.forEach(function(coureur){
+                if (coureur.position>max_position){
+                    max_position = coureur.position
+                    current_coureur = coureur
+                }
+            })
+            let id = all_coureur.indexOf(current_coureur)
+            all_coureur.splice(id,1)
+            var name_next_equipe = current_coureur.equipe 
+            id_current_coureur = current_coureur.numero -1
+            all_equipe.forEach(function(equipe){
+                if(equipe.nom==current_coureur.equipe){
+                    current_equip = equipe.id
+                }
+            })
+        }
+        
+        
     }
+    let laction = document.getElementById("label_action")
+    let new_label = document.createTextNode(name_next_equipe + " coureur " + (id_current_coureur+1) + ":")
+    let old_label = laction.childNodes
+    laction.removeChild(old_label[1])
+    laction.appendChild(new_label)
 
+    affiche_carte()
 }
 
 function affiche_carte(){
