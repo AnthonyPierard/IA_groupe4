@@ -7,6 +7,7 @@
         <div></div>
         <h1></h1>
         <div id="game_map">
+
             <canvas id="game" width="630" height="460" style="border:1px solid #d3d3d3;"></canvas>
         </div> <!-- div contenant le jeu-->
         
@@ -29,10 +30,19 @@
         </span>
         <br>
 
-        <labe id="label_action" for="action"> A l'équipe de </labe>
-        <input id="action" type="text">
-        <button type="button" onclick="action()">OK</button>
-
+        <label id="label_action" for="action"> A l'équipe de </label>
+        <input id="action" type="text" >
+        <input type="button" id="button" value="OK" onclick="action()">
+        
+        <script>
+            document.getElementById("action").addEventListener("keydown", function(event) {
+                if (event.key == 'Enter') {
+                    event.preventDefault();
+                    document.getElementById("button").click();
+                    document.getElementById("action").value = "";
+                }
+            })
+        </script>
         <script src="jeu.js"></script>
     </body>    
 </html>
