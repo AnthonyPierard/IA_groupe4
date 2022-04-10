@@ -39,16 +39,24 @@ class PrologSession {
       this.session.answer(rep => {
       console.log(pl.format_answer(rep))
       })
+        this.response = pl.format_answer(rep)
     }
-  
+
+
+    /** reset the response to an empty string
+     */
     reset_response() {
        this.response = ''
     }
-      
-      get_response() {
+
+
+    /**
+     * TO COMPLETE
+     * @returns {string}
+     */
+    get_response() {
        console.log("Essai de retour de response")
        console.log(this.response)
        return this.response }
       
   }
-  

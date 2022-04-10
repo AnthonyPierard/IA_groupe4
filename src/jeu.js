@@ -172,6 +172,7 @@ function action(){
             laction.appendChild(new_label)
 
             affiche_carte()
+            displayAnswer()
 
         }
 
@@ -237,3 +238,13 @@ function affiche_carte(){
     let allCarte = document.createTextNode(allText)
     pCarte.appendChild(allCarte)
 }
+
+
+function displayAnswer(){
+    let bot = document.getElementById("jac-bot");
+    bot.appendChild(PrologSession.get_response());
+}
+
+
+
+

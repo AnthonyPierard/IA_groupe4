@@ -80,6 +80,13 @@ nb_equipes(4).
 
 mclef(commence,10).
 mclef(equipe,5).
+mclef(dynamique,9).
+mclef(tour,4).
+meclef(depasser,8).
+mclef(vitesse,7).
+mclef(montee,6).
+mclef(descente,8).
+mclef(chute,5).
 
 % ----------------------------------------------------------------%
 
@@ -95,7 +102,36 @@ regle_rep(equipe,5,
   [ [ chaque, equipe, compte, X, "coureurs." ] ]) :-
 
      nb_coureurs(X).
-   
+%-----------------------------------------------------------------%
+regle_rep(dynamique,9,
+        [qui,doit,jouer],
+        [["c'est",au,joueur,de,tete,a,commence,la,partie,"dynamique"]]).
+%-----------------------------------------------------------------%
+regle_rep(tour,4,
+ [["c'est",au,tour,du,joueur]]):- nb_coureurs(X).
+%----------------------------------------------------------------%
+regle_rep(depasser,8,
+          [[Puis,je,depasser,au-dessus,"d'un",groupe,de,coureurs,?],
+          [oui,il,est,permis,de,depasser,par,le,bas,cote,de,la,route,pour,autant,que,le,coureur,arrive,sur,une,cases,non,occupee,sinon,tout,les,joueurs,apres,lui,chute,ainsi,que,les,
+          joueur,sur,la,meme,cases]]).
+
+%-----------------------------------------------------------------%
+regle_rep(vitesse,7,
+        [[quand,puis,je,prendre,de,la,vitesse,?],[Tu,peux,prendre,de,la,vitesse,si,lorsque,tu,es,au,sein,du,peloton,ou,lorsque,un,joueur,est,derriere,toi]).
+regle_rep(vitesse,7,
+          [[comment,puis,je,prendre,de,la,vitesse,?],[la,prise,de,vitesse,fonctionne,comme,suit,tu,avance,"d'une",seconde,supplémentaire,selon,la,carte,seconde,jouée]]).
+%--------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+regle_rep(montee,6,
+        [[quelle,est,ma,vitesse,dans,les,montee],[ta,vitesse,dans,les,montee,est,divisee,par,deux,selon,la,cases,jouee]]).
+%--------------------------------------------------------------------------------------------------------------------------%
+regle_rep(descente,6,
+          [[quelle,est,ma,vitesse,dans,les,descente],[si,tu,es,en,prise,de,vitesse,alors,tu,gagne,deux,secondes]]).
+
+%--------------------------------------------------------------------------------------------------------------------%
+regle_rep(chute,5,
+           [[Comment,provoquer,une,chute,en,serie],[pour,provoquer,une,chute,en,serie,tu,dois,etre,en,contact,avec,un,autre,coureur,si,plusieurs,joueur,se,trouve,sur,la,meme,cases]]).
+
+
 
 
 /* --------------------------------------------------------------------- */
