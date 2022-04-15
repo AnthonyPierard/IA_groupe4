@@ -58,15 +58,41 @@
 
 
         <div></div> <!-- div contenant le bot-->
+
+        
+        <div class="chat-box">
+            <div class="conversation">
+            
+            </div>
+            <div class="chat-form">
+                <div class="text-box">
+                    <input type="text">
+                </div>
+                <div class="submit-button">
+                    <!-- <img src="img/send.svg"> -->
+                </div>
+            </div>
+        </div> <!-- div contenant le bot-->
+
         <div></div> <!-- div contenant les infos du jeu-->
         <br>
         <span id ="carte"> 
         </span>
+        <br>
 
-        <p>
-            
-        </p>
-
+        <label id="label_action" for="action"> A l'équipe de </label>
+        <input id="action" type="text" >
+        <input type="button" id="button" value="OK" onclick="action()">
+        
+        <script>
+            document.getElementById("action").addEventListener("keydown", function(event) {
+                if (event.key == 'Enter') {
+                    event.preventDefault();
+                    document.getElementById("button").click();
+                    document.getElementById("action").value = "";
+                }
+            })
+        </script>
         <script src="jeu.js"></script>
     </body>    
 </html>
