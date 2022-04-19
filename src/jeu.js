@@ -24,20 +24,21 @@ class Equipe {
 
 class Coureur {
     constructor(numero,equipe){
-        this.position = 0
+        this.position = new Case(0,0,false,(50,60))
         this.numero = numero
         this.equipe = equipe
     }
 }
 
 class Case {
-    constructor(numero, position, chance){
+    constructor(numero, position, chance,coord){
         // l'avancement de la case 
         this.numero = numero
         // la position horizontale de la case 
         this.position = position
         // si la case est une case chance ou non
         this.chance = chance
+        this.coord = coord
         // par exemple la case(2,2,True) est la deuxième rangée de case 
         //à la deuxième position (gauche ou milieu)
     }
@@ -223,6 +224,7 @@ function action(){
     laction.appendChild(new_label)
 
     affiche_carte()
+    updateCoordinates()
 }
 
 function affiche_carte(){
@@ -265,4 +267,51 @@ function affiche_carte(){
     }
     let allCarte = document.createTextNode(allText)
     pCarte.appendChild(allCarte)
+}
+
+function updateCoordinates(){
+    let bel_player_1 = document.getElementById("belgium_player_1");
+    let bel_player_2 = document.getElementById("belgium_player_2");
+    let bel_player_3 = document.getElementById("belgium_player_3");
+
+    let ger_player_1 = document.getElementById("germany_player_1");
+    let ger_player_2 = document.getElementById("germany_player_2");
+    let ger_player_3 = document.getElementById("germany_player_3");
+
+    let ned_player_1 = document.getElementById("netherlands_player_1");
+    let ned_player_2 = document.getElementById("netherlands_player_2");
+    let ned_player_3 = document.getElementById("netherlands_player_3");
+
+    let ita_player_1 = document.getElementById("italy_player_1");
+    let ita_player_2 = document.getElementById("italy_player_2");
+    let ita_player_3 = document.getElementById("italy_player_3");
+
+    bel_player_1.style.left = all_equipe[0].coureurs[0].position[0];
+    bel_player_1.style.top = all_equipe[0].coureurs[0].position[1];
+    bel_player_2.style.left = all_equipe[0].coureurs[1].position[0];
+    bel_player_2.style.top = all_equipe[0].coureurs[1].position[1];
+    bel_player_3.style.left = all_equipe[0].coureurs[2].position[0];
+    bel_player_3.style.top = all_equipe[0].coureurs[2].position[1];
+
+    ger_player_1.style.left = all_equipe[3].coureurs[0].position[0];
+    ger_player_1.style.top = all_equipe[3].coureurs[0].position[1];
+    ger_player_2.style.left = all_equipe[3].coureurs[1].position[0];
+    ger_player_2.style.top = all_equipe[3].coureurs[1].position[1];
+    ger_player_3.style.left = all_equipe[3].coureurs[2].position[0];
+    ger_player_3.style.top = all_equipe[3].coureurs[2].position[1];
+
+    ned_player_1.style.left = all_equipe[2].coureurs[0].position[0];
+    ned_player_1.style.top = all_equipe[2].coureurs[0].position[1];
+    ned_player_2.style.left = all_equipe[2].coureurs[1].position[0];
+    ned_player_2.style.top = all_equipe[2].coureurs[1].position[1];
+    ned_player_3.style.left = all_equipe[2].coureurs[2].position[0];
+    ned_player_3.style.top = all_equipe[2].coureurs[2].position[1];
+
+    ita_player_1.style.left = all_equipe[1].coureurs[0].position[0];
+    ita_player_1.style.top = all_equipe[1].coureurs[0].position[1];
+    ita_player_2.style.left = all_equipe[1].coureurs[1].position[0];
+    ita_player_2.style.top = all_equipe[1].coureurs[1].position[1];
+    ita_player_3.style.left = all_equipe[1].coureurs[2].position[0];
+    ita_player_3.style.top = all_equipe[1].coureurs[2].position[1];
+
 }
