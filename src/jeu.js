@@ -58,16 +58,16 @@ class Case {
 //Création de la map
 //Chaque sous tableau est une rangée de la carte contenant une ou plusieurs case.
 //Quand il y a un "_" ça veut dire qu'il y a une séparation dans la rangée.
-let map = [[new Case(1,1,false,false),new Case(1,2,false,false),new Case(1,3,false,false)],
-            [new Case(2,1,false,false),new Case(2,2,false,false),new Case(2,3,false,false)],
-            [new Case(3,1,false,false),new Case(3,2,false,false),new Case(3,3,false,false)],
-            [new Case(4,1,false,false),new Case(4,2,false,false),new Case(4,3,false,false)],
-            [new Case(5,1,false,false),new Case(5,2,false,false),new Case(5,3,false,false)],
-            [new Case(6,1,false,false),new Case(6,2,false,false),new Case(6,3,false,false)],
-            [new Case(7,1,false,false),new Case(7,2,false,false),new Case(7,3,false,false)],
-            [new Case(8,1,false,false),new Case(8,2,false,false),new Case(8,3,false,false)],
-            [new Case(9,1,true,false),new Case(9,2,false,false),new Case(9,3,false,false)],
-            [new Case(10,1,true,false),new Case(10,2,false,false),new Case(10,3,false,false)],
+let map = [[new Case(1,1,false,false, (321, -72)),new Case(1,2,false,false, (321, -60)),new Case(1,3,false,false, (321, -48))],
+            [new Case(2,1,false,false, (333, -72)),new Case(2,2,false,false, (333, -60)),new Case(2,3,false,false, (333, -48))],
+            [new Case(3,1,false,false, (345, -72)),new Case(3,2,false,false, (345, -60)),new Case(3,3,false,false, (345, -48))],
+            [new Case(4,1,false,false, (357, -72)),new Case(4,2,false,false, (357, -60)),new Case(4,3,false,false, (357, -48))],
+            [new Case(5,1,false,false, (369, -72)),new Case(5,2,false,false, (369, -60)),new Case(5,3,false,false, (369, -48))],
+            [new Case(6,1,false,false, (381, -72)),new Case(6,2,false,false, (381, -60)),new Case(6,3,false,false, (381, -48))],
+            [new Case(7,1,false,false, (393, -72)),new Case(7,2,false,false, (393, -60)),new Case(7,3,false,false, (393, -48))],
+            [new Case(8,1,false,false, (405, -72)),new Case(8,2,false,false, (405, -60)),new Case(8,3,false,false, (405, -48))],
+            [new Case(9,1,true,false, (411, -72)),new Case(9,2,false,false, (417, -60)),new Case(9,3,false,false, (411, -48))],
+            [new Case(10,1,true,false, (447, -70)),new Case(10,2,false,false, (441, -59)),new Case(10,3,false,false, (453, -57))],
             [new Case(11,1,true,false),new Case(11,2,false,false)],
             [new Case(12,1,true,false),new Case(12,2,false,false)],
             [new Case(13,1,false,false),new Case(13,2,false,false)],
@@ -153,16 +153,16 @@ let map = [[new Case(1,1,false,false),new Case(1,2,false,false),new Case(1,3,fal
             [new Case(93,1,false,false),"_",new Case(93,2,false,false)],
             [new Case(94,1,false,false),"_",new Case(94,2,false,false)],
             [new Case(95,1,false,false),new Case(95,2,false,false),new Case(95,3,false,false)],
-            [new Case(96,1,false,true),new Case(96,2,false,true),new Case(96,3,false,true)],
-            [new Case(97,1,false,true),new Case(97,2,false,true),new Case(97,3,false,true)],
-            [new Case(98,1,false,true),new Case(98,2,false,true),new Case(98,3,false,true)],
-            [new Case(99,1,false,true),new Case(99,2,false,true),new Case(99,3,false,true)],
-            [new Case(100,1,false,true),new Case(100,2,false,true),new Case(100,3,false,true)],
-            [new Case(101,1,false,true),new Case(101,2,false,true),new Case(101,3,false,true)],
-            [new Case(102,1,false,true),new Case(102,2,false,true),new Case(102,3,false,true)],
-            [new Case(103,1,false,true),new Case(103,2,false,true),new Case(103,3,false,true)],
-            [new Case(104,1,false,true),new Case(104,2,false,true),new Case(104,3,false,true)],
-            [new Case(105,1,false,true),new Case(105,2,false,true),new Case(105,3,false,true)]]
+            [new Case(0,1,false,true),new Case(0,2,false,true),new Case(0,3,false,true)],
+            [new Case(-1,1,false,true),new Case(-1,2,false,true),new Case(-1,3,false,true)],
+            [new Case(-2,1,false,true),new Case(-2,2,false,true),new Case(-2,3,false,true)],
+            [new Case(-3,1,false,true),new Case(-3,2,false,true),new Case(-3,3,false,true)],
+            [new Case(-4,1,false,true),new Case(-4,2,false,true),new Case(-4,3,false,true)],
+            [new Case(-5,1,false,true),new Case(-5,2,false,true),new Case(-5,3,false,true)],
+            [new Case(-6,1,false,true),new Case(-6,2,false,true),new Case(-6,3,false,true)],
+            [new Case(-7,1,false,true),new Case(-7,2,false,true),new Case(-7,3,false,true)],
+            [new Case(-8,1,false,true),new Case(-8,2,false,true),new Case(-8,3,false,true)],
+            [new Case(-9,1,false,true),new Case(-9,2,false,true),new Case(-9,3,false,true)]]
 
 //Initialisation des équipes
 const bel = new Equipe("Belgique",0);
