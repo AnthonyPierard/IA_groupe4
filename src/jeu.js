@@ -172,6 +172,31 @@ const hol = new Equipe("Hollande",2);
 const all = new Equipe("Allemagne",3);
 const all_equipe = [bel,it,hol,all]
 
+/**
+ * Recharge les cartes de l'équipe passer en paramètre
+ * 
+ * @class 
+ * @see Equipe
+ * @param {Equipe} equipe l'équipe qui a besoin de nouvelle carte
+ * @return {list} cartes les 5 cartes secondes de l'équipe.
+ */
+ function recharge_carte(equipe){
+    equipe.cartes = [0,0,0,0,0]
+    for (let i=0; i<5;i++){
+        let ok = false
+        while (ok==false){
+            let carte = Math.floor(Math.random()*12) +1
+            if (nbr_carte[carte-1]<8){
+                nbr_carte[carte-1]+=1
+                equipe.cartes[i] = carte
+                ok = true
+            }
+        }
+    }
+    const by_value = (a,b) => a -b
+    equipe.cartes.sort(by_value)
+}
+
 //Initialisation des coureurs
 function initialize_coureur(all_coureur){
     for (const equipe of all_equipe){
@@ -216,31 +241,6 @@ function load(){
 }
 
 /**
- * Recharge les cartes de l'équipe passer en paramètre
- * 
- * @class 
- * @see Equipe
- * @param {Equipe} equipe l'équipe qui a besoin de nouvelle carte
- * @return {list} cartes les 5 cartes secondes de l'équipe.
- */
-function recharge_carte(equipe){
-    equipe.cartes = [0,0,0,0,0]
-    for (let i=0; i<5;i++){
-        let ok = false
-        while (ok==false){
-            let carte = Math.floor(Math.random()*12) +1
-            if (nbr_carte[carte-1]<8){
-                nbr_carte[carte-1]+=1
-                equipe.cartes[i] = carte
-                ok = true
-            }
-        }
-    }
-    const by_value = (a,b) => a -b
-    equipe.cartes.sort(by_value)
-}
-
-/**
  * Execute une action carte sur un joueur et une équipe
  */
 function action(){
@@ -260,17 +260,40 @@ function action(){
             let assigner = true
             while (assigner){
                 //sinon on crée une chute en série si on ne trouve pas de case dispo
-                if(i == map[current_coureur.position.numero + action]){
-                    console.log("aie chute en série")
+                if(i == map[current_coureur.position.numero + action-1].length){
+                    chute_en_serie(map[current_coureur.position.numero + action])
                     assigner = false
                 }
                 else{
-                    if(!(map[current_coureur.position.numero + action][i].isUse)){
-                        console.log("ok")
-                        current_coureur.position = map[current_coureur.position.numero + action][i]
-                        console.log("ok")
-                        map[current_coureur.position.numero + action][i].isUse = true
-                        console.log("ok")
+                    //si une case sur une ligne n'est pas utilisée alors on l'assigne
+                    if(!(map[current_coureur.position.numero + action-1][i].isUse)){
+                        //si c'est une case chance
+                        if(map[current_coureur.position.numero + action-1][i].chance){
+                            //nombre aléatoire entre -3 et 3 
+                            let rand = Math.floor(Math.random()*6) - 2
+                            let assigner2 = true
+                            let j = 0
+                            while (assigner2){
+                                if(j == map[current_coureur.position.numero + action-1 + rand].length){
+                                    chute_en_serie(map[current_coureur.position.numero + action - 1 + rand])
+                                    assigner2 = false
+                                }
+                                else{
+                                    if(!(map[current_coureur.position.numero + action-1 + rand][j].isUse)){
+                                        map[current_coureur.position.numero + action-1 + rand][j].isUse = true
+                                        current_coureur.position = map[current_coureur.position.numero + action-1 + rand][j]
+                                    }
+                                    else{
+                                        j++
+                                    }    
+                                }
+                            }
+                            
+                        }
+                        else{
+                            map[current_coureur.position.numero + action-1][i].isUse = true
+                            current_coureur.position = map[current_coureur.position.numero + action-1][i]
+                        }
                         assigner = false
                     }
                     else {
@@ -331,9 +354,34 @@ function action(){
     //loin de commencer ect.
     else{
         if(cartes.includes(action)){
-            console.log(all_coureur)
-            if (all_coureur.length==0){ initialize_coureur(all_coureur)}
-            current_coureur.position += action
+
+            if (all_coureur.length==0){ 
+                initialize_coureur(all_coureur)
+                nbTour ++
+            }
+
+            let i=0
+            //On regarde dans la rangée si il y a des cases de libre
+            //si c'est le cas on l'assigne au coureur
+            let assigner = true
+            while (assigner){
+                //sinon on crée une chute en série si on ne trouve pas de case dispo
+                if(i == map[current_coureur.position.numero + action]){
+                    console.log("aie chute en série")
+                    assigner = false
+                }
+                else{
+                    if(!(map[current_coureur.position.numero + action][i].isUse)){
+                        map[current_coureur.position.numero + action-1][i].isUse = true
+                        current_coureur.position = map[current_coureur.position.numero + action-1][i]
+                        
+                        assigner = false
+                    }
+                    else {
+                        i++
+                    }
+                }
+            }
 
             cartes.splice(cartes.indexOf(action),1)
             if (cartes.length==0){
@@ -371,6 +419,10 @@ function action(){
     affiche_carte()
     //permet de modifier les coordonées des joueurs
     updateCoordinates()
+}
+
+function chute_en_serie(rangée){
+    console.log("aie chute en série")
 }
 
 function affiche_carte(){
