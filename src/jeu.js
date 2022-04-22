@@ -333,7 +333,10 @@ function action(){
     laction.removeChild(old_label[1])
     laction.appendChild(new_label)
 
+    //permet de réafficher les cartes
     affiche_carte()
+    //permet de modifier les coordonées des joueurs
+    updateCoordinates()
 }
 
 function affiche_carte(){
