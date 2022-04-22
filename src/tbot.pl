@@ -100,36 +100,36 @@ regle_rep(commence,1,
 regle_rep(equipe,5,
   [ [ combien ], 3, [ coureurs], 5, [ equipe ] ],
   [ [ chaque, equipe, compte, X, "coureurs." ] ]) :-
-
      nb_coureurs(X).
 %-----------------------------------------------------------------%
 regle_rep(dynamique,9,
-        [qui,doit,jouer],
-        [["c'est",au,joueur,de,tete,a,commence,la,partie,"dynamique"]]).
+        [ [qui],3,[commencer],4,[dynamique],2],
+        [["c'est",au,joueur,de,tete,qui,doit,commencer,la,partie,"dynamique"]]).
 %-----------------------------------------------------------------%
 regle_rep(tour,4,
- [["c'est",au,tour,du,joueur]]):- nb_coureurs(X).
+ [["c'est",au,tour,du,joueur,X]]):- nb_coureurs(X).)  %Need javascript to get which player has to play%
 %----------------------------------------------------------------%
 regle_rep(depasser,8,
-          [[Puis,je,depasser,au-dessus,"d'un",groupe,de,coureurs,?],
+          [[puis],2,[depasser],3,[au-dessus],3,[groupe],3,[coureurs],2],
           [oui,il,est,permis,de,depasser,par,le,bas,cote,de,la,route,pour,autant,que,le,coureur,arrive,sur,une,cases,non,occupee,sinon,tout,les,joueurs,apres,lui,chute,ainsi,que,les,
           joueur,sur,la,meme,cases]]).
 
 %-----------------------------------------------------------------%
 regle_rep(vitesse,7,
-        [[quand,puis,je,prendre,de,la,vitesse,?],[Tu,peux,prendre,de,la,vitesse,si,lorsque,tu,es,au,sein,du,peloton,ou,lorsque,un,joueur,est,derriere,toi]).
+        [[quand,4,[prendre],4,[vitesse],2],[Tu,peux,prendre,de,la,vitesse,si,lorsque,tu,es,au,sein,du,peloton,ou,lorsque,un,joueur,est,derriere,toi]).
 regle_rep(vitesse,7,
-          [[comment,puis,je,prendre,de,la,vitesse,?],[la,prise,de,vitesse,fonctionne,comme,suit,tu,avance,"d'une",seconde,supplémentaire,selon,la,carte,seconde,jouée]]).
+          [[comment],4,[prendre],4,[vitesse]],
+          [la,prise,de,vitesse,fonctionne,comme,suit,tu,avance,"d'une",seconde,"supplémentaire",selon,la,carte,seconde,"jouée"]]).
 %--------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 regle_rep(montee,6,
-        [[quelle,est,ma,vitesse,dans,les,montee],[ta,vitesse,dans,les,montee,est,divisee,par,deux,selon,la,cases,jouee]]).
+        [[quelle],2,[ma],2,[vitesse],4,[montee],2],[ta,vitesse,dans,les,montee,est,divisee,par,deux,selon,la,cases,jouee]]).
 %--------------------------------------------------------------------------------------------------------------------------%
 regle_rep(descente,6,
-          [[quelle,est,ma,vitesse,dans,les,descente],[si,tu,es,en,prise,de,vitesse,alors,tu,gagne,deux,secondes]]).
+          [[quelle],2,[ma],2,[vitesse],4,[descente],2],[si,tu,es,en,prise,de,vitesse,alors,tu,gagne,deux,secondes]]).
 
 %--------------------------------------------------------------------------------------------------------------------%
 regle_rep(chute,5,
-           [[Comment,provoquer,une,chute,en,serie],[pour,provoquer,une,chute,en,serie,tu,dois,etre,en,contact,avec,un,autre,coureur,si,plusieurs,joueur,se,trouve,sur,la,meme,cases]]).
+           [[comment],2,[provoquer],3,[chute],3,[serie],2],[pour,provoquer,une,chute,en,serie,tu,dois,etre,en,contact,avec,un,autre,coureur,si,plusieurs,joueur,se,trouve,sur,la,meme,cases]]).
 
 
 
