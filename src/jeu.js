@@ -4,8 +4,9 @@
 let nbr_carte = [0,0,0,0,0,0,0,0,0,0,0,0]
 
 //sert juste pour le premier tour de jeu
-let premier_tour = true
+
 let round = 1
+let nbTour = 0
 let current_equip
 let id_current_coureur = 0
 
@@ -28,7 +29,7 @@ class Equipe {
 class Coureur {
     constructor(numero,equipe){
         //La case ou est positionner le coureur
-        this.position = new Case(0,0,false,false)
+        this.position = new Case(0,0,false,false, (888, 888))
         //son numéro dans l'équipe, ça peut être donc soit 1, 2 ou 3
         this.numero = numero
         //le nom de l'équipe a laquel il appartient
@@ -40,7 +41,7 @@ class Coureur {
 //les case d'une rangée pour plus tard
 
 class Case {
-    constructor(numero, position, chance, finale,coord){
+    constructor(numero, position, chance, isUse,coord){
         // l'avancement de la case 
         this.numero = numero
         // la position horizontale de la case 
@@ -48,7 +49,7 @@ class Case {
         // si la case est une case chance ou non
         this.chance = chance
         // si la case est une case finale ou non
-        this.finale = finale
+        this.isUse = isUse
         this.coord = coord
         // par exemple la case(2,2,True, false) est la deuxième rangée de case 
         //à la deuxième position (gauche ou milieu) qui est une case chance mais non finale
@@ -153,16 +154,16 @@ let map = [[new Case(1,1,false,false, (321, -72)),new Case(1,2,false,false, (321
             [new Case(93,1,false,false),"_",new Case(93,2,false,false)],
             [new Case(94,1,false,false),"_",new Case(94,2,false,false)],
             [new Case(95,1,false,false),new Case(95,2,false,false),new Case(95,3,false,false)],
-            [new Case(0,1,false,true),new Case(0,2,false,true),new Case(0,3,false,true)],
-            [new Case(-1,1,false,true),new Case(-1,2,false,true),new Case(-1,3,false,true)],
-            [new Case(-2,1,false,true),new Case(-2,2,false,true),new Case(-2,3,false,true)],
-            [new Case(-3,1,false,true),new Case(-3,2,false,true),new Case(-3,3,false,true)],
-            [new Case(-4,1,false,true),new Case(-4,2,false,true),new Case(-4,3,false,true)],
-            [new Case(-5,1,false,true),new Case(-5,2,false,true),new Case(-5,3,false,true)],
-            [new Case(-6,1,false,true),new Case(-6,2,false,true),new Case(-6,3,false,true)],
-            [new Case(-7,1,false,true),new Case(-7,2,false,true),new Case(-7,3,false,true)],
-            [new Case(-8,1,false,true),new Case(-8,2,false,true),new Case(-8,3,false,true)],
-            [new Case(-9,1,false,true),new Case(-9,2,false,true),new Case(-9,3,false,true)]]
+            [new Case(0,1,false,false),new Case(0,2,false,false),new Case(0,3,false,false)],
+            [new Case(-1,1,false,false),new Case(-1,2,false,false),new Case(-1,3,false,false)],
+            [new Case(-2,1,false,false),new Case(-2,2,false,false),new Case(-2,3,false,false)],
+            [new Case(-3,1,false,false),new Case(-3,2,false,false),new Case(-3,3,false,false)],
+            [new Case(-4,1,false,false),new Case(-4,2,false,false),new Case(-4,3,false,false)],
+            [new Case(-5,1,false,false),new Case(-5,2,false,false),new Case(-5,3,false,false)],
+            [new Case(-6,1,false,false),new Case(-6,2,false,false),new Case(-6,3,false,false)],
+            [new Case(-7,1,false,false),new Case(-7,2,false,false),new Case(-7,3,false,false)],
+            [new Case(-8,1,false,false),new Case(-8,2,false,false),new Case(-8,3,false,false)],
+            [new Case(-9,1,false,false),new Case(-9,2,false,false),new Case(-9,3,false,false)]]
 
 //Initialisation des équipes
 const bel = new Equipe("Belgique",0);
@@ -179,8 +180,12 @@ function initialize_coureur(all_coureur){
         }
     }
 }
+//peut être modifier pour passer entre les coureurs
 let all_coureur = []
 initialize_coureur(all_coureur)
+//ne peut pas être modifier pour avoir tout les coureurs
+let all_coureur_const = []
+initialize_coureur(all_coureur_const)
 
 //Ajoute un br
 function add_br(pCarte){
@@ -244,11 +249,37 @@ function action(){
     let action = parseInt(document.getElementById("action").value)
     let cartes = all_equipe[current_equip].cartes
     //si c'est le premier tour c'est comme ça que ça fonctionne
-    if (premier_tour==true) {
+    if (nbTour ==0) {
         //on vérifie si la valeur est bien dans les cartes de l'équipe actuelle
         if (cartes.includes(action)){
             //On avance la position du coureur
-            all_equipe[current_equip].coureurs[id_current_coureur].position += action
+            current_coureur = all_equipe[current_equip].coureurs[id_current_coureur]
+            let i=0
+            //On regarde dans la rangée si il y a des cases de libre
+            //si c'est le cas on l'assigne au coureur
+            let assigner = true
+            while (assigner){
+                //sinon on crée une chute en série si on ne trouve pas de case dispo
+                if(i == map[current_coureur.position.numero + action]){
+                    console.log("aie chute en série")
+                    assigner = false
+                }
+                else{
+                    if(!(map[current_coureur.position.numero + action][i].isUse)){
+                        console.log("ok")
+                        current_coureur.position = map[current_coureur.position.numero + action][i]
+                        console.log("ok")
+                        map[current_coureur.position.numero + action][i].isUse = true
+                        console.log("ok")
+                        assigner = false
+                    }
+                    else {
+                        i++
+                    }
+                }
+            }
+            console.log(current_coureur.position)
+            
             
             cartes.splice(cartes.indexOf(action),1)
             if (cartes.length==0){
@@ -262,9 +293,9 @@ function action(){
             //tout les 4 rounds on change de coureur
             if(round%4==0){ id_current_coureur ++ }
             //on passe au round suivant
-            //si nous somme au round 12 alors c'est la fin du premier tour
+            //si nous somme au round 12 alors c'est la fin du premier tour et nous devons préparer le prochain tour
             if(round==12){
-                premier_tour = false
+                nbTour ++
                 round = 1
                 //on affiche le prochain coureur a passer
                 let max_position = 0
@@ -275,6 +306,7 @@ function action(){
                         current_coureur = coureur
                     }
                 })
+                //on le supprime de la liste des coureurs pour pas le resélectionner
                 let id = all_coureur.indexOf(current_coureur)
                 all_coureur.splice(id, 1)
                 var name_next_equipe = current_coureur.equipe 
@@ -335,7 +367,9 @@ function action(){
     laction.removeChild(old_label[1])
     laction.appendChild(new_label)
 
+    //permet de réafficher les cartes
     affiche_carte()
+    //permet de modifier les coordonées des joueurs
     updateCoordinates()
 }
 
@@ -382,48 +416,79 @@ function affiche_carte(){
 }
 
 function updateCoordinates(){
-    let bel_player_1 = document.getElementById("belgium_player_1");
-    let bel_player_2 = document.getElementById("belgium_player_2");
-    let bel_player_3 = document.getElementById("belgium_player_3");
+    document.getElementById("belgium_player_1").style.left = all_equipe[0].coureurs[0].position.coord[0] + "px"; // belgian 1 coordinates
+    document.getElementById("belgium_player_1").style.top = all_equipe[0].coureurs[0].position.coord[1] + "px";
+    if (all_equipe[0].coureurs[0].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
 
-    let ger_player_1 = document.getElementById("germany_player_1");
-    let ger_player_2 = document.getElementById("germany_player_2");
-    let ger_player_3 = document.getElementById("germany_player_3");
+    document.getElementById("belgium_player_2").style.left = all_equipe[0].coureurs[1].position.coord[0] + "px"; // belgian 2 coordinates
+    document.getElementById("belgium_player_2").style.top = all_equipe[0].coureurs[1].position.coord[1] + "px";
+    if (all_equipe[0].coureurs[1].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
 
-    let ned_player_1 = document.getElementById("netherlands_player_1");
-    let ned_player_2 = document.getElementById("netherlands_player_2");
-    let ned_player_3 = document.getElementById("netherlands_player_3");
+    document.getElementById("belgium_player_3").style.left = all_equipe[0].coureurs[2].position.coord[0]; // belgian 3 coordinates
+    document.getElementById("belgium_player_3").style.top = all_equipe[0].coureurs[2].position.coord[1];
+    if (all_equipe[0].coureurs[2].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
 
-    let ita_player_1 = document.getElementById("italy_player_1");
-    let ita_player_2 = document.getElementById("italy_player_2");
-    let ita_player_3 = document.getElementById("italy_player_3");
 
-    bel_player_1.style.left = all_equipe[0].coureurs[0].position[0];
-    bel_player_1.style.top = all_equipe[0].coureurs[0].position[1];
-    bel_player_2.style.left = all_equipe[0].coureurs[1].position[0];
-    bel_player_2.style.top = all_equipe[0].coureurs[1].position[1];
-    bel_player_3.style.left = all_equipe[0].coureurs[2].position[0];
-    bel_player_3.style.top = all_equipe[0].coureurs[2].position[1];
+    document.getElementById("germany_player_1").style.left = all_equipe[3].coureurs[0].position.coord[0] + "px"; // german 1 coordinates
+    document.getElementById("germany_player_1").style.top = all_equipe[3].coureurs[0].position.coord[1] + "px";
+    if (all_equipe[3].coureurs[0].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
 
-    ger_player_1.style.left = all_equipe[3].coureurs[0].position[0];
-    ger_player_1.style.top = all_equipe[3].coureurs[0].position[1];
-    ger_player_2.style.left = all_equipe[3].coureurs[1].position[0];
-    ger_player_2.style.top = all_equipe[3].coureurs[1].position[1];
-    ger_player_3.style.left = all_equipe[3].coureurs[2].position[0];
-    ger_player_3.style.top = all_equipe[3].coureurs[2].position[1];
+    document.getElementById("germany_player_2").style.left = all_equipe[3].coureurs[1].position.coord[0] + "px"; // german 2 coordinates
+    document.getElementById("germany_player_2").style.top = all_equipe[3].coureurs[1].position.coord[1] + "px";
+    if (all_equipe[3].coureurs[1].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
 
-    ned_player_1.style.left = all_equipe[2].coureurs[0].position[0];
-    ned_player_1.style.top = all_equipe[2].coureurs[0].position[1];
-    ned_player_2.style.left = all_equipe[2].coureurs[1].position[0];
-    ned_player_2.style.top = all_equipe[2].coureurs[1].position[1];
-    ned_player_3.style.left = all_equipe[2].coureurs[2].position[0];
-    ned_player_3.style.top = all_equipe[2].coureurs[2].position[1];
+    document.getElementById("germany_player_3").style.left = all_equipe[3].coureurs[2].position.coord[0] + "px"; // german 3 coordinates
+    document.getElementById("germany_player_3").style.top = all_equipe[3].coureurs[2].position.coord[1] + "px";
+    if (all_equipe[3].coureurs[2].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
 
-    ita_player_1.style.left = all_equipe[1].coureurs[0].position[0];
-    ita_player_1.style.top = all_equipe[1].coureurs[0].position[1];
-    ita_player_2.style.left = all_equipe[1].coureurs[1].position[0];
-    ita_player_2.style.top = all_equipe[1].coureurs[1].position[1];
-    ita_player_3.style.left = all_equipe[1].coureurs[2].position[0];
-    ita_player_3.style.top = all_equipe[1].coureurs[2].position[1];
+
+    document.getElementById("netherlands_player_1").style.left = all_equipe[2].coureurs[0].position.coord[0] + "px"; // dutch 1 coordinates
+    document.getElementById("netherlands_player_1").style.top = all_equipe[2].coureurs[0].position.coord[1] + "px";
+    if (all_equipe[2].coureurs[0].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
+    
+    document.getElementById("netherlands_player_2").style.left = all_equipe[2].coureurs[1].position.coord[0] + "px"; // dutch 2 coordinates
+    document.getElementById("netherlands_player_2").style.top = all_equipe[2].coureurs[1].position.coord[1] + "px";
+    if (all_equipe[2].coureurs[1].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
+    
+    document.getElementById("netherlands_player_3").style.left = all_equipe[2].coureurs[2].position.coord[0] + "px"; // ducth 3 coordinates
+    document.getElementById("netherlands_player_3").style.top = all_equipe[2].coureurs[2].position.coord[1] + "px";
+    if (all_equipe[2].coureurs[2].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
+
+
+    document.getElementById("italy_player_1").style.left = all_equipe[1].coureurs[0].position.coord[0] + "px"; // italian 1 coordinates
+    document.getElementById("italy_player_1").style.top = all_equipe[1].coureurs[0].position.coord[1] + "px";
+    if (all_equipe[1].coureurs[0].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
+
+    document.getElementById("italy_player_2").style.left = all_equipe[1].coureurs[1].position.coord[0] + "px"; // italian 2 coordinates
+    document.getElementById("italy_player_2").style.top = all_equipe[1].coureurs[1].position.coord[1] + "px";
+    if (all_equipe[1].coureurs[1].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
+
+    document.getElementById("italy_player_3").style.left = all_equipe[1].coureurs[2].position.coord[0] + "px"; // ttalian 3 coordinates
+    document.getElementById("italy_player_3").style.top = all_equipe[1].coureurs[2].position.coord[1] + "px";
+    if (all_equipe[1].coureurs[2].position.coord != (888, 888)){
+        document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+    }
 
 }
