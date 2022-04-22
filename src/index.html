@@ -6,9 +6,59 @@
     <body onload="load()">
         <div></div>
         <h1></h1>
-        <div id="game_map">
-            <canvas id="game" width="630" height="460" style="border:1px solid #d3d3d3;"></canvas>
-        </div> <!-- div contenant le jeu-->
+
+        <div id="game_map" style="position:absolute; left:400px; top:100px; width:136px; height:132px; z-index:1">
+            <img style="border:1px solid black;" name="map" src="./img/map_large.png" width="960" height="720" alt="...">
+        </div> <!-- div contenant la carte-->
+
+
+        <div id="belgium_player_1" style="position:absolute; left:321px; top:-48px; width:136px; height:132px; z-index:2"> <!-- div belges-->
+            <img name="bel1" src="./img/belgium.png" width="960" height="720" alt="..." />
+        </div>
+        <div id="belgium_player_2" style="position:absolute; left:321px; top:-60px; width:136px; height:132px; z-index:2">
+            <img name="bel2" src="./img/belgium.png" width="960" height="720" alt="..." />
+        </div>
+        <div id="belgium_player_3" style="position:absolute; left:321px; top:-72px; width:136px; height:132px; z-index:2">
+            <img name="bel3" src="./img/belgium.png" width="960" height="720" alt="..." />
+        </div>
+
+
+        <div id="germany_player_1" style="position:absolute; left:333px; top:-48px; width:136px; height:132px; z-index:2"> <!-- div allemands-->
+            <img name="ger1" src="./img/germany.png" width="960" height="720" alt="..." />
+        </div>
+        <div id="germany_player_2" style="position:absolute; left:333px; top:-60px; width:136px; height:132px; z-index:2">
+            <img name="ger2" src="./img/germany.png" width="960" height="720" alt="..." />
+        </div>
+        <div id="germany_player_3" style="position:absolute; left:333px; top:-72px; width:136px; height:132px; z-index:2">
+            <img name="ger3" src="./img/germany.png" width="960" height="720" alt="..." />
+        </div>
+
+
+        <div id="netherlands_player_1" style="position:absolute; left:345px; top:-48px; width:136px; height:132px; z-index:2"> <!-- div neerlandais-->
+            <img name="net1" src="./img/netherlands.png" width="960" height="720" alt="..." />
+        </div>
+        <div id="netherlands_player_2" style="position:absolute; left:345px; top:-60px; width:136px; height:132px; z-index:2">
+            <img name="net2" src="./img/netherlands.png" width="960" height="720" alt="..." />
+        </div>
+        <div id="netherlands_player_3" style="position:absolute; left:345px; top:-72px; width:136px; height:132px; z-index:2">
+            <img name="net3" src="./img/netherlands.png" width="960" height="720" alt="..." />
+        </div>
+
+
+        <div id="italy_player_1" style="position:absolute; left:357px; top:-48px; width:136px; height:132px; z-index:2"> <!-- div italiens-->
+            <img name="ita1" src="./img/italia.png" width="960" height="720" alt="..." />
+        </div>
+        <div id="italy_player_2" style="position:absolute; left:357px; top:-60px; width:136px; height:132px; z-index:2">
+            <img name="ita2" src="./img/italia.png" width="960" height="720" alt="..." />
+        </div>
+        <div id="italy_player_3" style="position:absolute; left:357px; top:-72px; width:136px; height:132px; z-index:2">
+            <img name="ita3" src="./img/italia.png" width="960" height="720" alt="..." />
+        </div>
+
+
+
+        <div></div> <!-- div contenant le bot-->
+
         
         <div class="chat-box">
             <div class="conversation">
@@ -29,10 +79,19 @@
         </span>
         <br>
 
-        <labe id="label_action" for="action"> A l'équipe de </labe>
-        <input id="action" type="text">
-        <button type="button" onclick="action()">OK</button>
-
+        <label id="label_action" for="action"> A l'équipe de </label>
+        <input id="action" type="text" >
+        <input type="button" id="button" value="OK" onclick="action()">
+        
+        <script>
+            document.getElementById("action").addEventListener("keydown", function(event) {
+                if (event.key == 'Enter') {
+                    event.preventDefault();
+                    document.getElementById("button").click();
+                    document.getElementById("action").value = "";
+                }
+            })
+        </script>
         <script src="jeu.js"></script>
     </body>    
 </html>

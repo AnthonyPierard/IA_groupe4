@@ -13,45 +13,162 @@ let id_current_coureur = 0
 let current_coureur
 
 class Equipe {
-    constructor(nom){
+    constructor(nom,id){
         // ajout des cartes pour chaques équipes
         recharge_carte(this)
+        //le nom de l'équipe
         this.nom = nom
+        //son id dans la liste de toutes les équipes
+        this.id = id
+        //les 3 coureurs de l'équipe
         this.coureurs = [new Coureur(1,this.nom),new Coureur(2,this.nom),new Coureur(3,this.nom)]
     }
 }
 
 class Coureur {
     constructor(numero,equipe){
-        this.position = 0
+        //La case ou est positionner le coureur
+        this.position = new Case(0,0,false,false)
+        //son numéro dans l'équipe, ça peut être donc soit 1, 2 ou 3
         this.numero = numero
+        //le nom de l'équipe a laquel il appartient
         this.equipe = equipe
     }
 }
 
+//Voir si c'est plus pratique de faire une classe rangée contenant toutes
+//les case d'une rangée pour plus tard
+
 class Case {
-    constructor(numero, chance){
+    constructor(numero, position, chance, finale,coord){
+        // l'avancement de la case 
         this.numero = numero
+        // la position horizontale de la case 
+        this.position = position
+        // si la case est une case chance ou non
         this.chance = chance
+        // si la case est une case finale ou non
+        this.finale = finale
+        this.coord = coord
+        // par exemple la case(2,2,True, false) est la deuxième rangée de case 
+        //à la deuxième position (gauche ou milieu) qui est une case chance mais non finale
     }
 }
 
-
 //Création de la map
-let map = []
-for (let i=0; i<10;i++){
-    let chance = Math.random()
-    let case_chance
-    if (chance>0.9) {case_chance = true}
-    else {case_chance = false}
-    map[i] = new Case(i,case_chance)
-}
+//Chaque sous tableau est une rangée de la carte contenant une ou plusieurs case.
+//Quand il y a un "_" ça veut dire qu'il y a une séparation dans la rangée.
+let map = [[new Case(1,1,false,false, (321, -72)),new Case(1,2,false,false, (321, -60)),new Case(1,3,false,false, (321, -48))],
+            [new Case(2,1,false,false, (333, -72)),new Case(2,2,false,false, (333, -60)),new Case(2,3,false,false, (333, -48))],
+            [new Case(3,1,false,false, (345, -72)),new Case(3,2,false,false, (345, -60)),new Case(3,3,false,false, (345, -48))],
+            [new Case(4,1,false,false, (357, -72)),new Case(4,2,false,false, (357, -60)),new Case(4,3,false,false, (357, -48))],
+            [new Case(5,1,false,false, (369, -72)),new Case(5,2,false,false, (369, -60)),new Case(5,3,false,false, (369, -48))],
+            [new Case(6,1,false,false, (381, -72)),new Case(6,2,false,false, (381, -60)),new Case(6,3,false,false, (381, -48))],
+            [new Case(7,1,false,false, (393, -72)),new Case(7,2,false,false, (393, -60)),new Case(7,3,false,false, (393, -48))],
+            [new Case(8,1,false,false, (405, -72)),new Case(8,2,false,false, (405, -60)),new Case(8,3,false,false, (405, -48))],
+            [new Case(9,1,true,false, (411, -72)),new Case(9,2,false,false, (417, -60)),new Case(9,3,false,false, (411, -48))],
+            [new Case(10,1,true,false, (447, -70)),new Case(10,2,false,false, (441, -59)),new Case(10,3,false,false, (453, -57))],
+            [new Case(11,1,true,false),new Case(11,2,false,false)],
+            [new Case(12,1,true,false),new Case(12,2,false,false)],
+            [new Case(13,1,false,false),new Case(13,2,false,false)],
+            [new Case(14,1,false,false),new Case(14,2,false,false)],
+            [new Case(15,1,false,false),new Case(15,2,false,false)],
+            [new Case(16,1,false,false),new Case(16,2,true,false)],
+            [new Case(17,1,false,false),new Case(17,2,false,false)],
+            [new Case(18,1,false,false),new Case(18,2,false,false)],
+            [new Case(19,1,false,false),new Case(19,2,false,false),new Case(19,3,true,false)],
+            [new Case(20,1,false,false),new Case(20,2,false,false),new Case(20,3,false,false)],
+            [new Case(21,1,false,false),new Case(21,2,false,false),new Case(21,3,true,false)],
+            [new Case(22,1,false,false),new Case(22,2,false,false),"_",new Case(22,3,false,false)],
+            [new Case(23,1,false,false),new Case(23,2,false,false),"_",new Case(23,3,false,false)],
+            [new Case(24,1,true,false),new Case(24,2,false,false),"_",new Case(24,3,false,false)],
+            [new Case(25,1,false,false),new Case(25,2,false,false),"_",new Case(25,3,false,false)],
+            [new Case(26,1,true,false),new Case(26,2,false,false),"_",new Case(26,3,false,false),new Case(26,4,false,false)],
+            [new Case(27,1,false,false),new Case(27,2,false,false),"_",new Case(27,3,false,false), new Case(27,4,false,false)],
+            [new Case(28,1,true,false),new Case(28,2,false,false),"_",new Case(28,3,false,false)],
+            [new Case(29,1,false,false),new Case(29,2,false,false),"_",new Case(29,3,false,false)],
+            [new Case(30,1,true,false),new Case(30,2,false,false),"_",new Case(30,3,false,false)],
+            [new Case(31,1,false,false),new Case(31,2,false,false),"_",new Case(31,3,false,false)],
+            [new Case(32,1,true,false),new Case(32,2,false,false),"_",new Case(32,3,false,false)],
+            [new Case(33,1,false,false),new Case(33,2,false,false),"_",new Case(33,3,false,false)],
+            [new Case(34,1,true,false),new Case(34,2,false,false),"_",new Case(34,3,false,false)],
+            [new Case(35,1,false,false),new Case(35,2,false,false),"_",new Case(35,3,false,false)],
+            [new Case(36,1,false,false),new Case(36,2,false,false)],
+            [new Case(37,1,false,false),new Case(37,2,false,false)],
+            [new Case(38,1,false,false),new Case(38,2,false,false)],
+            [new Case(39,1,false,false),new Case(39,2,false,false)],
+            [new Case(40,1,false,false),new Case(40,2,false,false)],
+            [new Case(41,1,false,false),new Case(41,2,false,false)],
+            [new Case(42,1,false,false),new Case(42,2,false,false)],
+            [new Case(43,1,false,false),new Case(43,2,false,false)],
+            [new Case(44,1,false,false),new Case(44,2,false,false)],
+            [new Case(45,1,false,false),new Case(45,2,false,false)],
+            [new Case(46,1,false,false),new Case(46,2,false,false)],
+            [new Case(47,1,false,false),new Case(47,2,false,false)],
+            [new Case(48,1,true,false),new Case(48,2,false,false)],
+            [new Case(49,1,false,false),new Case(49,2,false,false)],
+            [new Case(50,1,false,false),new Case(50,2,false,false)],
+            [new Case(51,1,false,false),new Case(51,2,false,false)],
+            [new Case(52,1,false,false),new Case(52,2,false,false)],
+            [new Case(53,1,false,false),new Case(53,2,false,false)],
+            [new Case(54,1,false,false),new Case(54,2,false,false)],
+            [new Case(55,1,false,false),new Case(55,2,false,false)],
+            [new Case(56,1,false,false),new Case(56,2,false,false)],
+            [new Case(57,1,true,false),new Case(57,false,false)],
+            [new Case(58,1,false,false),new Case(58,2,false,false)],
+            [new Case(59,1,false,false),new Case(59,2,false,false)],
+            [new Case(60,1,false,false),new Case(60,2,false,false)],
+            [new Case(61,1,false,false),new Case(61,2,false,false)],
+            [new Case(62,1,false,false),new Case(62,2,false,false)],
+            [new Case(63,1,false,false),new Case(63,2,false,false),new Case(63,3,false,false)],
+            [new Case(64,1,true,false),new Case(64,2,false,false),new Case(64,3,false,false)],
+            [new Case(65,1,false,false),new Case(65,2,false,false)],
+            [new Case(66,1,true,false),new Case(66,2,true,false)],
+            [new Case(67,1,false,false),new Case(67,2,false,false)],
+            [new Case(68,1,false,false),new Case(68,2,false,false)],
+            [new Case(69,1,false,false),new Case(69,2,false,false)],
+            [new Case(70,1,false,false),new Case(70,2,false,false)],
+            [new Case(71,1,false,false),new Case(71,2,false,false)],
+            [new Case(72,1,false,false),new Case(72,2,false,false)],
+            [new Case(73,1,false,false)],
+            [new Case(74,1,true,false)],
+            [new Case(75,1,false,false)],
+            [new Case(76,1,false,false),new Case(76,2,false,false)],
+            [new Case(77,1,false,false),new Case(77,2,false,false)],
+            [new Case(78,1,false,false),new Case(78,2,false,false)],
+            [new Case(79,1,false,false),new Case(79,2,false,false)],
+            [new Case(80,1,false,false),new Case(80,2,false,false)],
+            [new Case(81,1,false,false),new Case(81,2,false,false)],
+            [new Case(82,1,false,false),new Case(82,2,false,false)],
+            [new Case(83,1,false,false),new Case(83,2,false,false)],
+            [new Case(84,1,false,false),new Case(84,2,false,false)],
+            [new Case(85,1,false,false),"_",new Case(86,2,false,false)],
+            [new Case(86,1,false,false),"_",new Case(86,2,false,false)],
+            [new Case(87,1,false,false),"_",new Case(87,2,false,false)],
+            [new Case(88,1,false,false),"_",new Case(88,2,false,false)],
+            [new Case(89,1,false,false),"_",new Case(89,2,false,false),new Case(89,3,false,false)],
+            [new Case(90,1,false,false),"_",new Case(90,2,true,false),new Case(90,3,false,false)],
+            [new Case(91,1,false,false),"_",new Case(91,2,false,false)],
+            [new Case(92,1,false,false),"_",new Case(92,2,false,false)],
+            [new Case(93,1,false,false),"_",new Case(93,2,false,false)],
+            [new Case(94,1,false,false),"_",new Case(94,2,false,false)],
+            [new Case(95,1,false,false),new Case(95,2,false,false),new Case(95,3,false,false)],
+            [new Case(0,1,false,true),new Case(0,2,false,true),new Case(0,3,false,true)],
+            [new Case(-1,1,false,true),new Case(-1,2,false,true),new Case(-1,3,false,true)],
+            [new Case(-2,1,false,true),new Case(-2,2,false,true),new Case(-2,3,false,true)],
+            [new Case(-3,1,false,true),new Case(-3,2,false,true),new Case(-3,3,false,true)],
+            [new Case(-4,1,false,true),new Case(-4,2,false,true),new Case(-4,3,false,true)],
+            [new Case(-5,1,false,true),new Case(-5,2,false,true),new Case(-5,3,false,true)],
+            [new Case(-6,1,false,true),new Case(-6,2,false,true),new Case(-6,3,false,true)],
+            [new Case(-7,1,false,true),new Case(-7,2,false,true),new Case(-7,3,false,true)],
+            [new Case(-8,1,false,true),new Case(-8,2,false,true),new Case(-8,3,false,true)],
+            [new Case(-9,1,false,true),new Case(-9,2,false,true),new Case(-9,3,false,true)]]
 
 //Initialisation des équipes
-const bel = new Equipe("Belgique");
-const it = new Equipe("Italie");
-const hol = new Equipe("Hollande");
-const all = new Equipe("Allemagne");
+const bel = new Equipe("Belgique",0);
+const it = new Equipe("Italie",1);
+const hol = new Equipe("Hollande",2);
+const all = new Equipe("Allemagne",3);
 const all_equipe = [bel,it,hol,all]
 
 //Initialisation des coureurs
@@ -118,6 +235,9 @@ function recharge_carte(equipe){
     equipe.cartes.sort(by_value)
 }
 
+/**
+ * Execute une action carte sur un joueur et une équipe
+ */
 function action(){
 
     //On prends la valeur de l'input
@@ -146,7 +266,6 @@ function action(){
             if(round==12){
                 premier_tour = false
                 round = 1
-                console.log(all_coureur)
                 //on affiche le prochain coureur a passer
                 let max_position = 0
                 //On selectionne le coureur qui est le plus à l'avant de la course
@@ -156,8 +275,15 @@ function action(){
                         current_coureur = coureur
                     }
                 })
+                let id = all_coureur.indexOf(current_coureur)
+                all_coureur.splice(id, 1)
                 var name_next_equipe = current_coureur.equipe 
                 id_current_coureur = current_coureur.numero -1
+                all_equipe.forEach(function(equipe){
+                    if(equipe.nom==current_coureur.equipe){
+                        current_equip = equipe.id
+                    }
+                })
 
             }
             else {
@@ -177,24 +303,48 @@ function action(){
         }
 
     }
+    //On n'est plus dans le premier tour donc c'est au tour du coureur le plus
+    //loin de commencer ect.
     else{
-        //On n'est plus dans le premier tour donc c'est au tour du coureur le plus
-        //loin de commencer ect.
-        console.log("hello")
-        
+        if(cartes.includes(action)){
+            console.log(all_coureur)
+            if (all_coureur.length==0){ initialize_coureur(all_coureur)}
+            current_coureur.position += action
 
-        let max_position = 0
-        //On selectionne le coureur qui est le plus à l'avant de la course
-        all_coureur.forEach(function(coureur){
-            if (coureur.position>max_position){
-                max_position = coureur.position
-                current_coureur = coureur
+            cartes.splice(cartes.indexOf(action),1)
+            if (cartes.length==0){
+                recharge_carte(all_equipe[current_equip])
             }
-        })
-
-
+            let max_position = 0
+            //On selectionne le coureur qui est le plus à l'avant de la course pour le prochain round
+            all_coureur.forEach(function(coureur){
+                if (coureur.position>max_position){
+                    max_position = coureur.position
+                    current_coureur = coureur
+                }
+            })
+            let id = all_coureur.indexOf(current_coureur)
+            all_coureur.splice(id,1)
+            var name_next_equipe = current_coureur.equipe 
+            id_current_coureur = current_coureur.numero -1
+            all_equipe.forEach(function(equipe){
+                if(equipe.nom==current_coureur.equipe){
+                    current_equip = equipe.id
+                }
+            })
+        }
+        
+        
     }
+    //partie changement du label
+    let laction = document.getElementById("label_action")
+    let new_label = document.createTextNode(name_next_equipe + " coureur " + (id_current_coureur+1) + ":")
+    let old_label = laction.childNodes
+    laction.removeChild(old_label[1])
+    laction.appendChild(new_label)
 
+    affiche_carte()
+    updateCoordinates()
 }
 
 function affiche_carte(){
@@ -248,3 +398,49 @@ function displayAnswer(){
 
 
 
+function updateCoordinates(){
+    let bel_player_1 = document.getElementById("belgium_player_1");
+    let bel_player_2 = document.getElementById("belgium_player_2");
+    let bel_player_3 = document.getElementById("belgium_player_3");
+
+    let ger_player_1 = document.getElementById("germany_player_1");
+    let ger_player_2 = document.getElementById("germany_player_2");
+    let ger_player_3 = document.getElementById("germany_player_3");
+
+    let ned_player_1 = document.getElementById("netherlands_player_1");
+    let ned_player_2 = document.getElementById("netherlands_player_2");
+    let ned_player_3 = document.getElementById("netherlands_player_3");
+
+    let ita_player_1 = document.getElementById("italy_player_1");
+    let ita_player_2 = document.getElementById("italy_player_2");
+    let ita_player_3 = document.getElementById("italy_player_3");
+
+    bel_player_1.style.left = all_equipe[0].coureurs[0].position[0];
+    bel_player_1.style.top = all_equipe[0].coureurs[0].position[1];
+    bel_player_2.style.left = all_equipe[0].coureurs[1].position[0];
+    bel_player_2.style.top = all_equipe[0].coureurs[1].position[1];
+    bel_player_3.style.left = all_equipe[0].coureurs[2].position[0];
+    bel_player_3.style.top = all_equipe[0].coureurs[2].position[1];
+
+    ger_player_1.style.left = all_equipe[3].coureurs[0].position[0];
+    ger_player_1.style.top = all_equipe[3].coureurs[0].position[1];
+    ger_player_2.style.left = all_equipe[3].coureurs[1].position[0];
+    ger_player_2.style.top = all_equipe[3].coureurs[1].position[1];
+    ger_player_3.style.left = all_equipe[3].coureurs[2].position[0];
+    ger_player_3.style.top = all_equipe[3].coureurs[2].position[1];
+
+    ned_player_1.style.left = all_equipe[2].coureurs[0].position[0];
+    ned_player_1.style.top = all_equipe[2].coureurs[0].position[1];
+    ned_player_2.style.left = all_equipe[2].coureurs[1].position[0];
+    ned_player_2.style.top = all_equipe[2].coureurs[1].position[1];
+    ned_player_3.style.left = all_equipe[2].coureurs[2].position[0];
+    ned_player_3.style.top = all_equipe[2].coureurs[2].position[1];
+
+    ita_player_1.style.left = all_equipe[1].coureurs[0].position[0];
+    ita_player_1.style.top = all_equipe[1].coureurs[0].position[1];
+    ita_player_2.style.left = all_equipe[1].coureurs[1].position[0];
+    ita_player_2.style.top = all_equipe[1].coureurs[1].position[1];
+    ita_player_3.style.left = all_equipe[1].coureurs[2].position[0];
+    ita_player_3.style.top = all_equipe[1].coureurs[2].position[1];
+
+}

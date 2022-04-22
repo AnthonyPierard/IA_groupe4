@@ -9,3 +9,7 @@
 div.game-map{
         vertical-align: center;
 }
+
+*{
+        font: 90% sans-serif;
+}
