@@ -366,15 +366,40 @@ function action(){
             let assigner = true
             while (assigner){
                 //sinon on crée une chute en série si on ne trouve pas de case dispo
-                if(i == map[current_coureur.position.numero + action]){
-                    console.log("aie chute en série")
+                if(i == map[current_coureur.position.numero + action-1].length){
+                    chute_en_serie(map[current_coureur.position.numero + action])
                     assigner = false
                 }
                 else{
-                    if(!(map[current_coureur.position.numero + action][i].isUse)){
-                        map[current_coureur.position.numero + action-1][i].isUse = true
-                        current_coureur.position = map[current_coureur.position.numero + action-1][i]
-                        
+                    //si une case sur une ligne n'est pas utilisée alors on l'assigne
+                    if(!(map[current_coureur.position.numero + action-1][i].isUse)){
+                        //si c'est une case chance
+                        if(map[current_coureur.position.numero + action-1][i].chance){
+                            //nombre aléatoire entre -3 et 3 
+                            let rand = Math.floor(Math.random()*6) - 2
+                            let assigner2 = true
+                            let j = 0
+                            while (assigner2){
+                                if(j == map[current_coureur.position.numero + action-1 + rand].length){
+                                    chute_en_serie(map[current_coureur.position.numero + action - 1 + rand])
+                                    assigner2 = false
+                                }
+                                else{
+                                    if(!(map[current_coureur.position.numero + action-1 + rand][j].isUse)){
+                                        map[current_coureur.position.numero + action-1 + rand][j].isUse = true
+                                        current_coureur.position = map[current_coureur.position.numero + action-1 + rand][j]
+                                    }
+                                    else{
+                                        j++
+                                    }    
+                                }
+                            }
+                            
+                        }
+                        else{
+                            map[current_coureur.position.numero + action-1][i].isUse = true
+                            current_coureur.position = map[current_coureur.position.numero + action-1][i]
+                        }
                         assigner = false
                     }
                     else {
