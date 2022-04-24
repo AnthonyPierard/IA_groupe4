@@ -47,12 +47,16 @@ echo(WebSocket) :-
       echo(WebSocket)
     ).
 
-
 get_response(Message, Response) :-
   get_time(Time),
-  %lire_question(Message.message),
-  %produire_reponse(Message.message,Temp),
-  Response = _{message:Temp, time: Time}.
+
+  string_codes(Message.message, String),
+  clean_string(String,Cleanstring),
+  extract_atomics(Cleanstring,ListOfAtomics),
+  produire_reponse(ListOfAtomics,L_ligne_reponse),
+  flatten(L_ligne_reponse,ListRep),
+  atomic_list_concat(ListRep, StringRep),
+  Response = _{message:StringRep, time: Time}.
 
 
 :- use_module(library(lists)).
@@ -94,9 +98,9 @@ produire_reponse(L,Rep) :-
    call(Body), !.
 
 produire_reponse(_,[L1,L2, L3]) :-
-   L1 = [je, ne, sais, pas, '.'],
-   L2 = [les, etudiants, vont, m, '\'', aider, '.' ],
-   L3 = ['vous le verrez !'].
+   L1 = ['Je ne sais pas,'],
+   L2 = [' les etudiants vont m\'aider.'],
+   L3 = [' Vous le verrez !'].
 
 match_pattern(Pattern,Lmots) :-
    sublist(Pattern,Lmots).
@@ -142,14 +146,14 @@ mclef(equipe,5).
 
 regle_rep(commence,1,
   [ qui, commence, le, jeu ],
-  [ [ "c'est", au, joueur, ayant, la, plus, haute, carte, secondes, de ],
+  [ [ "c'est au joueur ayant la plus haute carte secondes de " ],
     [ "commencer." ] ] ).
 
 % ----------------------------------------------------------------%
 
 regle_rep(equipe,5,
   [ [ combien ], 3, [ coureurs], 5, [ equipe ] ],
-  [ [ chaque, equipe, compte, X, "coureurs." ] ]) :-
+  [ [ "Chaque equipe compte ", X, " coureurs." ] ]) :-
 
      nb_coureurs(X).
    
@@ -164,7 +168,7 @@ regle_rep(equipe,5,
 
 % lire_question(L_Mots) 
 
-lire_question(LMots) :- write("Lire"), read_atomics(LMots).
+lire_question(LMots) :- read_atomics(LMots).
 
 
 
