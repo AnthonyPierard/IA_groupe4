@@ -2,6 +2,7 @@
     <head>
         <title>Jeu du tour de France</title>
         <link rel="stylesheet" href="game.css">
+        <script charset="utf-8" src="echo.js"></script>
     </head>
     <body onload="load()">
         <div></div>
@@ -60,18 +61,11 @@
         <div></div> <!-- div contenant le bot-->
 
         
-        <div class="chat-box">
-            <div class="conversation">
-            
-            </div>
-            <div class="chat-form">
-                <div class="text-box">
-                    <input type="text">
-                </div>
-                <div class="submit-button">
-                    <!-- <img src="img/send.svg"> -->
-                </div>
-            </div>
+        <div class="bot-box">
+            <input id="question" type="text">
+            <input type="button" id="bot-button" value="Ask"><br>
+            <div id="answer"></div>
+            <!-- <textarea id="answer" rows="5"></textarea> -->
         </div> <!-- div contenant le bot-->
 
         <div></div> <!-- div contenant les infos du jeu-->
@@ -90,6 +84,12 @@
                     event.preventDefault();
                     document.getElementById("button").click();
                     document.getElementById("action").value = "";
+                }
+            })
+            document.getElementById("question").addEventListener("keydown", function(event) {
+                if (event.key == 'Enter') {
+                    event.preventDefault();
+                    document.getElementById("bot-button").click();
                 }
             })
         </script>
