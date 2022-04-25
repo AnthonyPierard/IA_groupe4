@@ -6,6 +6,22 @@
         float: left;
 }
 
+#belgium_player_1 { visibility: hidden; }
+#belgium_player_2 { visibility: hidden; }
+#belgium_player_3 { visibility: hidden; }
+
+#germany_player_1 { visibility: hidden; }
+#germany_player_2 { visibility: hidden; }
+#germany_player_3 { visibility: hidden; }
+
+#netherlands_player_1 { visibility: hidden; }
+#netherlands_player_2 { visibility: hidden; }
+#netherlands_player_3 { visibility: hidden; }
+
+#italy_player_1 { visibility: hidden; }
+#italy_player_2 { visibility: hidden; }
+#italy_player_3 { visibility: hidden; }
+
 div.game-map{
         vertical-align: center;
 }
