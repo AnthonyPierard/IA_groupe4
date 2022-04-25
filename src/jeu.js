@@ -471,76 +471,76 @@ function affiche_carte(){
 function updateCoordinates(){
     document.getElementById("belgium_player_1").style.left = all_equipe[0].coureurs[0].position.coord_x + "px"; // belgian 1 coordinates
     document.getElementById("belgium_player_1").style.top = all_equipe[0].coureurs[0].position.coord_y + "px";
-    if (all_equipe[0].coureurs[0].position.coord != (888, 888)){
+    if (all_equipe[0].coureurs[0].position.coord_x != 888 && all_equipe[0].coureurs[0].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
 
     document.getElementById("belgium_player_2").style.left = all_equipe[0].coureurs[1].position.coord_x + "px"; // belgian 2 coordinates
     document.getElementById("belgium_player_2").style.top = all_equipe[0].coureurs[1].position.coord_y + "px";
-    if (all_equipe[0].coureurs[1].position.coord != (888, 888)){
+    if (all_equipe[0].coureurs[1].position.coord_x != 888 && all_equipe[0].coureurs[1].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
 
     document.getElementById("belgium_player_3").style.left = all_equipe[0].coureurs[2].position.coord_x + "px"; // belgian 3 coordinates
     document.getElementById("belgium_player_3").style.top = all_equipe[0].coureurs[2].position.coord_y + "px";
-    if (all_equipe[0].coureurs[2].position.coord != (888, 888)){
+    if (all_equipe[0].coureurs[2].position.coord_x != 888 && all_equipe[0].coureurs[2].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
 
 
     document.getElementById("germany_player_1").style.left = all_equipe[3].coureurs[0].position.coord_x + "px"; // german 1 coordinates
-    document.getElementById("germany_player_1").style.top = all_equipe[3].coureurs[0].position.coord[1] + "px";
-    if (all_equipe[3].coureurs[0].position.coord != (888, 888)){
+    document.getElementById("germany_player_1").style.top = all_equipe[3].coureurs[0].position.coord_y + "px";
+    if (all_equipe[3].coureurs[0].position.coord_x != 888 && all_equipe[3].coureurs[0].position.coord_y !=888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
 
     document.getElementById("germany_player_2").style.left = all_equipe[3].coureurs[1].position.coord_x + "px"; // german 2 coordinates
     document.getElementById("germany_player_2").style.top = all_equipe[3].coureurs[1].position.coord_y + "px";
-    if (all_equipe[3].coureurs[1].position.coord != (888, 888)){
+    if (all_equipe[3].coureurs[1].position.coord_x != 888 && all_equipe[3].coureurs[1].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
 
     document.getElementById("germany_player_3").style.left = all_equipe[3].coureurs[2].position.coord_x + "px"; // german 3 coordinates
     document.getElementById("germany_player_3").style.top = all_equipe[3].coureurs[2].position.coord_y + "px";
-    if (all_equipe[3].coureurs[2].position.coord != (888, 888)){
+    if (all_equipe[3].coureurs[2].position.coord_x != 888 && all_equipe[3].coureurs[2].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
 
 
     document.getElementById("netherlands_player_1").style.left = all_equipe[2].coureurs[0].position.coord_x + "px"; // dutch 1 coordinates
     document.getElementById("netherlands_player_1").style.top = all_equipe[2].coureurs[0].position.coord_y + "px";
-    if (all_equipe[2].coureurs[0].position.coord != (888, 888)){
+    if (all_equipe[2].coureurs[0].position.coord_x != 888 && all_equipe[2].coureurs[0].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
     
     document.getElementById("netherlands_player_2").style.left = all_equipe[2].coureurs[1].position.coord_x + "px"; // dutch 2 coordinates
     document.getElementById("netherlands_player_2").style.top = all_equipe[2].coureurs[1].position.coord_y + "px";
-    if (all_equipe[2].coureurs[1].position.coord != (888, 888)){
+    if (all_equipe[2].coureurs[1].position.coord_x != 888 && all_equipe[2].coureurs[1].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
     
     document.getElementById("netherlands_player_3").style.left = all_equipe[2].coureurs[2].position.coord_x + "px"; // ducth 3 coordinates
     document.getElementById("netherlands_player_3").style.top = all_equipe[2].coureurs[2].position.coord_y + "px";
-    if (all_equipe[2].coureurs[2].position.coord != (888, 888)){
+    if (all_equipe[2].coureurs[2].position.coord_x != 888 && all_equipe[2].coureurs[2].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
 
 
     document.getElementById("italy_player_1").style.left = all_equipe[1].coureurs[0].position.coord_x + "px"; // italian 1 coordinates
     document.getElementById("italy_player_1").style.top = all_equipe[1].coureurs[0].position.coord_y + "px";
-    if (all_equipe[1].coureurs[0].position.coord != (888, 888)){
+    if (all_equipe[1].coureurs[0].position.coord_x != 888 && all_equipe[1].coureurs[0].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
 
     document.getElementById("italy_player_2").style.left = all_equipe[1].coureurs[1].position.coord_x + "px"; // italian 2 coordinates
     document.getElementById("italy_player_2").style.top = all_equipe[1].coureurs[1].position.coord_y + "px";
-    if (all_equipe[1].coureurs[1].position.coord != (888, 888)){
+    if (all_equipe[1].coureurs[1].position.coord_x != 888 && all_equipe[1].coureurs[1].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
 
     document.getElementById("italy_player_3").style.left = all_equipe[1].coureurs[2].position.coord_x + "px"; // ttalian 3 coordinates
     document.getElementById("italy_player_3").style.top = all_equipe[1].coureurs[2].position.coord_y + "px";
-    if (all_equipe[1].coureurs[2].position.coord != (888, 888)){
+    if (all_equipe[1].coureurs[2].position.coord_x != 888 && all_equipe[1].coureurs[2].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
     }
 
