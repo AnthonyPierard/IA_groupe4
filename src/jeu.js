@@ -275,6 +275,7 @@ function action(){
                             let assigner2 = true
                             let j = 0
                             while (assigner2){
+                                console.log(map[current_coureur.position.numero + action-1 + rand])
                                 if(j == map[current_coureur.position.numero + action-1 + rand].length){
                                     chute_en_serie(map[current_coureur.position.numero + action - 1 + rand])
                                     assigner2 = false
