@@ -12,7 +12,7 @@ let id_current_coureur = 0
 
 //sert pour les tours d'après
 let current_coureur
-
+let coureur_fall = []
 class Equipe {
     constructor(nom,id){
         // ajout des cartes pour chaques équipes
@@ -255,56 +255,8 @@ function action(){
         if (cartes.includes(action)){
             //On avance la position du coureur
             current_coureur = all_equipe[current_equip].coureurs[id_current_coureur]
-            let i=0
-            //On regarde dans la rangée si il y a des cases de libre
-            //si c'est le cas on l'assigne au coureur
-            let assigner = true
-            while (assigner){
-                //sinon on crée une chute en série si on ne trouve pas de case dispo
-                if(i == map[current_coureur.position.numero + action-1].length){
-                    chute_en_serie(map[current_coureur.position.numero + action])
-                    assigner = false
-                }
-                else{
-                    //si une case sur une ligne n'est pas utilisée alors on l'assigne
-                    if(!(map[current_coureur.position.numero + action-1][i].isUse)){
-                        //si c'est une case chance
-                        if(map[current_coureur.position.numero + action-1][i].chance){
-                            //nombre aléatoire entre -3 et 3 
-                            let rand = Math.floor(Math.random()*6) - 2
-                            let assigner2 = true
-                            let j = 0
-                            while (assigner2){
-                                console.log(map[current_coureur.position.numero + action-1 + rand])
-                                if(j == map[current_coureur.position.numero + action-1 + rand].length){
-                                    chute_en_serie(map[current_coureur.position.numero + action - 1 + rand])
-                                    assigner2 = false
-                                }
-                                else{
-                                    if(!(map[current_coureur.position.numero + action-1 + rand][j].isUse)){
-                                        map[current_coureur.position.numero + action-1 + rand][j].isUse = true
-                                        current_coureur.position = map[current_coureur.position.numero + action-1 + rand][j]
-                                    }
-                                    else{
-                                        j++
-                                    }    
-                                }
-                            }
-                            
-                        }
-                        else{
-                            map[current_coureur.position.numero + action-1][i].isUse = true
-                            current_coureur.position = map[current_coureur.position.numero + action-1][i]
-                        }
-                        assigner = false
-                    }
-                    else {
-                        i++
-                    }
-                }
-            }
-            console.log(current_coureur.position)
             
+            assigner_nouvelle_case(current_coureur, action)
             
             cartes.splice(cartes.indexOf(action),1)
             if (cartes.length==0){
@@ -359,31 +311,14 @@ function action(){
 
             if (all_coureur.length==0){ 
                 initialize_coureur(all_coureur)
+                //On retire les personnes qui sont tomber
+                coureur_fall.forEach(function retirer(coureur){
+                    all_coureur.splice(all_coureur.indexOf(coureur), 1)
+                })
+                coureur_fall = []
                 nbTour ++
             }
-
-            let i=0
-            //On regarde dans la rangée si il y a des cases de libre
-            //si c'est le cas on l'assigne au coureur
-            let assigner = true
-            while (assigner){
-                //sinon on crée une chute en série si on ne trouve pas de case dispo
-                if(i == map[current_coureur.position.numero + action]){
-                    console.log("aie chute en série")
-                    assigner = false
-                }
-                else{
-                    if(!(map[current_coureur.position.numero + action][i].isUse)){
-                        map[current_coureur.position.numero + action-1][i].isUse = true
-                        current_coureur.position = map[current_coureur.position.numero + action-1][i]
-                        
-                        assigner = false
-                    }
-                    else {
-                        i++
-                    }
-                }
-            }
+            
 
             cartes.splice(cartes.indexOf(action),1)
             if (cartes.length==0){
@@ -397,6 +332,7 @@ function action(){
                     current_coureur = coureur
                 }
             })
+            assigner_nouvelle_case(current_coureur, action)
             let id = all_coureur.indexOf(current_coureur)
             all_coureur.splice(id,1)
             var name_next_equipe = current_coureur.equipe 
@@ -423,8 +359,64 @@ function action(){
     updateCoordinates()
 }
 
-function chute_en_serie(rangée){
-    console.log("aie chute en série")
+function assigner_nouvelle_case(current_coureur, action){
+    let i=0
+    //On regarde dans la rangée si il y a des cases de libre
+    //si c'est le cas on l'assigne au coureur
+    let assigner = true
+    while (assigner){
+        //sinon on crée une chute en série si on ne trouve pas de case dispo
+        if(i == map[current_coureur.position.numero + action-1].length){
+            chute_en_serie(map[current_coureur.position.numero + action])
+            assigner = false
+        }
+        else{
+            //si une case sur une ligne n'est pas utilisée alors on l'assigne
+            if(!(map[current_coureur.position.numero + action-1][i].isUse)){
+                //si c'est une case chance
+                if(map[current_coureur.position.numero + action-1][i].chance){
+                    //nombre aléatoire entre -3 et 3 
+                    let rand = Math.floor(Math.random()*6) - 2
+                    let assigner2 = true
+                    let j = 0
+                    while (assigner2){
+                        if(j == map[current_coureur.position.numero + action-1 + rand].length){
+                            chute_en_serie(map[current_coureur.position.numero + action - 1 + rand])
+                            assigner2 = false
+                        }
+                        else{
+                            if(!(map[current_coureur.position.numero + action-1 + rand][j].isUse)){
+                                map[current_coureur.position.numero + action-1 + rand][j].isUse = true
+                                current_coureur.position = map[current_coureur.position.numero + action-1 + rand][j]
+                                assigner2 = false
+                            }
+                            else{
+                                j++
+                            }    
+                        }
+                    }
+                    
+                }
+                else{
+                    map[current_coureur.position.numero + action-1][i].isUse = true
+                    current_coureur.position = map[current_coureur.position.numero + action-1][i]
+                }
+                assigner = false
+            }
+            else {
+                i++
+            }
+        }
+    }
+}
+
+function chute_en_serie(rangee){
+    let i = 0
+    rangee.forEach(function chuter(el){
+        if(all_coureur_const[i].position = el){
+            coureur_fall.push(all_coureur_const[i])
+        }
+    })
 }
 
 function affiche_carte(){
@@ -468,6 +460,7 @@ function affiche_carte(){
     let allCarte = document.createTextNode(allText)
     pCarte.appendChild(allCarte)
 }
+
 
 function updateCoordinates(){
     document.getElementById("belgium_player_1").style.left = all_equipe[0].coureurs[0].position.coord_x + "px"; // belgian 1 coordinates
