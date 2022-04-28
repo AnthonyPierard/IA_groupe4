@@ -375,7 +375,6 @@ function action(){
         }
         
     }
-    console.log(current_coureur.position)
     //partie changement du label
     let laction = document.getElementById("label_action")
     let new_label = document.createTextNode(name_next_equipe + " coureur " + (id_current_coureur+1) + ":")
@@ -397,6 +396,8 @@ function assigner_nouvelle_case(current_coureur, action){
     while (assigner){
         //sinon on crée une chute en série si on ne trouve pas de case dispo
         if(i == map[current_coureur.position.numero + action-1].length){
+            map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
+            current_coureur.position = map[current_coureur.position.numero + action-1 + rand][0]
             chute_en_serie(map[current_coureur.position.numero + action])
             assigner = false
         }
@@ -464,10 +465,11 @@ function assigner_nouvelle_case(current_coureur, action){
             }
         }
     }
+    console.log(current_coureur)
+    console.log(current_coureur.position)
 }
 
 function chute_en_serie(rangee){
-    let i = 0
     rangee.forEach(function chuter(el){
         all_coureur_const.forEach(function chute(coureur){
             if(coureur.position == el){
