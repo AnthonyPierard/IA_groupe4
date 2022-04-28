@@ -9,6 +9,9 @@ let round = 1
 let nbTour = 0
 let current_equip 
 let id_current_coureur = 0
+//Les points en plus ajouter pour les tours ajouter
+let point_en_plus = 0
+let premier_joueur_fini = false
 
 //sert pour les tours d'après
 let current_coureur 
@@ -23,6 +26,8 @@ class Equipe {
         this.id = id
         //les 3 coureurs de l'équipe
         this.coureurs = [new Coureur(1,this.nom),new Coureur(2,this.nom),new Coureur(3,this.nom)]
+        //les points de l'équipe
+        this.point = 0
     }
 }
 
@@ -212,6 +217,8 @@ initialize_coureur(all_coureur)
 //ne peut pas être modifier pour avoir tout les coureurs
 let all_coureur_const = []
 initialize_coureur(all_coureur_const)
+//Les coureurs ayant finis
+let finish_coureur = []
 
 //Ajoute un br
 function add_br(pCarte){
@@ -323,6 +330,13 @@ function action(){
                     all_coureur.splice(all_coureur.indexOf(coureur), 1)
                 })
                 coureur_fall = []
+                //si un joueur a finis alors on ajoute 10 points de pénalitées et on retire les personnes qui ont finis
+                if(premier_joueur_fini){
+                    point_en_plus +=10
+                    finish_coureur.forEach(function retirer(coureur){
+                        all_coureur.splice(all_coureur.indexOf(coureur), 1)
+                    })
+                }
                 nbTour ++
             }
             //on assigne une nouvelle case
@@ -388,8 +402,24 @@ function assigner_nouvelle_case(current_coureur, action){
         else{
             //si une case sur une ligne n'est pas utilisée alors on l'assigne
             if(!(map[current_coureur.position.numero + action-1][i].isUse)){
+                //Si c'est une case finale
+                if(map[current_coureur.position.numero + action-1][i].position<=0){
+                    //On ajoute le coureur qui a finit
+                    finish_coureur.push(current_coureur)
+                    //On ajoute les points à l'équipe
+                    current_equip.point += 95 + point_en_plus - map[current_coureur.position.numero + action-1][i].position
+                    current_coureur.position = map[current_coureur.position.numero + action-1][i]
+                    if(!premier_joueur_fini){
+                        premier_joueur_fini = true
+                    }
+                    //On regarde si tout les joueurs n'ont pas finis
+                    if(finish_coureur.length==12){
+                        console.log("fin de partie")
+                    }
+
+                }
                 //si c'est une case chance
-                if(map[current_coureur.position.numero + action-1][i].chance){
+                else if(map[current_coureur.position.numero + action-1][i].chance){
                     //nombre aléatoire entre -3 et 3 
                     let rand = Math.floor(Math.random()*6) - 2
                     let assigner2 = true
@@ -401,6 +431,7 @@ function assigner_nouvelle_case(current_coureur, action){
                         }
                         else{
                             if(!(map[current_coureur.position.numero + action-1 + rand][j].isUse)){
+                                map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
                                 map[current_coureur.position.numero + action-1 + rand][j].isUse = true
                                 current_coureur.position = map[current_coureur.position.numero + action-1 + rand][j]
                                 assigner2 = false
@@ -412,7 +443,16 @@ function assigner_nouvelle_case(current_coureur, action){
                     }
                     
                 }
+                //Si la case de devant est pas vide alors il peut profiter du système d'aspiration
+                else if(map[current_coureur.position.numero + action].length > i){
+                    if(map[current_coureur.position.numero + action][i].isUse){
+                        //Vérifier qu'une case de la rangée est vide pour qu'il puisse s'y mettre
+                        
+                    }
+                }
+                //Si il n'y a aucune particularité
                 else{
+                    map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
                     map[current_coureur.position.numero + action-1][i].isUse = true
                     current_coureur.position = map[current_coureur.position.numero + action-1][i]
                 }
@@ -428,10 +468,13 @@ function assigner_nouvelle_case(current_coureur, action){
 function chute_en_serie(rangee){
     let i = 0
     rangee.forEach(function chuter(el){
-        if(all_coureur_const[i].position = el){
-            coureur_fall.push(all_coureur_const[i])
-        }
+        all_coureur_const.forEach(function chute(coureur){
+            if(coureur.position == el){
+                coureur_fall.push(coureur)
+            }
+        })
     })
+
 }
 
 function affiche_carte(){
