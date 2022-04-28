@@ -34,7 +34,7 @@ class Equipe {
 class Coureur {
     constructor(numero,equipe){
         //La case ou est positionner le coureur
-        this.position = new Case(0,0,false,false, 888, 888)
+        this.position = new Case(0,1,false,false, 888, 888)
         //son numéro dans l'équipe, ça peut être donc soit 1, 2 ou 3
         this.numero = numero
         //le nom de l'équipe a laquel il appartient
@@ -375,6 +375,7 @@ function action(){
         }
         
     }
+    console.log(current_coureur.position)
     //partie changement du label
     let laction = document.getElementById("label_action")
     let new_label = document.createTextNode(name_next_equipe + " coureur " + (id_current_coureur+1) + ":")
@@ -444,12 +445,12 @@ function assigner_nouvelle_case(current_coureur, action){
                     
                 }
                 //Si la case de devant est pas vide alors il peut profiter du système d'aspiration
-                else if(map[current_coureur.position.numero + action].length > i){
+                /*else if(map[current_coureur.position.numero + action].length > i){
                     if(map[current_coureur.position.numero + action][i].isUse){
                         //Vérifier qu'une case de la rangée est vide pour qu'il puisse s'y mettre
                         
                     }
-                }
+                }*/
                 //Si il n'y a aucune particularité
                 else{
                     map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
