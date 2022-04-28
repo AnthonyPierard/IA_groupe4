@@ -7,11 +7,11 @@ let nbr_carte = [0,0,0,0,0,0,0,0,0,0,0,0]
 
 let round = 1
 let nbTour = 0
-let current_equip
+let current_equip 
 let id_current_coureur = 0
 
 //sert pour les tours d'après
-let current_coureur
+let current_coureur 
 let coureur_fall = []
 class Equipe {
     constructor(nom,id){
@@ -307,13 +307,15 @@ function action(){
             round ++
 
         }
+        else{
+            var name_next_equipe = all_equipe[current_equip].nom
+        }
 
     }
     //On n'est plus dans le premier tour donc c'est au tour du coureur le plus
     //loin de commencer ect.
     else{
         if(cartes.includes(action)){
-
             if (all_coureur.length==0){ 
                 initialize_coureur(all_coureur)
                 //On retire les personnes qui sont tomber
@@ -323,23 +325,29 @@ function action(){
                 coureur_fall = []
                 nbTour ++
             }
-            
+            //on assigne une nouvelle case
+            assigner_nouvelle_case(current_coureur, action)
 
+            //On retire le coureur de la liste pour ne pas le resélectionner
+            let id = all_coureur.indexOf(current_coureur)
+            all_coureur.splice(id,1)
+
+            //On retire la carte seconde utilisée
             cartes.splice(cartes.indexOf(action),1)
             if (cartes.length==0){
                 recharge_carte(all_equipe[current_equip])
             }
+
             let max_position = 0
             //On selectionne le coureur qui est le plus à l'avant de la course pour le prochain round
             all_coureur.forEach(function(coureur){
-                if (coureur.position>max_position){
-                    max_position = coureur.position
+                if (coureur.position.numero>max_position){
+                    max_position = coureur.position.numero
                     current_coureur = coureur
                 }
             })
-            assigner_nouvelle_case(current_coureur, action)
-            let id = all_coureur.indexOf(current_coureur)
-            all_coureur.splice(id,1)
+
+
             var name_next_equipe = current_coureur.equipe 
             id_current_coureur = current_coureur.numero -1
             all_equipe.forEach(function(equipe){
@@ -348,7 +356,9 @@ function action(){
                 }
             })
         }
-        
+        else{
+            var name_next_equipe = current_coureur.equipe
+        }
         
     }
     //partie changement du label
