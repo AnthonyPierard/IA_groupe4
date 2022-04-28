@@ -293,6 +293,11 @@ function action(){
                         current_equip = equipe.id
                     }
                 })
+                //On retire les personnes qui sont tomber
+                coureur_fall.forEach(function retirer(coureur){
+                    all_coureur.splice(all_coureur.indexOf(coureur), 1)
+                })
+                coureur_fall = []
 
             }
             else {
