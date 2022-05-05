@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca6e7d2-c338-42e9-b4c0-d45c63e037ca" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/tbot.pl" beforeDir="false" afterPath="$PROJECT_DIR$/src/tbot.pl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jeu.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/prolog_session.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tau-prolog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tbot.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +28,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/gerry/Documents/école/BAC3/TIA/IA_groupe4",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -39,6 +45,7 @@
       <workItem from="1649593964279" duration="6319000" />
       <workItem from="1649668102083" duration="1549000" />
       <workItem from="1649839090855" duration="8000" />
+      <workItem from="1651148546118" duration="2112000" />
     </task>
     <servers />
   </component>
