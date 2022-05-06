@@ -397,8 +397,8 @@ function assigner_nouvelle_case(current_coureur, action){
         //sinon on crée une chute en série si on ne trouve pas de case dispo
         if(i == map[current_coureur.position.numero + action-1].length){
             map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
-            current_coureur.position = map[current_coureur.position.numero + action-1 + rand][0]
-            chute_en_serie(map[current_coureur.position.numero + action])
+            chute_en_serie(map[current_coureur.position.numero + action-1],current_coureur)
+            current_coureur.position = map[current_coureur.position.numero + action-1][0]
             assigner = false
         }
         else{
@@ -428,7 +428,8 @@ function assigner_nouvelle_case(current_coureur, action){
                     let j = 0
                     while (assigner2){
                         if(j == map[current_coureur.position.numero + action-1 + rand].length){
-                            chute_en_serie(map[current_coureur.position.numero + action - 1 + rand])
+                            map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
+                            chute_en_serie(map[current_coureur.position.numero + action - 1 + rand],current_coureur)
                             assigner2 = false
                         }
                         else{
@@ -469,14 +470,19 @@ function assigner_nouvelle_case(current_coureur, action){
     console.log(current_coureur.position)
 }
 
-function chute_en_serie(rangee){
-    rangee.forEach(function chuter(el){
-        all_coureur_const.forEach(function chute(coureur){
+function chute_en_serie(rangee, coureur){
+    console.log("aie chute en série")
+    rangee.forEach(function(el){
+        console.log(el)
+        all_coureur_const.forEach(function(coureur){
+            console.log(coureur)
             if(coureur.position == el){
                 coureur_fall.push(coureur)
             }
         })
     })
+    coureur_fall.push(coureur)
+    console.log(coureur_fall)
 
 }
 
