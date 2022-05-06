@@ -1,11 +1,30 @@
+
+
+
+
+#conteneur{
+        margin-top: 4%;
+        margin-left: 75%;
+        font-size:150%;
+}
+
+
+
 #game_map {
         background-image: url("img/map_large.png");
         background-repeat: no-repeat;
         background-attachment: fixed;
-        background-size: 50%; 
+        background-size: 50%;
         float: left;
 }
 
+.title-game{
+        text-align:center;
+        font-family:calibri;
+        color:#EFE21d;
+        font-size:250%;
+        font-weight: bold;
+}
 #belgium_player_1 { visibility: hidden; }
 #belgium_player_2 { visibility: hidden; }
 #belgium_player_3 { visibility: hidden; }
@@ -29,3 +48,5 @@ div.game-map{
 *{
         font: 90% sans-serif;
 }
+
+
