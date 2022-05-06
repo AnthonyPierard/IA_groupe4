@@ -121,7 +121,7 @@ let map = [[new Case(1,1,false,false, 321, -72),new Case(1,2,false,false, 321, -
             [new Case(54,1,false,false, 486, 350),new Case(54,2,false,false, 486, 538)],
             [new Case(55,1,false,false, 474, 350),new Case(55,2,false,false, 474, 538)],
             [new Case(56,1,false,false, 462, 353),new Case(56,2,false,false, 462, 341)],
-            [new Case(57,1,false,false, 450, 359),new Case(57,true,false, 450, 347)],
+            [new Case(57,1,false,false, 450, 359),new Case(57,2,true,false, 450, 347)],
             [new Case(58,1,false,false, 438, 367),new Case(58,2,false,false, 438, 355)],
             [new Case(59,1,false,false, 426, 373),new Case(59,2,false,false, 426, 361)],
             [new Case(60,1,false,false,414,380),new Case(60,2,false,false,414,368)],
