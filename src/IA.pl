@@ -1,4 +1,4 @@
-%--------------Cases----------------%
+%--------------Base de connaissances----------------%
 case(1,3).
 case(2,3).
 case(3,3).
@@ -105,6 +105,43 @@ case(103,3).
 case(104,3).
 case(105,3).
 
+joueur([belgique,Position,Case]).
+joueur([italie,Position,Case]).
+joueur([allemagne,Position,Case]).
+joueur([hollande,Position,Case]).
+
+% [[belgique,0,0],[belgique,1,0],[belgique,2,0],[Allemagne,0,0],[Allemagne,1,0],[Allemagne,2,0],
+    [Italie,0,0],[Italie,1,0],[Italie,2,0],[Hollande,0,0],[Hollande,1,0],[Hollande,2,0]].
+
+% [[12,9,9,5,1],[10,10,6,2,2],[12,8,8,7,5],[12,10,9,8,2]].
+
+% joueur courant.
+
+bigger(Joueur,Etat,Etat2) :-
+
+best(Joueur,Etat,Etat2).
+
+carte([S|Ss]).
+
+defineMaxCarte([S1,S2|Ss]) :- ,defineMaxCarte(Ss).
+
+use_card([Card|Deck], [Deck]).
 %-----------------------------------%
-joueur(Equipe, Numero, Case, Liste) :- append([],[Equipe,Numero,Case],Liste).
-equipe(Joueur1,Joueur2,Joueur3) :- joueur(Joueur1), joueur(Joueur2), joueur(Joueur3).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
