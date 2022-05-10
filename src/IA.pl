@@ -105,43 +105,37 @@ case(103,3).
 case(104,3).
 case(105,3).
 
-joueur([belgique,Position,Case]).
-joueur([italie,Position,Case]).
-joueur([allemagne,Position,Case]).
-joueur([hollande,Position,Case]).
+indice(belgique,0).
+indice(italie,1).
+indice(hollande,2).
+indice(allemagne,3).
 
 % [[belgique,0,0],[belgique,1,0],[belgique,2,0],[Allemagne,0,0],[Allemagne,1,0],[Allemagne,2,0],
-    [Italie,0,0],[Italie,1,0],[Italie,2,0],[Hollande,0,0],[Hollande,1,0],[Hollande,2,0]].
+%  [Italie,0,0],[Italie,1,0],[Italie,2,0],[Hollande,0,0],[Hollande,1,0],[Hollande,2,0]].
 
 % [[12,9,9,5,1],[10,10,6,2,2],[12,8,8,7,5],[12,10,9,8,2]].
 
 % joueur courant.
 
-bigger(Joueur,Etat,Etat2) :-
+% 'Renvoie l\'etat après avoir utilisé une carte'
+useCard(_,_,_,[],[]).
+useCard(Equipe, Numero, Card, [Joueur|Joueurs], Newjoueurs) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(1,Joueur,Num), Numero == Num, useCard(Equipe, Numero, Card, Joueurs, NewjoueursTemp), nth0(2,Joueur,Case), NewCase is Case+Card, addJoueur(Ekip,Num, NewCase, NewjoueursTemp, Newjoueurs).
+useCard(Equipe, Numero, Card, [Joueur|Joueurs], Newjoueurs) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, nth0(1,Joueur,Num), Numero \== Num, useCard(Equipe, Numero, Card, Joueurs, NewjoueursTemp), nth0(2,Joueur,Case), addJoueur(Ekip,Num,Case,NewjoueursTemp, Newjoueurs).
+useCard(Equipe, Numero, Card, [Joueur|Joueurs], Newjoueurs) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, nth0(1,Joueur,Num), Numero == Num, useCard(Equipe, Numero, Card, Joueurs, NewjoueursTemp), nth0(2,Joueur,Case), addJoueur(Ekip,Num,Case,NewjoueursTemp, Newjoueurs).
+useCard(Equipe, Numero, Card, [Joueur|Joueurs], Newjoueurs) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(1,Joueur,Num), Numero \== Num, useCard(Equipe, Numero, Card, Joueurs, NewjoueursTemp), nth0(2,Joueur,Case), addJoueur(Ekip,Num,Case,NewjoueursTemp, Newjoueurs).
 
-best(Joueur,Etat,Etat2).
+% 'Ajoute un joueur dans une liste de joueur et le positionne de manière décroissante par rapport à sa position sur le plateau'
+addJoueur(Equipe,Numero,Case,[],[[Equipe,Numero,Case]]).
+addJoueur(Equipe,Numero,Case,[Joueur|Joueurs], [[Equipe,Numero,Case],Joueur|Joueurs]) :- nth0(2,Joueur,Case2), Case >= Case2.
+addJoueur(Equipe,Numero,Case,[Joueur|Joueurs], Joueurs2) :- nth0(2,Joueur,Case2), Case < Case2, addJoueur(Equipe,Numero,Case,Joueurs,JoueursTemp), append([Joueur],JoueursTemp,Joueurs2).
 
-carte([S|Ss]).
+% 'Calcule les points d\'un état en appelant différentes fonctions de points'
+calculState(Equipe,Joueurs,Points) :- position(Equipe, Joueurs, Points).
 
-defineMaxCarte([S1,S2|Ss]) :- ,defineMaxCarte(Ss).
+% 'Fonction de points par rapport aux numéros de case'
+position(_,[],0).
+position(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, position(Equipe,Joueurs,Points2), nth0(2,Joueur,Case), Points is Points2 - Case.
+position(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, position(Equipe,Joueurs,Points2), nth0(2,Joueur,Case), Points is Points2 + Case.
 
-use_card([Card|Deck], [Deck]).
+
 %-----------------------------------%
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
