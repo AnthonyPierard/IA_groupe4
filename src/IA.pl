@@ -110,12 +110,38 @@ indice(italie,1).
 indice(hollande,2).
 indice(allemagne,3).
 
-% [[belgique,0,0],[belgique,1,0],[belgique,2,0],[Allemagne,0,0],[Allemagne,1,0],[Allemagne,2,0],
-%  [Italie,0,0],[Italie,1,0],[Italie,2,0],[Hollande,0,0],[Hollande,1,0],[Hollande,2,0]].
+% 'Exemple de liste "Joueurs"'
+% [[belgique,0,0],[belgique,1,0],[belgique,2,0],[allemagne,0,0],[allemagne,1,0],[allemagne,2,0],
+%  [italie,0,0],[italie,1,0],[italie,2,0],[hollande,0,0],[hollande,1,0],[hollande,2,0]].
 
+% 'Un joueur se défini donc comme [Equipe,Numero,Position]'
+
+% 'Exemple de liste "Cards"'
 % [[12,9,9,5,1],[10,10,6,2,2],[12,8,8,7,5],[12,10,9,8,2]].
 
-% joueur courant.
+
+% 'Min-Max encore a modifier(cards dans le cas de base et Points dans le cas récursif)'
+minMax([Card], [], [Joueur|Joueurs], Joueurs2, Points, Card) :- nth0(0,Joueur,Equipe), 
+                                                nth0(1,Joueur,Numero), useCard(Equipe, Numero, Card, [Joueur|Joueurs], Joueurs2),
+                                                calculState(Equipe, Joueurs2,Points).
+minMax(Cards, Cards2, Joueurs, Joueurs2, Choix) :- Joueurs = [Joueur|Jreste], nth0(0,Joueur, Equipe), nth0(1,Joueur,Numero),
+                                                    indice(Equipe, Ind), nth0(Ind,Cards,Ecards), 
+                                                    minMax(Cards, Cards2, Jreste, JoueursTemp,_),
+                                                    best(Equipe,Numero,Ecards,JoueursTemp,Choix,_),
+                                                    useCard(Equipe,Numero,Choix,JoueursTemp,Joueurs2),
+                                                    delCard(Equipe,Choix,Cards,Cards2).
+
+% 'Choisis le meilleur choix de carte'
+% 'La liste de cartes correspond à aux cartes de l\'équipe et pas l\'ensemble de toutes les cartes'
+best(Equipe,Numero,[Card],Joueurs,Card, Points) :- useCard(Equipe,Numero,Card,Joueurs,Joueurs2), calculState(Equipe,Joueurs2,Points).
+best(Equipe, Numero, [Card|Rcard], Joueurs, Card,Points) :- best(Equipe, Numero, Rcard, Joueurs, _, Temppoints), 
+                                                        useCard(Equipe, Numero, Card, Joueurs, Newjoueurs), 
+                                                        calculState(Equipe,Newjoueurs,Points), 
+                                                        Temppoints >= Points.
+best(Equipe, Numero, [Card|Rcard], Joueurs, Best, Points) :- best(Equipe, Numero, Rcard, Joueurs, Best, Points), 
+                                                        useCard(Equipe, Numero, Card, Joueurs, Newjoueurs), 
+                                                        calculState(Equipe,Newjoueurs,Temppoints), 
+                                                        Temppoints > Points.
 
 % 'Renvoie l\'etat après avoir utilisé une carte'
 useCard(_,_,_,[],[]).
@@ -123,6 +149,14 @@ useCard(Equipe, Numero, Card, [Joueur|Joueurs], Newjoueurs) :- nth0(0,Joueur,Eki
 useCard(Equipe, Numero, Card, [Joueur|Joueurs], Newjoueurs) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, nth0(1,Joueur,Num), Numero \== Num, useCard(Equipe, Numero, Card, Joueurs, NewjoueursTemp), nth0(2,Joueur,Case), addJoueur(Ekip,Num,Case,NewjoueursTemp, Newjoueurs).
 useCard(Equipe, Numero, Card, [Joueur|Joueurs], Newjoueurs) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, nth0(1,Joueur,Num), Numero == Num, useCard(Equipe, Numero, Card, Joueurs, NewjoueursTemp), nth0(2,Joueur,Case), addJoueur(Ekip,Num,Case,NewjoueursTemp, Newjoueurs).
 useCard(Equipe, Numero, Card, [Joueur|Joueurs], Newjoueurs) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(1,Joueur,Num), Numero \== Num, useCard(Equipe, Numero, Card, Joueurs, NewjoueursTemp), nth0(2,Joueur,Case), addJoueur(Ekip,Num,Case,NewjoueursTemp, Newjoueurs).
+
+% 'Supprime une carte de la liste des cartes'
+delCard(Equipe, Card, Cards, Cards2) :- indice(Equipe, Ind), nth0(Ind, Cards, Ecards), once(select(Card, Ecards,Ncards)), replace(Ind,Cards,Ncards,Cards2).
+
+% 'Remplace un élément d\'une liste à un indice donné'
+replace(Index, List, Element, Result) :-
+  nth0(Index, List, _, Transfer),
+  nth0(Index, Result, Element, Transfer).
 
 % 'Ajoute un joueur dans une liste de joueur et le positionne de manière décroissante par rapport à sa position sur le plateau'
 addJoueur(Equipe,Numero,Case,[],[[Equipe,Numero,Case]]).
