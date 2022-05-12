@@ -279,14 +279,20 @@ function action(){
             //on passe au round suivant
             //si nous somme au round 12 alors c'est la fin du premier tour et nous devons préparer le prochain tour
             if(round==12){
+                console.log("on choisi le nouveau joueur")
                 nbTour ++
                 round = 1
+                //On retire les personnes qui sont tomber
+                coureur_fall.forEach(function retirer(coureur){
+                    all_coureur.splice(all_coureur.indexOf(coureur), 1)
+                })
+                coureur_fall = []
                 //on affiche le prochain coureur a passer
                 let max_position = 0
                 //On selectionne le coureur qui est le plus à l'avant de la course
                 all_coureur.forEach(function(coureur){
-                    if (coureur.position>max_position){
-                        max_position = coureur.position
+                    if (coureur.position.numero>max_position){
+                        max_position = coureur.position.numero
                         current_coureur = coureur
                     }
                 })
@@ -300,11 +306,8 @@ function action(){
                         current_equip = equipe.id
                     }
                 })
-                //On retire les personnes qui sont tomber
-                coureur_fall.forEach(function retirer(coureur){
-                    all_coureur.splice(all_coureur.indexOf(coureur), 1)
-                })
-                coureur_fall = []
+                console.log(all_coureur)
+                console.log(all_coureur.includes(all.coureurs[2]))
 
             }
             else {
@@ -323,6 +326,21 @@ function action(){
     //loin de commencer ect.
     else{
         if(cartes.includes(action)){
+            console.log(all_coureur)
+            //on assigne une nouvelle case
+            assigner_nouvelle_case(current_coureur, action)
+
+            //On retire le coureur de la liste pour ne pas le resélectionner
+            let id = all_coureur.indexOf(current_coureur)
+            all_coureur.splice(id,1)
+
+            //On retire la carte seconde utilisée
+            cartes.splice(cartes.indexOf(action),1)
+            if (cartes.length==0){
+                recharge_carte(all_equipe[current_equip])
+            }
+            
+            //Si il n'y a plus de coureur disponible on re remplit la liste avec les coureurs qui ne sont pas tombé ou qui n'ont pas finit
             if (all_coureur.length==0){ 
                 initialize_coureur(all_coureur)
                 //On retire les personnes qui sont tomber
@@ -338,18 +356,6 @@ function action(){
                     })
                 }
                 nbTour ++
-            }
-            //on assigne une nouvelle case
-            assigner_nouvelle_case(current_coureur, action)
-
-            //On retire le coureur de la liste pour ne pas le resélectionner
-            let id = all_coureur.indexOf(current_coureur)
-            all_coureur.splice(id,1)
-
-            //On retire la carte seconde utilisée
-            cartes.splice(cartes.indexOf(action),1)
-            if (cartes.length==0){
-                recharge_carte(all_equipe[current_equip])
             }
 
             let max_position = 0
@@ -375,6 +381,8 @@ function action(){
         }
         
     }
+    //on retire la carte de nbr_carte
+    nbr_carte[action-1] --
     //partie changement du label
     let laction = document.getElementById("label_action")
     let new_label = document.createTextNode(name_next_equipe + " coureur " + (id_current_coureur+1) + ":")
@@ -396,93 +404,157 @@ function assigner_nouvelle_case(current_coureur, action){
     while (assigner){
         //sinon on crée une chute en série si on ne trouve pas de case dispo
         if(i == map[current_coureur.position.numero + action-1].length){
-            map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
-            chute_en_serie(map[current_coureur.position.numero + action-1],current_coureur)
+            if(current_coureur.position.numero!=0){ map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false }
+            chute_en_serie(map[current_coureur.position.numero + action-1],current_coureur, -1)
             current_coureur.position = map[current_coureur.position.numero + action-1][0]
             assigner = false
         }
         else{
-            //si une case sur une ligne n'est pas utilisée alors on l'assigne
-            if(!(map[current_coureur.position.numero + action-1][i].isUse)){
-                //Si c'est une case finale
-                if(map[current_coureur.position.numero + action-1][i].position<=0){
-                    //On ajoute le coureur qui a finit
-                    finish_coureur.push(current_coureur)
-                    //On ajoute les points à l'équipe
-                    current_equip.point += 95 + point_en_plus - map[current_coureur.position.numero + action-1][i].position
-                    current_coureur.position = map[current_coureur.position.numero + action-1][i]
-                    if(!premier_joueur_fini){
-                        premier_joueur_fini = true
-                    }
-                    //On regarde si tout les joueurs n'ont pas finis
-                    if(finish_coureur.length==12){
-                        console.log("fin de partie")
-                    }
-
+            //si la rangée contient une rigole
+            if(map[current_coureur.position.numero + action-1].includes("_")){
+                assigner = false
+                if(current_coureur.position.numero!=0){ map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false }
+                //si la case sur la même rangée n'est pas prise alors il peut y aller
+                if(!map[current_coureur.position.numero + action-1][current_coureur.position.position -1].isUse){
+                    map[current_coureur.position.numero + action-1][current_coureur.position.position -1].isUse = true
+                    current_coureur.position = map[current_coureur.position.numero + action-1][current_coureur.position.position -1]
                 }
-                //si c'est une case chance
-                else if(map[current_coureur.position.numero + action-1][i].chance){
-                    //nombre aléatoire entre -3 et 3 
-                    let rand = Math.floor(Math.random()*6) - 2
-                    let assigner2 = true
-                    let j = 0
-                    while (assigner2){
-                        if(j == map[current_coureur.position.numero + action-1 + rand].length){
-                            map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
-                            chute_en_serie(map[current_coureur.position.numero + action - 1 + rand],current_coureur)
-                            assigner2 = false
+                else{
+                    chute_en_serie(map[current_coureur.position.numero + action -1], current_coureur, current_coureur.position.position-1)
+                    current_coureur.position = map[current_coureur.position.numero + action-1][current_coureur.position.position -1]
+                }
+            }
+            //si elle n'en contient pas alors normal
+            else { 
+                //si une case sur une ligne n'est pas utilisée alors on l'assigne
+                if(!(map[current_coureur.position.numero + action-1][i].isUse)){
+                    //Si c'est une case finale
+                    if(map[current_coureur.position.numero + action-1][i].numero<=0){
+                        //On ajoute le coureur qui a finit
+                        finish_coureur.push(current_coureur)
+                        //On ajoute les points à l'équipe
+                        current_equip.point += 95 + point_en_plus - map[current_coureur.position.numero + action-1][i].numero
+                        current_coureur.position = map[current_coureur.position.numero + action-1][i]
+                        if(!premier_joueur_fini){
+                            premier_joueur_fini = true
                         }
-                        else{
-                            if(!(map[current_coureur.position.numero + action-1 + rand][j].isUse)){
-                                map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
-                                map[current_coureur.position.numero + action-1 + rand][j].isUse = true
-                                current_coureur.position = map[current_coureur.position.numero + action-1 + rand][j]
+                        //On regarde si tout les joueurs n'ont pas finis
+                        if(finish_coureur.length==12){
+                            console.log("fin de partie")
+                        }
+                    }
+                    //si on va plus loin que les cases finales
+                    else if(current_coureur.position.numero + action-1 >= map.length){
+                        finish_coureur.push(current_coureur)
+                        current_equip.point += 95 + point_en_plus - 9
+                        current_coureur.position = map[105-1][0]
+                        if(!premier_joueur_fini){
+                            premier_joueur_fini = true
+                        }
+                        //On regarde si tout les joueurs n'ont pas finis
+                        if(finish_coureur.length==12){
+                            console.log("fin de partie !")
+                            console.log("voici les résultats : ")
+                            let meilleur_equipe = new Equipe("temp", 6)
+                            all_equipe.forEach(function(equipe){
+                                console.log(equipe.nom + " : " + equipe.point)
+                                if(meilleur_equipe.point< equipe.point){
+                                    meilleur_equipe = equipe
+                                }
+                            })
+                            console.log("l'équipe gagnante est : " + meilleur_equipe)
+                            console.log("Merci d'avoir joué")
+                        }
+                    }
+                    //si c'est une case chance
+                    else if(map[current_coureur.position.numero + action-1][i].chance){
+                        //nombre aléatoire entre -3 et 3 
+                        let rand = Math.floor(Math.random()*6) - 2
+                        let assigner2 = true
+                        let j = 0
+                        while (assigner2){
+                            if(j == map[current_coureur.position.numero + action-1 + rand].length){
+                                if(current_coureur.position.numero!=0){ map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false }
+                                chute_en_serie(map[current_coureur.position.numero + action - 1 + rand],current_coureur, -1)
+                                current_coureur.position = map[current_coureur.position.numero + action-1 + rand][0]
                                 assigner2 = false
                             }
                             else{
-                                j++
-                            }    
+                                if(!(map[current_coureur.position.numero + action-1 + rand][j].isUse)){
+                                    if(current_coureur.position.numero!=0){ map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false }
+                                    map[current_coureur.position.numero + action-1 + rand][j].isUse = true
+                                    current_coureur.position = map[current_coureur.position.numero + action-1 + rand][j]
+                                    assigner2 = false
+                                }
+                                else{
+                                    j++
+                                }    
+                            }
                         }
-                    }
-                    
-                }
-                //Si la case de devant est pas vide alors il peut profiter du système d'aspiration
-                /*else if(map[current_coureur.position.numero + action].length > i){
-                    if(map[current_coureur.position.numero + action][i].isUse){
-                        //Vérifier qu'une case de la rangée est vide pour qu'il puisse s'y mettre
                         
                     }
-                }*/
-                //Si il n'y a aucune particularité
-                else{
-                    map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
-                    map[current_coureur.position.numero + action-1][i].isUse = true
-                    current_coureur.position = map[current_coureur.position.numero + action-1][i]
+                    //Si la case de devant est pas vide alors il peut profiter du système d'aspiration
+                    /*else if(map[current_coureur.position.numero + action].length > i){
+                        if(map[current_coureur.position.numero + action][i].isUse){
+                            //Vérifier qu'une case de la rangée est vide pour qu'il puisse s'y mettre
+                            
+                        }
+                    }*/
+                    //Si il n'y a aucune particularité
+                    else{
+                        if(current_coureur.position.numero!=0){ map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false }
+                        map[current_coureur.position.numero + action-1][i].isUse = true
+                        current_coureur.position = map[current_coureur.position.numero + action-1][i]
+                    }
+                    assigner = false
                 }
-                assigner = false
+                else {
+                    i++
+                }
             }
-            else {
-                i++
-            }
+            
         }
     }
     console.log(current_coureur)
     console.log(current_coureur.position)
 }
 
-function chute_en_serie(rangee, coureur){
+function chute_en_serie(rangee, coureur, intervalle){
     console.log("aie chute en série")
-    rangee.forEach(function(el){
-        console.log(el)
+    //si l'intervalle est a -1 c'est que c'est une chute en série dans une colonne sans _
+    if(intervalle==-1){
+        rangee.forEach(function(el){
+            all_coureur_const.forEach(function(coureur){
+                if(coureur.position == el){
+                    coureur_fall.push(coureur)
+                }
+            })
+        })
+    }
+    //sinon on doit mettre juste la case sur chute en série
+    else if (intervalle==2){
         all_coureur_const.forEach(function(coureur){
-            console.log(coureur)
-            if(coureur.position == el){
+            if(coureur.position == rangee[2]){
                 coureur_fall.push(coureur)
             }
         })
-    })
+    }
+    else if (rangee[0].numero < 37){
+        all_coureur_const.forEach(function(coureur){
+            if(coureur.position == rangee[0] || coureur.position == rangee[1]){
+                coureur_fall.push(coureur)
+            }
+        })
+    }
+    else{
+        all_coureur_const.forEach(function(coureur){
+            if(coureur.position == rangee[intervalle]){
+                coureur_fall.push(coureur)
+            }
+        })
+    }
     coureur_fall.push(coureur)
-    console.log(coureur_fall)
+    console.log("fall " +coureur_fall)
 
 }
 
