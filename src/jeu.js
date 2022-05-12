@@ -13,6 +13,11 @@ let id_current_coureur = 0
 let point_en_plus = 0
 let premier_joueur_fini = false
 
+//sert pour les sprints
+let sprint_1 = false
+let sprint_2 = false
+let sprint_3 = false
+
 //sert pour les tours d'après
 let current_coureur 
 let coureur_fall = []
@@ -355,6 +360,7 @@ function action(){
                 })
                 coureur_fall = []
                 //si un joueur a finis alors on ajoute 10 points de pénalitées et on retire les personnes qui ont finis
+
                 if(premier_joueur_fini){
                     point_en_plus +=10
                     finish_coureur.forEach(function retirer(coureur){
@@ -440,6 +446,24 @@ function assigner_nouvelle_case(current_coureur, action){
                 console.log("Merci d'avoir joué")
             }
         }
+        //si un joueur passe la 1ere zone de sprint
+        else if(current_coureur.position.numero + action-1 >= 21 && !sprint_1){
+            all_equipe[current_equip].point += 4
+            sprint_1 = true
+        }
+
+        //si un joueur passe la 2e zone de sprint
+        else if(current_coureur.position.numero + action-1 >= 21 && !sprint_2){
+            all_equipe[current_equip].point += 4
+            sprint_2 = true
+        }
+
+        //si un joueur passe la 3e zone de sprint
+        else if(current_coureur.position.numero + action-1 >= 21 && !sprint_2){
+            all_equipe[current_equip].point += 4
+            sprint_3 = true
+        }
+
         //si on va plus loin que les cases finales
         else if(current_coureur.position.numero + action-1 >= map.length){
             finish_coureur.push(current_coureur)
