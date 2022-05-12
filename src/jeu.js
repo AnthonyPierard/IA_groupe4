@@ -401,9 +401,6 @@ function action(){
     //permet de modifier les coordonées des joueurs
     updateCoordinates()
 }
-//endroit test
-all_equipe[1].point += 95 + point_en_plus - 9 
-console.log(all_equipe[1].point)
 
 function assigner_nouvelle_case(current_coureur, action){
     let i=0
@@ -414,7 +411,7 @@ function assigner_nouvelle_case(current_coureur, action){
         //sinon on crée une chute en série si on ne trouve pas de case dispo
         if(i == map[current_coureur.position.numero + action-1].length){
             if(current_coureur.position.numero!=0){ map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false }
-            chute_en_serie(map[current_coureur.position.numero + action-1],current_coureur, -1)
+            chute_en_serie(map[current_coureur.position.numero + actions-1],current_coureur, -1)
             current_coureur.position = map[current_coureur.position.numero + action-1][0]
             assigner = false
         }
