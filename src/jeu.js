@@ -446,23 +446,6 @@ function assigner_nouvelle_case(current_coureur, action){
                 console.log("Merci d'avoir joué")
             }
         }
-        //si un joueur passe la 1ere zone de sprint
-        else if(current_coureur.position.numero + action-1 >= 21 && !sprint_1){
-            all_equipe[current_equip].point += 4
-            sprint_1 = true
-        }
-
-        //si un joueur passe la 2e zone de sprint
-        else if(current_coureur.position.numero + action-1 >= 21 && !sprint_2){
-            all_equipe[current_equip].point += 4
-            sprint_2 = true
-        }
-
-        //si un joueur passe la 3e zone de sprint
-        else if(current_coureur.position.numero + action-1 >= 21 && !sprint_2){
-            all_equipe[current_equip].point += 4
-            sprint_3 = true
-        }
 
         //si on va plus loin que les cases finales
         else if(current_coureur.position.numero + action-1 >= map.length){
@@ -558,6 +541,23 @@ function assigner_nouvelle_case(current_coureur, action){
             }
             
         }
+    }
+    //si un joueur passe la 1ere zone de sprint
+    if((current_coureur.position.numero + action-1) > 21 && !sprint_1){
+        all_equipe[current_equip].point -= 1
+        sprint_1 = true
+    }
+
+    //si un joueur passe la 2e zone de sprint
+    else if((current_coureur.position.numero + action-1) > 35 && !sprint_2){
+        all_equipe[current_equip].point -= 3
+        sprint_2 = true
+    }
+
+    //si un joueur passe la 3e zone de sprint
+    else if((current_coureur.position.numero + action-1) > 75 && !sprint_3){
+        all_equipe[current_equip].point -= 3
+        sprint_3 = true
     }
     console.log(current_coureur)
     console.log(current_coureur.position)
