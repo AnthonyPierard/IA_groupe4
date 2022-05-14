@@ -120,16 +120,16 @@ indice(allemagne,3).
 % [[12,9,9,5,1],[10,10,6,2,2],[12,8,8,7,5],[12,10,9,8,2]].
 
 
-% 'Min-Max encore a modifier(cards dans le cas de base et Points dans le cas récursif)'
-minMax([Card], [], [Joueur|Joueurs], Joueurs2, Points, Card) :- nth0(0,Joueur,Equipe), 
-                                                nth0(1,Joueur,Numero), useCard(Equipe, Numero, Card, [Joueur|Joueurs], Joueurs2),
-                                                calculState(Equipe, Joueurs2,Points).
+% 'Min-Max encore a modifier(Points dans le cas récursif)'
+minMax(Cards, [[],[],[],[]], [Joueur|Joueurs], Joueurs2, Card) :- nth0(0,Joueur,Equipe), nth0(1,Joueur,Numero), 
+                                                                    indice(Equipe,Ind), nth0(Ind,Cards, Ecards), Ecards = [Card],
+                                                                    useCard(Equipe, Numero, Card, [Joueur|Joueurs], Joueurs2),
+                                                                    delCard(Equipe,Card,Cards,[[],[],[],[]]).
+                                                
 minMax(Cards, Cards2, Joueurs, Joueurs2, Choix) :- Joueurs = [Joueur|Jreste], nth0(0,Joueur, Equipe), nth0(1,Joueur,Numero),
-                                                    indice(Equipe, Ind), nth0(Ind,Cards,Ecards), 
-                                                    minMax(Cards, Cards2, Jreste, JoueursTemp,_),
-                                                    best(Equipe,Numero,Ecards,JoueursTemp,Choix,_),
-                                                    useCard(Equipe,Numero,Choix,JoueursTemp,Joueurs2),
-                                                    delCard(Equipe,Choix,Cards,Cards2).
+                                                    indice(Equipe, Ind), nth0(Ind,Cards,Ecards), Ecards = [Card|Rcard],
+
+                                                    minMax(Rcard,Cardstemp,Jreste,Joueurstemp,_),
 
 % 'Choisis le meilleur choix de carte'
 % 'La liste de cartes correspond à aux cartes de l\'équipe et pas l\'ensemble de toutes les cartes'
