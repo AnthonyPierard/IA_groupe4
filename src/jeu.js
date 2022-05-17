@@ -860,3 +860,9 @@ function updateCoordinates(){
     }
 
 }
+
+if(current_equip==0){
+    envoyer_A_prolog(Pos_general);
+}
+
+
