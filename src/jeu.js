@@ -13,9 +13,35 @@ let id_current_coureur = 0
 let point_en_plus = 0
 let premier_joueur_fini = false
 
+//sert pour les sprints
+let sprint_1 = false
+let sprint_2 = false
+let sprint_3 = false
+
 //sert pour les tours d'après
 let current_coureur 
 let coureur_fall = []
+
+
+//Sert à envoyer au prolog
+var Pos_general = {
+    "players_pos" : [["belgique",0,0],
+                     ["belgique",1,0],
+                     ["belgique",2,0],
+                     ["italie",0,0],
+                     ["italie",1,0],
+                     ["italie",2,0],
+
+                     ["allemagne",0,0],
+                     ["allemagne",1,0],
+                     ["allemagne",2,0],
+
+                     ["hollande",0,0],
+                     ["hollande",1,0],
+                     ["hollande",2,0]]
+}
+
+
 class Equipe {
     constructor(nom,id){
         // ajout des cartes pour chaques équipes
@@ -79,7 +105,7 @@ let map = [[new Case(1,1,false,false, 321, -72),new Case(1,2,false,false, 321, -
             [new Case(12,1,true,false, 477, -62),new Case(12,2,false,false, 477, -50)],
             [new Case(13,1,false,false, 489, -58),new Case(13,2,false,false, 489, -46)],
             [new Case(14,1,false,false, 501, -54),new Case(14,2,false,false, 501, -42)],
-            [new Case(15,1,false,false, 513, -48),new Case(15,2,false,false, 513, -36)],
+            [new Case(15,1,["belgique"],false,false, 513, -48),new Case(15,2,false,false, 513, -36)],
             [new Case(16,1,false,false, 525, -42),new Case(16,2,true,false, 525, -30)],
             [new Case(17,1,false,false, 537, -34),new Case(17,2,false,false, 537, -22)],
             [new Case(18,1,false,false, 549, -34),new Case(18,2,false,false, 549, -22)],
@@ -102,28 +128,28 @@ let map = [[new Case(1,1,false,false, 321, -72),new Case(1,2,false,false, 321, -
             [new Case(35,1,false,false, 561, 206),new Case(35,2,false,false, 549, 206),"_",new Case(35,3,false,false, 525, 206)],
             [new Case(36,1,false,false, 549, 218),new Case(36,2,false,false, 537, 218)],
             [new Case(37,1,false,false, 549, 230),new Case(37,2,false,false, 537, 230)],
-            [new Case(38,1,false,false),new Case(38,2,false,false)],
-            [new Case(39,1,false,false),new Case(39,2,false,false)],
-            [new Case(40,1,false,false),new Case(40,2,false,false)],
-            [new Case(41,1,false,false),new Case(41,2,false,false)],
-            [new Case(42,1,false,false),new Case(42,2,false,false)],
-            [new Case(43,1,false,false),new Case(43,2,false,false)],
-            [new Case(44,1,false,false),new Case(44,2,false,false)],
-            [new Case(45,1,false,false),new Case(45,2,false,false)],
-            [new Case(46,1,false,false),new Case(46,2,false,false)],
-            [new Case(47,1,false,false),new Case(47,2,false,false)],
-            [new Case(48,1,true,false),new Case(48,2,false,false)],
-            [new Case(49,1,false,false),new Case(49,2,false,false)],
-            [new Case(50,1,false,false),new Case(50,2,false,false)],
-            [new Case(51,1,false,false),new Case(51,2,false,false)],
-            [new Case(52,1,false,false),new Case(52,2,false,false)],
-            [new Case(53,1,false,false),new Case(53,2,false,false)],
-            [new Case(54,1,false,false),new Case(54,2,false,false)],
-            [new Case(55,1,false,false),new Case(55,2,false,false)],
-            [new Case(56,1,false,false),new Case(56,2,false,false)],
-            [new Case(57,1,false,false),new Case(57,true,false)],
-            [new Case(58,1,false,false),new Case(58,2,false,false)],
-            [new Case(59,1,false,false),new Case(59,2,false,false)],
+            [new Case(38,1,false,false, 551, 242),new Case(38,2,false,false, 539, 242)],
+            [new Case(39,1,false,false, 552, 254),new Case(39,2,false,false, 540, 254)],
+            [new Case(40,1,false,false, 554, 266),new Case(40,2,false,false, 542, 266)],
+            [new Case(41,1,false,false, 557, 278),new Case(41,2,false,false, 545, 278)],
+            [new Case(42,1,false,false, 560, 290),new Case(42,2,false,false, 548, 290)],
+            [new Case(43,1,false,false, 563, 302),new Case(43,2,false,false, 551, 302)],
+            [new Case(44,1,false,false, 567, 314),new Case(44,2,false,false, 555, 314)],
+            [new Case(45,1,false,false, 573, 326),new Case(45,2,false,false, 573, 326)],
+            [new Case(46,1,false,false, 570, 338),new Case(46,2,false,false, 558, 338)],
+            [new Case(47,1,false,false, 570, 350),new Case(47,2,false,false, 558, 350)],
+            [new Case(48,1,true,false, 570, 362),new Case(48,2,false,false, 558, 362)],
+            [new Case(49,1,false,false, 546, 353),new Case(49,2,false,false, 546, 341)],
+            [new Case(50,1,false,false, 534, 356),new Case(50,2,false,false, 534, 344)],
+            [new Case(51,1,false,false, 522, 353),new Case(51,2,false,false, 522, 341)],
+            [new Case(52,1,false,false, 510, 350),new Case(52,2,false,false, 510, 338)],
+            [new Case(53,1,false,false, 498, 350),new Case(53,2,false,false, 498, 338)],
+            [new Case(54,1,false,false, 486, 350),new Case(54,2,false,false, 486, 338)],
+            [new Case(55,1,false,false, 474, 350),new Case(55,2,false,false, 474, 338)],
+            [new Case(56,1,false,false, 462, 353),new Case(56,2,false,false, 462, 341)],
+            [new Case(57,1,false,false, 450, 359),new Case(57,2,true,false, 450, 347)],
+            [new Case(58,1,false,false, 438, 367),new Case(58,2,false,false, 438, 355)],
+            [new Case(59,1,false,false, 426, 373),new Case(59,2,false,false, 426, 361)],
             [new Case(60,1,false,false,414,380),new Case(60,2,false,false,414,368)],
             [new Case(61,1,false,false,402,390),new Case(61,2,false,false,402,378)],
             [new Case(62,1,false,false,390,401),new Case(62,2,false,false,390,389)],
@@ -137,16 +163,16 @@ let map = [[new Case(1,1,false,false, 321, -72),new Case(1,2,false,false, 321, -
             [new Case(70,1,false,false,270,401),new Case(70,2,false,false,270,389)],
             [new Case(71,1,false,false,259,394),new Case(71,2,false,false,259,382)],
             [new Case(72,1,false,false,247,387),new Case(72,2,false,false,247,375)],
-            [new Case(73,1,false,false,238,374)],
-            [new Case(74,1,true,false,238,362)],
-            [new Case(75,1,false,false,238,350)],
-            [new Case(76,1,false,false,238,338),new Case(76,2,false,false,250,338)],
-            [new Case(77,1,false,false,240,326),new Case(77,2,false,false,252,326)],
-            [new Case(78,1,false,false,242,314),new Case(78,2,false,false,254,314)],
-            [new Case(79,1,false,false,244,302),new Case(79,2,false,false,256,302)],
+            [new Case(73,1,false,false,234,374)],
+            [new Case(74,1,true,false,234,362)],
+            [new Case(75,1,false,false,234,350)],
+            [new Case(76,1,false,false,234,338),new Case(76,2,false,false,246,338)],
+            [new Case(77,1,false,false,237,326),new Case(77,2,false,false,249,326)],
+            [new Case(78,1,false,false,240,314),new Case(78,2,false,false,252,314)],
+            [new Case(79,1,false,false,243,302),new Case(79,2,false,false,255,302)],
             [new Case(80,1,false,false,246,290),new Case(80,2,false,false,258,290)],
-            [new Case(81,1,false,false,250,278),new Case(81,2,false,false,262,278)],
-            [new Case(82,1,false,false,250,266),new Case(82,2,false,false,262,266)],
+            [new Case(81,1,false,false,249,278),new Case(81,2,false,false,261,278)],
+            [new Case(82,1,false,false,249,266),new Case(82,2,false,false,261,266)],
             [new Case(83,1,false,false,245,254),new Case(83,2,false,false,257,254)],
             [new Case(84,1,false,false,242,242),"_",new Case(84,2,false,false,266,242)],
             [new Case(85,1,false,false,240,230),"_",new Case(85,2,false,false,264,230)],
@@ -279,20 +305,24 @@ function action(){
             //on passe au round suivant
             //si nous somme au round 12 alors c'est la fin du premier tour et nous devons préparer le prochain tour
             if(round==12){
+                console.log("on choisi le nouveau joueur")
                 nbTour ++
                 round = 1
+                //On retire les personnes qui sont tomber
+                coureur_fall.forEach(function retirer(coureur){
+                    all_coureur.splice(all_coureur.indexOf(coureur), 1)
+                })
+                coureur_fall = []
                 //on affiche le prochain coureur a passer
                 let max_position = 0
                 //On selectionne le coureur qui est le plus à l'avant de la course
                 all_coureur.forEach(function(coureur){
-                    if (coureur.position>max_position){
-                        max_position = coureur.position
+                    if (coureur.position.numero>max_position){
+                        max_position = coureur.position.numero
                         current_coureur = coureur
                     }
                 })
-                //on le supprime de la liste des coureurs pour pas le resélectionner
-                let id = all_coureur.indexOf(current_coureur)
-                all_coureur.splice(id, 1)
+                
                 var name_next_equipe = current_coureur.equipe 
                 id_current_coureur = current_coureur.numero -1
                 all_equipe.forEach(function(equipe){
@@ -300,11 +330,8 @@ function action(){
                         current_equip = equipe.id
                     }
                 })
-                //On retire les personnes qui sont tomber
-                coureur_fall.forEach(function retirer(coureur){
-                    all_coureur.splice(all_coureur.indexOf(coureur), 1)
-                })
-                coureur_fall = []
+                console.log(all_coureur)
+                console.log(all_coureur.includes(all.coureurs[2]))
 
             }
             else {
@@ -323,14 +350,37 @@ function action(){
     //loin de commencer ect.
     else{
         if(cartes.includes(action)){
+
+            //on assigne une nouvelle case
+            assigner_nouvelle_case(current_coureur, action)
+
+            //On retire le coureur de la liste pour ne pas le resélectionner
+            if(all_coureur.includes(current_coureur)) { all_coureur.splice(all_coureur.indexOf(current_coureur),1) }
+
+            //On retire la carte seconde utilisée
+            cartes.splice(cartes.indexOf(action),1)
+            if (cartes.length==0){
+                recharge_carte(all_equipe[current_equip])
+            }
+
+            console.log("========")
+            all_coureur.forEach(function(coureur){
+                console.log(coureur)
+            })
+            console.log("========")
+            
+            //Si il n'y a plus de coureur disponible on re remplit la liste avec les coureurs qui ne sont pas tombé ou qui n'ont pas finit
             if (all_coureur.length==0){ 
                 initialize_coureur(all_coureur)
                 //On retire les personnes qui sont tomber
                 coureur_fall.forEach(function retirer(coureur){
-                    all_coureur.splice(all_coureur.indexOf(coureur), 1)
+                    if(all.coureurs.includes(coureur)){
+                        all_coureur.splice(all_coureur.indexOf(coureur), 1)
+                    }    
                 })
                 coureur_fall = []
                 //si un joueur a finis alors on ajoute 10 points de pénalitées et on retire les personnes qui ont finis
+
                 if(premier_joueur_fini){
                     point_en_plus +=10
                     finish_coureur.forEach(function retirer(coureur){
@@ -338,18 +388,6 @@ function action(){
                     })
                 }
                 nbTour ++
-            }
-            //on assigne une nouvelle case
-            assigner_nouvelle_case(current_coureur, action)
-
-            //On retire le coureur de la liste pour ne pas le resélectionner
-            let id = all_coureur.indexOf(current_coureur)
-            all_coureur.splice(id,1)
-
-            //On retire la carte seconde utilisée
-            cartes.splice(cartes.indexOf(action),1)
-            if (cartes.length==0){
-                recharge_carte(all_equipe[current_equip])
             }
 
             let max_position = 0
@@ -375,6 +413,8 @@ function action(){
         }
         
     }
+    //on retire la carte de nbr_carte
+    nbr_carte[action-1] --
     //partie changement du label
     let laction = document.getElementById("label_action")
     let new_label = document.createTextNode(name_next_equipe + " coureur " + (id_current_coureur+1) + ":")
@@ -396,87 +436,193 @@ function assigner_nouvelle_case(current_coureur, action){
     while (assigner){
         //sinon on crée une chute en série si on ne trouve pas de case dispo
         if(i == map[current_coureur.position.numero + action-1].length){
-            map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
-            current_coureur.position = map[current_coureur.position.numero + action-1 + rand][0]
-            chute_en_serie(map[current_coureur.position.numero + action])
+            if(current_coureur.position.numero!=0){ map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false }
+            chute_en_serie(map[current_coureur.position.numero + action-1],current_coureur, -1)
+            current_coureur.position = map[current_coureur.position.numero + action-1][0]
             assigner = false
         }
-        else{
-            //si une case sur une ligne n'est pas utilisée alors on l'assigne
-            if(!(map[current_coureur.position.numero + action-1][i].isUse)){
-                //Si c'est une case finale
-                if(map[current_coureur.position.numero + action-1][i].position<=0){
-                    //On ajoute le coureur qui a finit
-                    finish_coureur.push(current_coureur)
-                    //On ajoute les points à l'équipe
-                    current_equip.point += 95 + point_en_plus - map[current_coureur.position.numero + action-1][i].position
-                    current_coureur.position = map[current_coureur.position.numero + action-1][i]
-                    if(!premier_joueur_fini){
-                        premier_joueur_fini = true
+        //Si c'est une case finale
+        else if(map[current_coureur.position.numero + action-1][i].numero<=0){
+            //On ajoute le coureur qui a finit
+            finish_coureur.push(current_coureur)
+            //On ajoute les points à l'équipe
+            all_equipe[current_equip].point += 95 + point_en_plus - map[current_coureur.position.numero + action-1][i].numero
+            current_coureur.position = map[current_coureur.position.numero + action-1][i]
+            if(!premier_joueur_fini){
+                premier_joueur_fini = true
+            }
+            //On regarde si tout les joueurs n'ont pas finis
+            if(finish_coureur.length==12){
+                console.log("fin de partie")
+                console.log("voici les résultats : ")
+                let meilleur_equipe = new Equipe("temp", 6)
+                all_equipe.forEach(function(equipe){
+                    console.log(equipe.nom + " : " + equipe.point)
+                    if(meilleur_equipe.point< equipe.point){
+                        meilleur_equipe = equipe
                     }
-                    //On regarde si tout les joueurs n'ont pas finis
-                    if(finish_coureur.length==12){
-                        console.log("fin de partie")
-                    }
+                })
+                console.log("l'équipe gagnante est : " + meilleur_equipe.nom)
+                console.log("Merci d'avoir joué")
+            }
+        }
 
+        //si on va plus loin que les cases finales
+        else if(current_coureur.position.numero + action-1 >= map.length){
+            finish_coureur.push(current_coureur)
+            all_equipe[current_equip].point += 95 + point_en_plus - 9
+            current_coureur.position = map[105-1][0]
+            if(!premier_joueur_fini){
+                premier_joueur_fini = true
+            }
+            //On regarde si tout les joueurs n'ont pas finis
+            if(finish_coureur.length==12){
+                console.log("fin de partie !")
+                console.log("voici les résultats : ")
+                let meilleur_equipe = new Equipe("temp", 6)
+                all_equipe.forEach(function(equipe){
+                    console.log(equipe.nom + " : " + equipe.point)
+                    if(meilleur_equipe.point< equipe.point){
+                        meilleur_equipe = equipe
+                    }
+                })
+                console.log("l'équipe gagnante est : " + meilleur_equipe)
+                console.log("Merci d'avoir joué")
+            }
+        }
+        else{
+            //si la rangée contient une rigole
+            if(map[current_coureur.position.numero + action-1].includes("_")){
+                assigner = false
+                map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false
+                //si la case sur la même rangée n'est pas prise alors il peut y aller
+                if(current_coureur.position.position==3 || current_coureur.position.position==2 && current_coureur.position.numero>50){
+                    map[current_coureur.position.numero + action-1][current_coureur.position.position].isUse = true
+                    current_coureur.position = map[current_coureur.position.numero + action-1][current_coureur.position.position]
                 }
-                //si c'est une case chance
-                else if(map[current_coureur.position.numero + action-1][i].chance){
-                    //nombre aléatoire entre -3 et 3 
-                    let rand = Math.floor(Math.random()*6) - 2
-                    let assigner2 = true
-                    let j = 0
-                    while (assigner2){
-                        if(j == map[current_coureur.position.numero + action-1 + rand].length){
-                            chute_en_serie(map[current_coureur.position.numero + action - 1 + rand])
-                            assigner2 = false
-                        }
-                        else{
-                            if(!(map[current_coureur.position.numero + action-1 + rand][j].isUse)){
-                                map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
-                                map[current_coureur.position.numero + action-1 + rand][j].isUse = true
-                                current_coureur.position = map[current_coureur.position.numero + action-1 + rand][j]
+                else if(!map[current_coureur.position.numero + action-1][current_coureur.position.position -1].isUse){
+                    map[current_coureur.position.numero + action-1][current_coureur.position.position -1].isUse = true
+                    current_coureur.position = map[current_coureur.position.numero + action-1][current_coureur.position.position -1]
+                }
+                else{
+                    chute_en_serie(map[current_coureur.position.numero + action -1], current_coureur, current_coureur.position.position-1)
+                    current_coureur.position = map[current_coureur.position.numero + action-1][current_coureur.position.position -1]
+                }
+            }
+            //si elle n'en contient pas alors normal
+            else { 
+                //si une case sur une ligne n'est pas utilisée alors on l'assigne
+                if(!(map[current_coureur.position.numero + action-1][i].isUse)){
+                    //si c'est une case chance
+                    if(map[current_coureur.position.numero + action-1][i].chance){
+                        //nombre aléatoire entre -3 et 3 
+                        let rand = Math.floor(Math.random()*6) - 2
+                        let assigner2 = true
+                        let j = 0
+                        while (assigner2){
+                            if(j == map[current_coureur.position.numero + action-1 + rand].length){
+                                if(current_coureur.position.numero!=0){ map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false }
+                                chute_en_serie(map[current_coureur.position.numero + action - 1 + rand],current_coureur, -1)
+                                current_coureur.position = map[current_coureur.position.numero + action-1 + rand][0]
                                 assigner2 = false
                             }
                             else{
-                                j++
-                            }    
+                                if(!(map[current_coureur.position.numero + action-1 + rand][j].isUse)){
+                                    if(current_coureur.position.numero!=0){ map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false }
+                                    map[current_coureur.position.numero + action-1 + rand][j].isUse = true
+                                    current_coureur.position = map[current_coureur.position.numero + action-1 + rand][j]
+                                    assigner2 = false
+                                }
+                                else{
+                                    j++
+                                }    
+                            }
                         }
-                    }
-                    
-                }
-                //Si la case de devant est pas vide alors il peut profiter du système d'aspiration
-                /*else if(map[current_coureur.position.numero + action].length > i){
-                    if(map[current_coureur.position.numero + action][i].isUse){
-                        //Vérifier qu'une case de la rangée est vide pour qu'il puisse s'y mettre
                         
                     }
-                }*/
-                //Si il n'y a aucune particularité
-                else{
-                    map[current_coureur.position.numero][current_coureur.position.position-1].isUse = false
-                    map[current_coureur.position.numero + action-1][i].isUse = true
-                    current_coureur.position = map[current_coureur.position.numero + action-1][i]
+                    //Si la case de devant est pas vide alors il peut profiter du système d'aspiration
+                    /*else if(map[current_coureur.position.numero + action].length > i){
+                        if(map[current_coureur.position.numero + action][i].isUse){
+                            //Vérifier qu'une case de la rangée est vide pour qu'il puisse s'y mettre
+                            
+                        }
+                    }*/
+                    //Si il n'y a aucune particularité
+                    else{
+                        if(current_coureur.position.numero!=0){ map[current_coureur.position.numero-1][current_coureur.position.position-1].isUse = false }
+                        map[current_coureur.position.numero + action-1][i].isUse = true
+                        current_coureur.position = map[current_coureur.position.numero + action-1][i]
+                    }
+                    assigner = false
                 }
-                assigner = false
+                else {
+                    i++
+                }
             }
-            else {
-                i++
-            }
+            
         }
+    }
+    //si un joueur passe la 1ere zone de sprint
+    if((current_coureur.position.numero + action-1) > 21 && !sprint_1){
+        all_equipe[current_equip].point -= 1
+        sprint_1 = true
+    }
+
+    //si un joueur passe la 2e zone de sprint
+    else if((current_coureur.position.numero + action-1) > 35 && !sprint_2){
+        all_equipe[current_equip].point -= 3
+        sprint_2 = true
+    }
+
+    //si un joueur passe la 3e zone de sprint
+    else if((current_coureur.position.numero + action-1) > 75 && !sprint_3){
+        all_equipe[current_equip].point -= 3
+        sprint_3 = true
     }
     console.log(current_coureur)
     console.log(current_coureur.position)
 }
 
-function chute_en_serie(rangee){
-    rangee.forEach(function chuter(el){
-        all_coureur_const.forEach(function chute(coureur){
-            if(coureur.position == el){
+function chute_en_serie(rangee, coureur, intervalle){
+    console.log("aie chute en série")
+    console.log(rangee)
+    console.log(coureur)
+    console.log(intervalle)
+    //si l'intervalle est a -1 c'est que c'est une chute en série dans une colonne sans _
+    if(intervalle==-1){
+        rangee.forEach(function(el){
+            all_coureur_const.forEach(function(coureur){
+                if(coureur.position == el){
+                    coureur_fall.push(coureur)
+                }
+            })
+        })
+    }
+    //sinon on doit mettre juste la case sur chute en série
+    else if (intervalle==2){
+        all_coureur_const.forEach(function(coureur){
+            if(coureur.position == rangee[2]){
                 coureur_fall.push(coureur)
             }
         })
-    })
+    }
+    else if (rangee[0].numero < 37){
+        all_coureur_const.forEach(function(coureur){
+            if(coureur.position == rangee[0] || coureur.position == rangee[1]){
+                coureur_fall.push(coureur)
+            }
+        })
+    }
+    else{
+        all_coureur_const.forEach(function(coureur){
+            if(coureur.position == rangee[intervalle]){
+                coureur_fall.push(coureur)
+            }
+        })
+    }
+    coureur_fall.push(coureur)
+    console.log("fall ")
+    console.log(coureur_fall)
 
 }
 
@@ -523,80 +669,200 @@ function affiche_carte(){
 }
 
 
+
+function envoyer_A_prolog(Pos_general){
+
+    /** Mettre à jours les coordonnée des joueurs avant de les envoyer au prolog **/
+
+    let pos;
+    let index_to_update=0;
+
+    //Get les données des joueurs
+    for (const equipe of all_equipe){
+        for (const coureur of equipe.coureurs){
+            pos=coureur.position;
+
+            //update the position of the player
+            Pos_general.players_pos[index_to_update][2]=pos;
+
+            if(index_to_update==2){
+                index_to_update=0;
+            }
+
+
+        }
+    }
+
+    sendMessage(connection,Pos_general.players_pos);
+
+
+}
+
+
 function updateCoordinates(){
     document.getElementById("belgium_player_1").style.left = all_equipe[0].coureurs[0].position.coord_x + "px"; // belgian 1 coordinates
     document.getElementById("belgium_player_1").style.top = all_equipe[0].coureurs[0].position.coord_y + "px";
+    document.getElementById("belplayer_1").style.left = all_equipe[0].coureurs[0].position.coord_x + "px"; // belgian 1 marker coordinates
+    document.getElementById("belplayer_1").style.top = all_equipe[0].coureurs[0].position.coord_y + "px";
     if (all_equipe[0].coureurs[0].position.coord_x != 888 && all_equipe[0].coureurs[0].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Belgique"){
+            document.getElementById("belplayer_1").style.visibility = "visible"; // set its marker visible
+        } else {
+            document.getElementById("belplayer_1").style.visibility = "hidden"; // set its marker hidden
+        }
     }
 
     document.getElementById("belgium_player_2").style.left = all_equipe[0].coureurs[1].position.coord_x + "px"; // belgian 2 coordinates
     document.getElementById("belgium_player_2").style.top = all_equipe[0].coureurs[1].position.coord_y + "px";
+    document.getElementById("belplayer_2").style.left = all_equipe[0].coureurs[1].position.coord_x + "px"; // belgian 2 marker coordinates
+    document.getElementById("belplayer_2").style.top = all_equipe[0].coureurs[1].position.coord_y + "px";
     if (all_equipe[0].coureurs[1].position.coord_x != 888 && all_equipe[0].coureurs[1].position.coord_y != 888){
         document.getElementById("belgium_player_2").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Belgique"){
+            document.getElementById("belplayer_2").style.visibility = "visible"; // set its marker visible
+        } else {
+            document.getElementById("belplayer_2").style.visibility = "hidden"; // set its marker hidden
+        }
     }
 
     document.getElementById("belgium_player_3").style.left = all_equipe[0].coureurs[2].position.coord_x + "px"; // belgian 3 coordinates
     document.getElementById("belgium_player_3").style.top = all_equipe[0].coureurs[2].position.coord_y + "px";
+    document.getElementById("belplayer_3").style.left = all_equipe[0].coureurs[2].position.coord_x + "px"; // belgian 3 marker coordinates
+    document.getElementById("belplayer_3").style.top = all_equipe[0].coureurs[2].position.coord_y + "px";
     if (all_equipe[0].coureurs[2].position.coord_x != 888 && all_equipe[0].coureurs[2].position.coord_y != 888){
         document.getElementById("belgium_player_3").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Belgique"){
+            document.getElementById("belplayer_3").style.visibility = "visible"; // set its marker visible
+        } else {
+            document.getElementById("belplayer_3").style.visibility = "hidden"; // set its marker hidden
+        }
     }
 
 
     document.getElementById("germany_player_1").style.left = all_equipe[3].coureurs[0].position.coord_x + "px"; // german 1 coordinates
     document.getElementById("germany_player_1").style.top = all_equipe[3].coureurs[0].position.coord_y + "px";
+    document.getElementById("gerplayer_1").style.left = all_equipe[3].coureurs[0].position.coord_x + "px"; // german 1 marker coordinates
+    document.getElementById("gerplayer_1").style.top = all_equipe[3].coureurs[0].position.coord_y + "px";
     if (all_equipe[3].coureurs[0].position.coord_x != 888 && all_equipe[3].coureurs[0].position.coord_y !=888){
         document.getElementById("germany_player_1").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Allemagne"){
+            document.getElementById("gerplayer_1").style.visibility = "visible"; // set its marker visible
+        } else {
+            document.getElementById("gerplayer_1").style.visibility = "hidden"; // set its marker hidden
+        }
     }
 
     document.getElementById("germany_player_2").style.left = all_equipe[3].coureurs[1].position.coord_x + "px"; // german 2 coordinates
     document.getElementById("germany_player_2").style.top = all_equipe[3].coureurs[1].position.coord_y + "px";
+    document.getElementById("gerplayer_2").style.left = all_equipe[3].coureurs[1].position.coord_x + "px"; // german 2 marker coordinates
+    document.getElementById("gerplayer_2").style.top = all_equipe[3].coureurs[1].position.coord_y + "px";
     if (all_equipe[3].coureurs[1].position.coord_x != 888 && all_equipe[3].coureurs[1].position.coord_y != 888){
         document.getElementById("germany_player_2").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Allemagne"){
+            document.getElementById("gerplayer_2").style.visibility = "visible"; // set its marker visible
+        } else {
+            document.getElementById("gerplayer_2").style.visibility = "hidden"; // set its marker hidden
+        }
     }
 
     document.getElementById("germany_player_3").style.left = all_equipe[3].coureurs[2].position.coord_x + "px"; // german 3 coordinates
     document.getElementById("germany_player_3").style.top = all_equipe[3].coureurs[2].position.coord_y + "px";
+    document.getElementById("gerplayer_3").style.left = all_equipe[3].coureurs[2].position.coord_x + "px"; // german 3 marker coordinates
+    document.getElementById("gerplayer_3").style.top = all_equipe[3].coureurs[2].position.coord_y + "px";
     if (all_equipe[3].coureurs[2].position.coord_x != 888 && all_equipe[3].coureurs[2].position.coord_y != 888){
         document.getElementById("germany_player_3").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Allemagne"){
+            document.getElementById("gerplayer_3").style.visibility = "visible"; // set its marker visible
+        } else {
+            document.getElementById("gerplayer_3").style.visibility = "hidden"; // set its marker hidden
+        }
     }
 
 
     document.getElementById("netherlands_player_1").style.left = all_equipe[2].coureurs[0].position.coord_x + "px"; // dutch 1 coordinates
     document.getElementById("netherlands_player_1").style.top = all_equipe[2].coureurs[0].position.coord_y + "px";
+    document.getElementById("nedplayer_1").style.left = all_equipe[2].coureurs[0].position.coord_x + "px"; // dutch 1 marker coordinates
+    document.getElementById("nedplayer_1").style.top = all_equipe[2].coureurs[0].position.coord_y + "px";
     if (all_equipe[2].coureurs[0].position.coord_x != 888 && all_equipe[2].coureurs[0].position.coord_y != 888){
         document.getElementById("netherlands_player_1").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Hollande"){
+            document.getElementById("nedplayer_1").style.visibility = "visible"; // set its marker visible
+        } else {
+            document.getElementById("nedplayer_1").style.visibility = "hidden"; // set its marker hidden
+        }
     }
     
     document.getElementById("netherlands_player_2").style.left = all_equipe[2].coureurs[1].position.coord_x + "px"; // dutch 2 coordinates
     document.getElementById("netherlands_player_2").style.top = all_equipe[2].coureurs[1].position.coord_y + "px";
+    document.getElementById("nedplayer_2").style.left = all_equipe[2].coureurs[1].position.coord_x + "px"; // dutch 2 marker coordinates
+    document.getElementById("nedplayer_2").style.top = all_equipe[2].coureurs[1].position.coord_y + "px";
     if (all_equipe[2].coureurs[1].position.coord_x != 888 && all_equipe[2].coureurs[1].position.coord_y != 888){
         document.getElementById("netherlands_player_2").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Hollande"){
+            document.getElementById("nedplayer_2").style.visibility = "visible"; // set its marker visible
+        } else{
+            document.getElementById("nedplayer_2").style.visibility = "hidden"; // set its marker hidden
+        }
     }
     
     document.getElementById("netherlands_player_3").style.left = all_equipe[2].coureurs[2].position.coord_x + "px"; // ducth 3 coordinates
     document.getElementById("netherlands_player_3").style.top = all_equipe[2].coureurs[2].position.coord_y + "px";
+    document.getElementById("nedplayer_3").style.left = all_equipe[2].coureurs[2].position.coord_x + "px"; // dutch 3 marker coordinates
+    document.getElementById("nedplayer_3").style.top = all_equipe[2].coureurs[2].position.coord_y + "px";
     if (all_equipe[2].coureurs[2].position.coord_x != 888 && all_equipe[2].coureurs[2].position.coord_y != 888){
         document.getElementById("netherlands_player_3").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Hollande"){
+            document.getElementById("nedplayer_3").style.visibility = "visible"; // set its marker visible
+        } else{
+            document.getElementById("nedplayer_3").style.visibility = "hidden"; // set its marker hidden
+        }
     }
 
 
     document.getElementById("italy_player_1").style.left = all_equipe[1].coureurs[0].position.coord_x + "px"; // italian 1 coordinates
     document.getElementById("italy_player_1").style.top = all_equipe[1].coureurs[0].position.coord_y + "px";
+    document.getElementById("itaplayer_1").style.left = all_equipe[1].coureurs[0].position.coord_x + "px"; // italian 1 marker coordinates
+    document.getElementById("itaplayer_1").style.top = all_equipe[1].coureurs[0].position.coord_y + "px";
     if (all_equipe[1].coureurs[0].position.coord_x != 888 && all_equipe[1].coureurs[0].position.coord_y != 888){
         document.getElementById("italy_player_1").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom === "Italie"){
+            document.getElementById("itaplayer_1").style.visibility = "visible"; // set its marker visible
+        } else {
+            document.getElementById("itaplayer_1").style.visibility = "hidden"; // set its marker hidden
+        }
     }
 
     document.getElementById("italy_player_2").style.left = all_equipe[1].coureurs[1].position.coord_x + "px"; // italian 2 coordinates
     document.getElementById("italy_player_2").style.top = all_equipe[1].coureurs[1].position.coord_y + "px";
+    document.getElementById("itaplayer_2").style.left = all_equipe[1].coureurs[1].position.coord_x + "px"; // italian 2 marker coordinates
+    document.getElementById("itaplayer_2").style.top = all_equipe[1].coureurs[1].position.coord_y + "px";
     if (all_equipe[1].coureurs[1].position.coord_x != 888 && all_equipe[1].coureurs[1].position.coord_y != 888){
         document.getElementById("italy_player_2").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Italie"){
+            document.getElementById("itaplayer_2").style.visibility = "visible"; // set its marker visible
+        } else {
+            document.getElementById("itaplayer_2").style.visibility = "hidden"; // set its marker hidden
+        }
     }
 
     document.getElementById("italy_player_3").style.left = all_equipe[1].coureurs[2].position.coord_x + "px"; // ttalian 3 coordinates
     document.getElementById("italy_player_3").style.top = all_equipe[1].coureurs[2].position.coord_y + "px";
+    document.getElementById("itaplayer_3").style.left = all_equipe[1].coureurs[2].position.coord_x + "px"; // italian 3 marker coordinates
+    document.getElementById("itaplayer_3").style.top = all_equipe[1].coureurs[2].position.coord_y + "px";
     if (all_equipe[1].coureurs[2].position.coord_x != 888 && all_equipe[1].coureurs[2].position.coord_y != 888){
         document.getElementById("italy_player_3").style.visibility = "visible"; // set the player visible
+        if(all_equipe[current_equip].nom == "Italie"){
+            document.getElementById("itaplayer_3").style.visibility = "visible"; // set its marker visible
+        } else {
+            document.getElementById("itaplayer_3").style.visibility = "hidden"; // set its marker hidden
+        }
     }
 
+}
+
+
+//Sending the information to prolog when the IA plays
+if(current_equip==0){
+    envoyer_A_prolog(Pos_general);
 }
