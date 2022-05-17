@@ -861,8 +861,8 @@ function updateCoordinates(){
 
 }
 
+
+//Sending the information to prolog when the IA plays
 if(current_equip==0){
     envoyer_A_prolog(Pos_general);
 }
-
-

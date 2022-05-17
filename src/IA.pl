@@ -171,5 +171,4 @@ position(_,[],0).
 position(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, position(Equipe,Joueurs,Points2), nth0(2,Joueur,Case), Points is Points2 - Case.
 position(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, position(Equipe,Joueurs,Points2), nth0(2,Joueur,Case), Points is Points2 + Case.
 
-
 %-----------------------------------%
