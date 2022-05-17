@@ -22,6 +22,26 @@ let sprint_3 = false
 let current_coureur 
 let coureur_fall = []
 
+
+//Sert à envoyer au prolog
+var Pos_general = {
+    "players_pos" : [["belgique",0,0],
+                     ["belgique",1,0],
+                     ["belgique",2,0],
+                     ["italie",0,0],
+                     ["italie",1,0],
+                     ["italie",2,0],
+
+                     ["allemagne",0,0],
+                     ["allemagne",1,0],
+                     ["allemagne",2,0],
+
+                     ["hollande",0,0],
+                     ["hollande",1,0],
+                     ["hollande",2,0]]
+}
+
+
 class Equipe {
     constructor(nom,id){
         // ajout des cartes pour chaques équipes
@@ -85,7 +105,7 @@ let map = [[new Case(1,1,false,false, 321, -72),new Case(1,2,false,false, 321, -
             [new Case(12,1,true,false, 477, -62),new Case(12,2,false,false, 477, -50)],
             [new Case(13,1,false,false, 489, -58),new Case(13,2,false,false, 489, -46)],
             [new Case(14,1,false,false, 501, -54),new Case(14,2,false,false, 501, -42)],
-            [new Case(15,1,false,false, 513, -48),new Case(15,2,false,false, 513, -36)],
+            [new Case(15,1,["belgique"],false,false, 513, -48),new Case(15,2,false,false, 513, -36)],
             [new Case(16,1,false,false, 525, -42),new Case(16,2,true,false, 525, -30)],
             [new Case(17,1,false,false, 537, -34),new Case(17,2,false,false, 537, -22)],
             [new Case(18,1,false,false, 549, -34),new Case(18,2,false,false, 549, -22)],
@@ -646,6 +666,36 @@ function affiche_carte(){
     }
     let allCarte = document.createTextNode(allText)
     pCarte.appendChild(allCarte)
+}
+
+
+
+function envoyer_A_prolog(Pos_general){
+
+    /** Mettre à jours les coordonnée des joueurs avant de les envoyer au prolog **/
+
+    let pos;
+    let index_to_update=0;
+
+    //Get les données des joueurs
+    for (const equipe of all_equipe){
+        for (const coureur of equipe.coureurs){
+            pos=coureur.position;
+
+            //update the position of the player
+            Pos_general.players_pos[index_to_update][2]=pos;
+
+            if(index_to_update==2){
+                index_to_update=0;
+            }
+
+
+        }
+    }
+
+    sendMessage(connection,Pos_general.players_pos);
+
+
 }
 
 
