@@ -60,7 +60,6 @@ get_response(Message, Response) :-
 
 
 :- use_module(library(lists)).
-
 /* --------------------------------------------------------------------- */
 /*                                                                       */
 /*        PRODUIRE_REPONSE(L_Mots,L_Lignes_reponse) :                    */
@@ -502,5 +501,4 @@ tourdefrance :-
 /*                                                                       */
 /* --------------------------------------------------------------------- */
 
-
-% :- tourdefrance.
+:- tourdefrance.
