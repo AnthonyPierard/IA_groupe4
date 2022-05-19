@@ -1,8 +1,8 @@
 /** CONNECTION WITH PROLOG **/ 
 
 
-const WS_PROTO = "ws://"
-const WS_ROUTE = "/jeu"
+const WS_PROTOS = "ws://"
+const WS_ROUTES= "/jeu"
 
 
 function log(topic, message) {
@@ -15,8 +15,7 @@ function wsMessageHandler(event) {
 
 
 
-  // TREAT INFO GIVEN BY IA
-  /** 
+  // TREAT INFO GIVEN BY IA 
   const bot_zone = document.getElementById("answer") 
   const message = document.createElement("div")
   message.className = 'message'
@@ -29,7 +28,6 @@ function wsMessageHandler(event) {
 
   child.scrollIntoView()
 
-  **/
 }
 
 function sendMessage(connection, message) {
@@ -38,7 +36,7 @@ function sendMessage(connection, message) {
 }
 
 function openWebSocket() {
-  connection = new WebSocket(WS_PROTO + "localhost:4000" + WS_ROUTE)
+  connection = new WebSocket(WS_PROTOS + "localhost:4000" + WS_ROUTES)
   connection.onerror = (error) => {
     log("WS", error)
   }
@@ -829,7 +827,15 @@ function envoyer_A_prolog(Pos_general){
         })
     })
 
-    sendMessage(connection,Pos_general, all_card);
+
+
+    let message = '{ "pos_general" :[[belgique,0,0],[belgique,1,0],[italie,0,0]],' + 
+                   'all_card:[[1,2],[3],[3,2],[]],'+
+                    'to_play:[[belgique,0,0],[belgique,1,0],[italie,0,0]]'+
+                   '}';
+
+
+    sendMessage(connection,message);
 
 
 }

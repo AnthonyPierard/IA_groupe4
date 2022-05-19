@@ -41,7 +41,7 @@ echo(WebSocket) :-
     ws_receive(WebSocket, Message, [format(json)]),
     ( Message.opcode == close
     -> true
-    ; get_response(Message.data, Response),
+    ; get_response(Message.pos_general, Response),
       write("Response: "), writeln(Response),
       ws_send(WebSocket, json(Response)),
       echo(WebSocket)
@@ -49,14 +49,8 @@ echo(WebSocket) :-
 
 get_response(Message, Response) :-
   get_time(Time),
-
-  string_codes(Message.message, String),
-  clean_string(String,Cleanstring),
-  extract_atomics(Cleanstring,ListOfAtomics),
-  produire_reponse(ListOfAtomics,L_ligne_reponse),
-  flatten(L_ligne_reponse,ListRep),
-  atomic_list_concat(ListRep, StringRep),
-  Response = _{message:StringRep, time: Time}.
+  best(Message.all_card,Message.to_play,Message.pos_general,_,_,Card),
+  Response = _{message:Card, time: Time}.
 
 
 :- use_module(library(lists)).
@@ -227,7 +221,6 @@ minMax([Card|Rcards], Cards, [Joueur|Rjoueurs], Joueurs, JoueursTemp, PointsTemp
 best(Cards, [Joueur|Rjoueurs], Joueurs, Joueurs2, Points, Card) :- nth0(0,Joueur,Equipe),
                                                                     indice(Equipe,Ind), nth0(Ind,Cards,Ecards),
                                                                     minMax(Ecards, Cards, [Joueur|Rjoueurs], Joueurs, Joueurs2, Points, Card).
-
 best(Cards, [], Joueurs, Joueurs, Points, Card) :- minMax(_, Cards, [], Joueurs, Joueurs, Points, Card).
 
 
@@ -308,8 +301,6 @@ chute(Equipe,[Joueur|Rjoueurs],Joueurs,Points) :- nth0(0,Joueur,Ekip), Equipe ==
                                                           case(Case,Nombreplaces), Nombreplaces >= Nombrejoueurs,
                                                           chute(Equipe, Rjoueurs, Joueurs,Points). 
 chute(Equipe,[Joueur|Rjoueurs],Joueurs,Points) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, chute(Equipe, Rjoueurs, Joueurs,Points).
-
-
 
 
 %-----------------------------------%
