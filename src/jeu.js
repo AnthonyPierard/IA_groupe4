@@ -330,8 +330,6 @@ function action(){
                         current_equip = equipe.id
                     }
                 })
-                console.log(all_coureur)
-                console.log(all_coureur.includes(all.coureurs[2]))
 
             }
             else {
@@ -447,18 +445,29 @@ function assigner_nouvelle_case(current_coureur, action){
             }
             //On regarde si tout les joueurs n'ont pas finis
             if(finish_coureur.length==12){
-                let p_fin = document.getElementById="fin"
-                p_fin += "Fin de partie, voici les résultats : \n"
+                document.getElementById("ac-wrapper").style.visibility = "visible"
+                let p_fin = document.getElementById("fin_test")
+                let fin = document.createTextNode("Fin de partie, voici les résultats : \n")
+                p_fin.appendChild(fin)
+                add_br(p_fin)
                 
                 let meilleur_equipe = new Equipe("temp", 6, 1000)
                 all_equipe.forEach(function(equipe){
-                    p_fin += "score de l'équipe de/d' " + equipe.nom + " : " + equipe.point
+                    let fin1 = document.createTextNode("score de l'équipe de/d' " + equipe.nom + " : " + equipe.point)
+                    p_fin.appendChild(fin1)
+                    add_br(p_fin)
                     if(meilleur_equipe.point > equipe.point){
                         meilleur_equipe = equipe
                     }
                 })
-                p_fin += "l'équipe gagnante est : " + meilleur_equipe.nom
-                p_fin += "Merci d'avoir joué, si vous souhaitez rejouer actualisé la page."
+                let fin2 = document.createTextNode("l'équipe gagnante est : " + meilleur_equipe.nom)
+                let fin3 = document.createTextNode("Merci d'avoir joué, si vous souhaitez rejouer actualisé la page.")
+
+                p_fin.appendChild(fin2)
+                add_br(p_fin)
+                p_fin.appendChild(fin3)
+                add_br(p_fin)
+
             }
         }
 
@@ -472,17 +481,27 @@ function assigner_nouvelle_case(current_coureur, action){
             }
             //On regarde si tout les joueurs n'ont pas finis
             if(finish_coureur.length==12){
-                console.log("fin de partie !")
-                console.log("voici les résultats : ")
+                document.getElementById("ac-wrapper").style.visibility = "visible"
+                let p_fin = document.getElementById("fin_test")
+                let fin = document.createTextNode("Fin de partie, voici les résultats : \n")
+                p_fin.appendChild(fin)
+                add_br(p_fin)
+                
                 let meilleur_equipe = new Equipe("temp", 6, 1000)
                 all_equipe.forEach(function(equipe){
-                    console.log(equipe.nom + " : " + equipe.point)
-                    if(meilleur_equipe.point< equipe.point){
+                    let fin1 = document.createTextNode("score de l'équipe de/d' " + equipe.nom + " : " + equipe.point)
+                    p_fin.appendChild(fin1)
+                    add_br(p_fin)
+                    if(meilleur_equipe.point > equipe.point){
                         meilleur_equipe = equipe
                     }
                 })
-                console.log("l'équipe gagnante est : " + meilleur_equipe)
-                console.log("Merci d'avoir joué")
+                let fin2 = document.createTextNode("l'équipe gagnante est : " + meilleur_equipe.nom)
+                let fin3 = document.createTextNode("Merci d'avoir joué, si vous souhaitez rejouer actualisé la page.")
+
+                p_fin.appendChild(fin2)
+                add_br(p_fin)
+                p_fin.appendChild(fin3)
             }
         }
         else{
@@ -665,8 +684,6 @@ function affiche_carte(){
 function PopUp(){
     document.getElementById('ac-wrapper').style.display="none"; 
 }
-
-
 
 function envoyer_A_prolog(Pos_general){
 
@@ -858,7 +875,6 @@ function updateCoordinates(){
     }
 
 }
-
 
 //Sending the information to prolog when the IA plays
 if(current_equip==0){
