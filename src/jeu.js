@@ -667,7 +667,6 @@ function PopUp(){
 }
 
 
-
 function envoyer_A_prolog(Pos_general){
 
     /** Mettre à jours les coordonnée des joueurs avant de les envoyer au prolog **/
