@@ -80,6 +80,7 @@ div.game-map{
         visibility: hidden;
 }
 #ac-wrapper {
+        visibility: hidden;
         position: fixed;
         top: 0;
         left: 0;
