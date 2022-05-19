@@ -24,26 +24,15 @@ let coureur_fall = []
 
 
 //Sert à envoyer au prolog
-var Pos_general = {
-    "players_pos" : [["belgique",0,0],
-                     ["belgique",1,0],
-                     ["belgique",2,0],
-                     ["italie",0,0],
-                     ["italie",1,0],
-                     ["italie",2,0],
-
-                     ["allemagne",0,0],
-                     ["allemagne",1,0],
-                     ["allemagne",2,0],
-
-                     ["hollande",0,0],
-                     ["hollande",1,0],
-                     ["hollande",2,0]]
-}
+let Pos_general = [[]]
+let bel_pos = [["belgique",0,0],["belgique",1,0],["belgique",2,0]]
+let it_pos = [["italie",0,0],["italie",1,0],["italie",2,0]]
+let all_pos = [["allemagne",0,0],["allemagne",1,0],["allemagne",2,0]]
+let hol_pos = [["hollande",0,0],["hollande",1,0],["hollande",2,0]]
 
 
 class Equipe {
-    constructor(nom,id){
+    constructor(nom,id, point, type){
         // ajout des cartes pour chaques équipes
         recharge_carte(this)
         //le nom de l'équipe
@@ -53,7 +42,9 @@ class Equipe {
         //les 3 coureurs de l'équipe
         this.coureurs = [new Coureur(1,this.nom),new Coureur(2,this.nom),new Coureur(3,this.nom)]
         //les points de l'équipe
-        this.point = 0
+        this.point = point
+        //si le joueur est un humain ou une IA
+        this.type = type
     }
 }
 
@@ -105,7 +96,7 @@ let map = [[new Case(1,1,false,false, 321, -72),new Case(1,2,false,false, 321, -
             [new Case(12,1,true,false, 477, -62),new Case(12,2,false,false, 477, -50)],
             [new Case(13,1,false,false, 489, -58),new Case(13,2,false,false, 489, -46)],
             [new Case(14,1,false,false, 501, -54),new Case(14,2,false,false, 501, -42)],
-            [new Case(15,1,["belgique"],false,false, 513, -48),new Case(15,2,false,false, 513, -36)],
+            [new Case(15,1,false,false, 513, -48),new Case(15,2,false,false, 513, -36)],
             [new Case(16,1,false,false, 525, -42),new Case(16,2,true,false, 525, -30)],
             [new Case(17,1,false,false, 537, -34),new Case(17,2,false,false, 537, -22)],
             [new Case(18,1,false,false, 549, -34),new Case(18,2,false,false, 549, -22)],
@@ -198,10 +189,10 @@ let map = [[new Case(1,1,false,false, 321, -72),new Case(1,2,false,false, 321, -
             [new Case(-9,1,false,false,259,-36),new Case(-9,2,false,false,271,-36),new Case(-9,3,false,false,283,-36)]]
 
 //Initialisation des équipes
-const bel = new Equipe("Belgique",0);
-const it = new Equipe("Italie",1);
-const hol = new Equipe("Hollande",2);
-const all = new Equipe("Allemagne",3);
+const bel = new Equipe("belgique",0, 0, "human");
+const it = new Equipe("italie",1, 0, "human");
+const hol = new Equipe("hollande",2, 0, "IA");
+const all = new Equipe("allemagne",3, 0, "IA");
 const all_equipe = [bel,it,hol,all]
 
 /**
@@ -246,6 +237,7 @@ initialize_coureur(all_coureur_const)
 //Les coureurs ayant finis
 let finish_coureur = []
 
+
 //Ajoute un br
 function add_br(pCarte){
     var br = document.createElement("br");
@@ -272,6 +264,10 @@ function load(){
     let nEquip = document.createTextNode(first_nom + " coureur 1 :")
     laction.appendChild(nEquip)
     current_equip = all_equipe.indexOf(first_equipe)
+
+    if(current_equip ==2 || current_equip == 3){
+        Pos_general.push
+    }
 }
 
 /**
@@ -279,8 +275,14 @@ function load(){
  */
 function action(){
 
+    if(all_equipe[current_equip].type == "IA"){
+        //On va envoyer les informations à l'équipe
+        //ici on devra récuperer la carte jouer par l'IA 
+    }
+    else {
+        let action = parseInt(document.getElementById("action").value)
+    }
     //On prends la valeur de l'input
-    let action = parseInt(document.getElementById("action").value)
     let cartes = all_equipe[current_equip].cartes
     //si c'est le premier tour c'est comme ça que ça fonctionne
     if (nbTour ==0) {
@@ -330,8 +332,6 @@ function action(){
                         current_equip = equipe.id
                     }
                 })
-                console.log(all_coureur)
-                console.log(all_coureur.includes(all.coureurs[2]))
 
             }
             else {
@@ -362,12 +362,6 @@ function action(){
             if (cartes.length==0){
                 recharge_carte(all_equipe[current_equip])
             }
-
-            console.log("========")
-            all_coureur.forEach(function(coureur){
-                console.log(coureur)
-            })
-            console.log("========")
             
             //Si il n'y a plus de coureur disponible on re remplit la liste avec les coureurs qui ne sont pas tombé ou qui n'ont pas finit
             if (all_coureur.length==0){ 
@@ -453,17 +447,29 @@ function assigner_nouvelle_case(current_coureur, action){
             }
             //On regarde si tout les joueurs n'ont pas finis
             if(finish_coureur.length==12){
-                console.log("fin de partie")
-                console.log("voici les résultats : ")
-                let meilleur_equipe = new Equipe("temp", 6)
+                document.getElementById("ac-wrapper").style.visibility = "visible"
+                let p_fin = document.getElementById("fin_test")
+                let fin = document.createTextNode("Fin de partie, voici les résultats : \n")
+                p_fin.appendChild(fin)
+                add_br(p_fin)
+                
+                let meilleur_equipe = new Equipe("temp", 6, 1000)
                 all_equipe.forEach(function(equipe){
-                    console.log(equipe.nom + " : " + equipe.point)
-                    if(meilleur_equipe.point< equipe.point){
+                    let fin1 = document.createTextNode("score de l'équipe de/d' " + equipe.nom + " : " + equipe.point)
+                    p_fin.appendChild(fin1)
+                    add_br(p_fin)
+                    if(meilleur_equipe.point > equipe.point){
                         meilleur_equipe = equipe
                     }
                 })
-                console.log("l'équipe gagnante est : " + meilleur_equipe.nom)
-                console.log("Merci d'avoir joué")
+                let fin2 = document.createTextNode("l'équipe gagnante est : " + meilleur_equipe.nom)
+                let fin3 = document.createTextNode("Merci d'avoir joué, si vous souhaitez rejouer actualisé la page.")
+
+                p_fin.appendChild(fin2)
+                add_br(p_fin)
+                p_fin.appendChild(fin3)
+                add_br(p_fin)
+
             }
         }
 
@@ -477,17 +483,27 @@ function assigner_nouvelle_case(current_coureur, action){
             }
             //On regarde si tout les joueurs n'ont pas finis
             if(finish_coureur.length==12){
-                console.log("fin de partie !")
-                console.log("voici les résultats : ")
-                let meilleur_equipe = new Equipe("temp", 6)
+                document.getElementById("ac-wrapper").style.visibility = "visible"
+                let p_fin = document.getElementById("fin_test")
+                let fin = document.createTextNode("Fin de partie, voici les résultats : \n")
+                p_fin.appendChild(fin)
+                add_br(p_fin)
+                
+                let meilleur_equipe = new Equipe("temp", 6, 1000)
                 all_equipe.forEach(function(equipe){
-                    console.log(equipe.nom + " : " + equipe.point)
-                    if(meilleur_equipe.point< equipe.point){
+                    let fin1 = document.createTextNode("score de l'équipe de/d' " + equipe.nom + " : " + equipe.point)
+                    p_fin.appendChild(fin1)
+                    add_br(p_fin)
+                    if(meilleur_equipe.point > equipe.point){
                         meilleur_equipe = equipe
                     }
                 })
-                console.log("l'équipe gagnante est : " + meilleur_equipe)
-                console.log("Merci d'avoir joué")
+                let fin2 = document.createTextNode("l'équipe gagnante est : " + meilleur_equipe.nom)
+                let fin3 = document.createTextNode("Merci d'avoir joué, si vous souhaitez rejouer actualisé la page.")
+
+                p_fin.appendChild(fin2)
+                add_br(p_fin)
+                p_fin.appendChild(fin3)
             }
         }
         else{
@@ -667,8 +683,9 @@ function affiche_carte(){
     let allCarte = document.createTextNode(allText)
     pCarte.appendChild(allCarte)
 }
-
-
+function PopUp(){
+    document.getElementById('ac-wrapper').style.display="none"; 
+}
 
 function envoyer_A_prolog(Pos_general){
 
@@ -860,7 +877,6 @@ function updateCoordinates(){
     }
 
 }
-
 
 //Sending the information to prolog when the IA plays
 if(current_equip==0){

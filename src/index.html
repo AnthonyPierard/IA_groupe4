@@ -6,10 +6,44 @@
         <script charset="utf-8" src="echo.js"></script>
     </head>
     <body onload="load()">
-        <div></div>
+        <div id="ac-wrapper">
+            <div id="popup">
+                <center>
+                    <form>
+                        <p>Veuillez choisir le mode de jeu :</p>
+                        <div>
+                          <input type="radio" id="choix1"
+                           name="mode" value="ia">
+                          <label for="choix1">IA contre joueur</label>
+                      
+                          <input type="radio" id="choix2"
+                           name="mode" value="solo">
+                          <label for="choix2">Joueur contre joeuur</label>
+                        </div>
+                        <div>
+                          <button type="submit" onclick="PopUp()">Choisir</button>
+                        </div>
+                      </form>
+                </center>
+            </div>
+        </div>
+        <div id="ac-wrapper-fin">
+            <div id="popup">
+                <span id="fin_test">
+                    
+                </span>
+            </div>
+        </div>
+        
         <h1></h1>
 
-    <h1 class="title-game">Le Tour de France</h1>
+        <!--
+        <div class="col-size">
+            <div class="vert-center" id="fin">
+            <p>Texte centré verticalement dans un carré</p>
+            <div>
+        </div>-->
+
         <div id="game_map" style="position:absolute; left:400px; top:100px; width:136px; height:132px; z-index:1">
             <img style="border:1px solid black;" name="map" src="./img/map.png" width="960" height="720" alt="...">
         </div> <!-- div contenant la carte-->
@@ -99,7 +133,6 @@
 
         <div></div> <!-- div contenant le bot-->
 
-        
         <div class="bot-box">
             <h1>TBOT : </h1>
             <input id="question" type="text">
@@ -109,6 +142,8 @@
         </div> <!-- div contenant le bot-->
 
         <div class="info-game"> <!-- div contenant les infos du jeu-->
+        <div></div> <!-- div contenant les infos du jeu-->
+        <span id="fin"></span>
         <br>
         <span id ="carte"> 
         </span>
