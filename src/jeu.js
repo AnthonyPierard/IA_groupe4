@@ -200,10 +200,10 @@ let map = [[new Case(1,1,false,false, 321, -72),new Case(1,2,false,false, 321, -
             [new Case(-9,1,false,false,259,-36),new Case(-9,2,false,false,271,-36),new Case(-9,3,false,false,283,-36)]]
 
 //Initialisation des équipes
-const bel = new Equipe("Belgique",0, 0);
-const it = new Equipe("Italie",1, 0);
-const hol = new Equipe("Hollande",2, 0);
-const all = new Equipe("Allemagne",3, 0);
+const bel = new Equipe("Belgique",0, 0, "human");
+const it = new Equipe("Italie",1, 0, "human");
+const hol = new Equipe("Hollande",2, 0, "IA");
+const all = new Equipe("Allemagne",3, 0, "IA");
 const all_equipe = [bel,it,hol,all]
 
 /**
