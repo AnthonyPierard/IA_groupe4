@@ -138,8 +138,8 @@ nb_equipes(4).
 
 % ----------------------------------------------------------------%
 
-mclef(commence,10).
-mclef(equipe,5).
+mclef(Commence,10) :- synonyme(commence,L), member(Commence,L).
+mclef(Equipe,5) :- synonyme(equipe,L), member(Equipe,L).
 mclef(dynamique,9).
 mclef(tour,4).
 mclef(depasser,8).
@@ -151,24 +151,30 @@ mclef(beau,5).
 
 % ----------------------------------------------------------------%
 
-regle_rep(commence,1,
-  [ qui, commence, le, jeu ],
-  [ [ "c'est au joueur ayant la plus haute carte secondes de commencer." ] ]).
+synonyme(commence, [commence, debute, commencer, debuter]).
+synonyme(jeu, [jeu, jeux, partie, parties]).
+synonyme(equipe, [equipe, equipes, pays]).
+synonyme(coureur, [coureur, coureurs, cycliste, cyclistes]).
+
+% ----------------------------------------------------------------%
+
+regle_rep(Commence,4,
+  [ [qui], 1, [Commence] , 2, [Jeu] ],
+  [ [ "c'est au joueur ayant la plus haute carte secondes de commencer." ] ]) :- synonyme(jeu,L), member(Jeu,L).
 
 
-regle_rep(equipe,5,
-  [ [ combien ], 3, [ coureurs], 5, [ equipe ] ],
-  [ [ "Chaque equipe compte ", X, " coureurs." ] ]) :- nb_coureurs(X).
+regle_rep(Equipe,5,
+  [ [ combien ], 4, [ Coureurs], 5, [ Equipe ] ],
+  [ [ "Chaque equipe compte ", X, " coureurs." ] ]) :- synonyme(coureur, L), member(Coureurs, L), nb_coureurs(X).
 
 
 regle_rep(dynamique,5,
-        [  [qui ], 3 , [ commencer ], 4 , [dynamique] ],
-        [ [ "C'est au joueur de tete qui doit commencer la partie dynamique"] ]).
+        [  [qui ], 3 , [ Commencer ], 4 , [dynamique] ],
+        [ [ "C'est au joueur de tete qui doit commencer la partie dynamique"] ]) :- synonyme(commence, L), member(Commencer,L).
 
 regle_rep(tour,7,
-         [ [a],2,[qui],3,[tour],2,[jouer]],
+         [ [a],1,[qui],3,[tour],2,[jouer]],
          [["C'est au tour du joueur",X]]):- nb_coureurs(X).  %Need javascript to get which player has to play%
-
 
 regle_rep(depasser,9,
           [[puis],2,[depasser],3,[au-dessus],3,[groupe],3,[coureurs]],
@@ -182,14 +188,6 @@ regle_rep(vitesse,5,
 regle_rep(vitesse,5,
           [[comment],4,[prendre],4,[vitesse]],
           ["La prise de vitesse fonctionne comme suit, tu avances d\'une seconde supplementaire selon la carte seconde jouee"]).
-
-regle_rep(montee,7,
-        [[quelle],2,[ma],2,[vitesse],4,[montee]],
-        ["Ta vitesse dans les montees est divisee par deux selon la cases jouees"]).
-
-regle_rep(descente,7,
-          [[quelle],2,[ma],2,[vitesse],4,[descente]],
-          ["Si tu es en prise de vitesse alors tu gagnes deux secondes"]).
 
 regle_rep(chute,7,
            [[comment],2,[provoquer],3,[chute],3,[serie]],
