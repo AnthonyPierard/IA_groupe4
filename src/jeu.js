@@ -87,12 +87,11 @@ let coureur_fall = []
 
 
 //Sert à envoyer au prolog
-let Pos_general = []
+let Pos_general = [[]]
 let bel_pos = [["belgique",0,0],["belgique",1,0],["belgique",2,0]]
 let it_pos = [["italie",0,0],["italie",1,0],["italie",2,0]]
 let all_pos = [["allemagne",0,0],["allemagne",1,0],["allemagne",2,0]]
 let hol_pos = [["hollande",0,0],["hollande",1,0],["hollande",2,0]]
-let all_card
 
 
 class Equipe {
@@ -329,62 +328,8 @@ function load(){
     laction.appendChild(nEquip)
     current_equip = all_equipe.indexOf(first_equipe)
 
-    if(current_equip == 0){
-        bel_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        it_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        hol_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        all_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-    }
-    else if (current_equip == 1){
-        it_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        hol_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        all_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        bel_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-    }
-    else if(current_equip == 2){
-        hol_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        all_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        bel_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        it_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-    }
-
-    else {
-        all_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        bel_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        it_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        hol_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
+    if(current_equip ==2 || current_equip == 3){
+        Pos_general.push
     }
 }
 
@@ -392,15 +337,13 @@ function load(){
  * Execute une action carte sur un joueur et une équipe
  */
 function action(){
-    let action
+
     if(all_equipe[current_equip].type == "IA"){
         //On va envoyer les informations à l'équipe
-        envoyer_A_prolog(Pos_general)
         //ici on devra récuperer la carte jouer par l'IA 
-        action = parseInt(document.getElementById("action").value)
     }
     else {
-        action = parseInt(document.getElementById("action").value)
+        let action = parseInt(document.getElementById("action").value)
     }
     //On prends la valeur de l'input
     let cartes = all_equipe[current_equip].cartes
@@ -427,6 +370,7 @@ function action(){
             //on passe au round suivant
             //si nous somme au round 12 alors c'est la fin du premier tour et nous devons préparer le prochain tour
             if(round==12){
+                console.log("on choisi le nouveau joueur")
                 nbTour ++
                 round = 1
                 //On retire les personnes qui sont tomber
@@ -452,16 +396,12 @@ function action(){
                     }
                 })
 
-                //partie communication avec Prolog
-
-
             }
             else {
                 var name_next_equipe = all_equipe[current_equip].nom
             }
             //on passe au round suivant
             round ++
-            Pos_general.slice(0,1)
 
         }
         else{
@@ -570,11 +510,10 @@ function assigner_nouvelle_case(current_coureur, action){
             }
             //On regarde si tout les joueurs n'ont pas finis
             if(finish_coureur.length==12){
-                document.getElementById("ac-wrapper-fin").style.visibility = "visible"
+                document.getElementById("ac-wrapper").style.visibility = "visible"
                 let p_fin = document.getElementById("fin_test")
                 let fin = document.createTextNode("Fin de partie, voici les résultats : \n")
                 p_fin.appendChild(fin)
-                add_br(p_fin)
                 add_br(p_fin)
                 
                 let meilleur_equipe = new Equipe("temp", 6, 1000)
@@ -586,11 +525,10 @@ function assigner_nouvelle_case(current_coureur, action){
                         meilleur_equipe = equipe
                     }
                 })
-                let fin2 = document.createTextNode("L'équipe gagnante est : " + meilleur_equipe.nom)
+                let fin2 = document.createTextNode("l'équipe gagnante est : " + meilleur_equipe.nom)
                 let fin3 = document.createTextNode("Merci d'avoir joué, si vous souhaitez rejouer actualisé la page.")
-                add_br(p_fin)
+
                 p_fin.appendChild(fin2)
-                add_br(p_fin)
                 add_br(p_fin)
                 p_fin.appendChild(fin3)
                 add_br(p_fin)
@@ -608,11 +546,10 @@ function assigner_nouvelle_case(current_coureur, action){
             }
             //On regarde si tout les joueurs n'ont pas finis
             if(finish_coureur.length==12){
-                document.getElementById("ac-wrapper-fin").style.visibility = "visible"
+                document.getElementById("ac-wrapper").style.visibility = "visible"
                 let p_fin = document.getElementById("fin_test")
                 let fin = document.createTextNode("Fin de partie, voici les résultats : \n")
                 p_fin.appendChild(fin)
-                add_br(p_fin)
                 add_br(p_fin)
                 
                 let meilleur_equipe = new Equipe("temp", 6, 1000)
@@ -624,14 +561,12 @@ function assigner_nouvelle_case(current_coureur, action){
                         meilleur_equipe = equipe
                     }
                 })
-                let fin2 = document.createTextNode("L'équipe gagnante est : " + meilleur_equipe.nom)
+                let fin2 = document.createTextNode("l'équipe gagnante est : " + meilleur_equipe.nom)
                 let fin3 = document.createTextNode("Merci d'avoir joué, si vous souhaitez rejouer actualisé la page.")
-                add_br(p_fin)
+
                 p_fin.appendChild(fin2)
                 add_br(p_fin)
-                add_br(p_fin)
                 p_fin.appendChild(fin3)
-                add_br(p_fin)
             }
         }
         else{
@@ -729,6 +664,9 @@ function assigner_nouvelle_case(current_coureur, action){
 
 function chute_en_serie(rangee, coureur, intervalle){
     console.log("aie chute en série")
+    console.log(rangee)
+    console.log(coureur)
+    console.log(intervalle)
     //si l'intervalle est a -1 c'est que c'est une chute en série dans une colonne sans _
     if(intervalle==-1){
         rangee.forEach(function(el){
@@ -814,30 +752,33 @@ function PopUp(){
 
 function envoyer_A_prolog(Pos_general){
 
-    //On assigne toutes les cartes 
-    all_card = [bel.cartes.reverse(), it.cartes.reverse(), hol.cartes.reverse(), all.cartes.reverse()]
-
     /** Mettre à jours les coordonnée des joueurs avant de les envoyer au prolog **/
-    
-    Pos_general.forEach(function(coureur){
-        all_coureur_const.forEach(function(cour){
-            if(cour.equipe == coureur[0] && cour.numero == coureur[1]){
-                coureur[2] = cour.position.numero
+
+    let pos;
+    let index_to_update=0;
+
+    //Get les données des joueurs
+    for (const equipe of all_equipe) {
+        for (const coureur of equipe.coureurs) {
+            pos = coureur.position;
+
+            //update the position of the player
+            Pos_general.players_pos[index_to_update][2] = pos;
+
+            if (index_to_update == 2) {
+                index_to_update = 0;
             }
-        })
-    })
 
 
-
-    let message = '{ "pos_general" :[[belgique,0,0],[belgique,1,0],[italie,0,0]],' + 
-                   'all_card:[[1,2],[3],[3,2],[]],'+
-                    'to_play:[[belgique,0,0],[belgique,1,0],[italie,0,0]]'+
-                   '}';
-
-
-    sendMessage(connection,message);
+            let message = '{ "pos_general" :[[belgique,0,0],[belgique,1,0],[italie,0,0]],' +
+                'all_card:[[1,2],[3],[3,2],[]],' +
+                'to_play:[[belgique,0,0],[belgique,1,0],[italie,0,0]]' +
+                '}';
 
 
+            sendMessage(connection, message);
+        }
+    }
 }
 
 
@@ -1002,3 +943,5 @@ function updateCoordinates(){
     }
 
 }
+
+
