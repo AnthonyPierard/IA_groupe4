@@ -2,6 +2,7 @@
     <head>
         <title>Jeu du tour de France</title>
         <link rel="stylesheet" href="game.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <script charset="utf-8" src="echo.js"></script>
     </head>
     <body onload="load()">
@@ -100,23 +101,23 @@
 
         
         <div class="bot-box">
+            <h1>TBOT : </h1>
             <input id="question" type="text">
-            <input type="button" id="bot-button" value="Ask"><br>
+            <input class="btn btn-primary" type="button" id="bot-button" value="Ask"><br>
             <div id="answer"></div>
             <!-- <textarea id="answer" rows="5"></textarea> -->
         </div> <!-- div contenant le bot-->
 
-        <div></div> <!-- div contenant les infos du jeu-->
+        <div class="info-game"> <!-- div contenant les infos du jeu-->
         <br>
         <span id ="carte"> 
         </span>
         <br>
-
-        <label id="label_action" for="action"> A l'équipe de </label>
+        <br/>
+        <label id="label_action" for="action"> A l'équipe de </label><br/>
         <input id="action" type="text" >
-        <input type="button" id="button" value="OK" onclick="action()">
+        <input class="btn btn-primary" type="button" id="button" value="OK" onclick="action()">
 
-    </div>
         <script>
             document.getElementById("action").addEventListener("keydown", function(event) {
                 if (event.key == 'Enter') {
@@ -132,6 +133,10 @@
                 }
             })
         </script>
+        </div>
         <script src="jeu.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    </div>
+
     </body>    
 </html>

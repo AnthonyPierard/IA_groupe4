@@ -128,7 +128,6 @@ minMax(Cards, [[],[],[],[]], [Joueur|Joueurs], Joueurs2, Card) :- nth0(0,Joueur,
                                                 
 minMax(Cards, Cards2, Joueurs, Joueurs2, Choix) :- Joueurs = [Joueur|Jreste], nth0(0,Joueur, Equipe), nth0(1,Joueur,Numero),
                                                     indice(Equipe, Ind), nth0(Ind,Cards,Ecards), Ecards = [Card|Rcard],
-
                                                     minMax(Rcard,Cardstemp,Jreste,Joueurstemp,_),
 
 % 'Choisis le meilleur choix de carte'

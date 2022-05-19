@@ -1,20 +1,32 @@
+body{
+        background-image: url("img/backFrance.jpg");
+}
+
+.bot-box{
+        background-color: aliceblue;
+        margin-left:75%;
+}
+
+.info-game{
+        background-color: aliceblue;
+}
 
 
-
+#question{
+        border-radius: 5%;
+}
 
 #conteneur{
         margin-top: 4%;
-        margin-left: 75%;
         font-size:150%;
 }
-
 
 
 #game_map {
         background-image: url("img/map_large.png");
         background-repeat: no-repeat;
         background-attachment: fixed;
-        background-size: 50%;
+        background-size: 50%; 
         float: left;
 }
 
