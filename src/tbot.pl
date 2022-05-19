@@ -142,7 +142,7 @@ mclef(commence,10).
 mclef(equipe,5).
 mclef(dynamique,9).
 mclef(tour,4).
-meclef(depasser,8).
+mclef(depasser,8).
 mclef(vitesse,7).
 mclef(montee,6).
 mclef(descente,8).
@@ -153,72 +153,57 @@ mclef(beau,5).
 
 regle_rep(commence,1,
   [ qui, commence, le, jeu ],
-  [ [ "c'est au joueur ayant la plus haute carte secondes de commencer." ]).
+  [ [ "c'est au joueur ayant la plus haute carte secondes de commencer." ] ]).
 
 % ----------------------------------------------------------------%
 
 regle_rep(equipe,5,
   [ [ combien ], 3, [ coureurs], 5, [ equipe ] ],
-  [ [ "Chaque equipe compte ", X, " coureurs." ] ]) :-
+  [ [ "Chaque equipe compte ", X, " coureurs." ] ]) :- nb_coureurs(X).
 
-     nb_coureurs(X).
-
-%-----------------------------------------------------------------%
 
 regle_rep(dynamique,6,
         [ [qui],3,[commencer],4,[dynamique],2],
         [["C'est au joueur de tete qui doit commencer la partie dynamique"]]).
 
-%-----------------------------------------------------------------%
-
 regle_rep(tour,4,
- [["C'est au tour du joueur",X]]):- nb_coureurs(X).  %Need javascript to get which player has to play%
+         [ [qui],3, [jouer],2],
+         [["C'est au tour du joueur",X]]):- nb_coureurs(X).  %Need javascript to get which player has to play%
 
-%----------------------------------------------------------------%
 
 regle_rep(depasser,10,
           [[puis],2,[depasser],3,[au-dessus],3,[groupe],3,[coureurs],2],
           ["Oui il est permis de depasser par le bas cote de la route pour autant que le coureur arrive sur une cases non occupee, sinon tous les joueurs apres lui chutent ainsi que les
           joueurs sur la meme case"]).
 
-%-----------------------------------------------------------------%
-
 regle_rep(vitesse,6,
         [[quand],4,[prendre],4,[vitesse],2],
         ["Tu peux prendre de la vitesse lorsque tu es au sein du peloton ou lorsqu'un joueur est derriere toi"]).
+
 regle_rep(vitesse,6,
           [[comment],4,[prendre],4,[vitesse],2],
           ["La prise de vitesse fonctionne comme suit, tu avances d\'une seconde supplementaire selon la carte seconde jouee"]).
-
-%-----------------------------------------------------------------%
 
 regle_rep(montee,8,
         [[quelle],2,[ma],2,[vitesse],4,[montee],2],
         ["Ta vitesse dans les montees est divisee par deux selon la cases jouees"]).
 
-%-----------------------------------------------------------------%
-
 regle_rep(descente,8,
           [[quelle],2,[ma],2,[vitesse],4,[descente],2],
           ["Si tu es en prise de vitesse alors tu gagnes deux secondes"]).
 
-%-----------------------------------------------------------------%
-
 regle_rep(chute,8,
            [[comment],2,[provoquer],3,[chute],3,[serie],2],
            ["Pour provoquer une chute en serie, tu dois etre en contact avec un autre coureur si plusieurs joueurs se trouvent sur la meme case"]).
 
-%-----------------------------------------------------------------%
 
 regle_rep(chute,8,
            [[comment],2,[provoquer],3,[chute],3,[serie],2],
            ["Pour provoquer une chute en serie, tu dois etre en contact avec un autre coureur si plusieurs joueurs se trouvent sur la meme case"]).
-
-%-----------------------------------------------------------------%
 
 regle_rep(beau,5,
            [ 5,[est],4,[beau],2],
-           ["Il s'agit de toute evidence de Monsieur Jacquet!"])
+           ["Il s'agit de toute evidence de Monsieur Jacquet!"]).
 
 %-----------------------------------------------------------------%
 
