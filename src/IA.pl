@@ -64,6 +64,7 @@ get_response(Message, Response) :-
 
 
 %--------------Base de connaissances----------------%
+case(0,12).
 case(1,3).
 case(2,3).
 case(3,3).
@@ -250,13 +251,64 @@ addJoueur(Equipe,Numero,Case,[],[[Equipe,Numero,Case]]).
 addJoueur(Equipe,Numero,Case,[Joueur|Joueurs], [[Equipe,Numero,Case],Joueur|Joueurs]) :- nth0(2,Joueur,Case2), Case >= Case2.
 addJoueur(Equipe,Numero,Case,[Joueur|Joueurs], Joueurs2) :- nth0(2,Joueur,Case2), Case < Case2, addJoueur(Equipe,Numero,Case,Joueurs,JoueursTemp), append([Joueur],JoueursTemp,Joueurs2).
 
+% 'Calcule le nombre de personnes sur une case'
+joueursCase([], _, 0).
+joueursCase([Joueur|Joueurs], Case, Nombre) :- nth0(2,Joueur,CaseJoueur), joueursCase(Joueurs,Case,NombreTemp), CaseJoueur == Case, Nombre is 1 + NombreTemp.
+joueursCase([Joueur|Joueurs], Case, Nombre) :- nth0(2,Joueur,CaseJoueur), joueursCase(Joueurs,Case,NombreTemp), CaseJoueur \== Case, Nombre is 0 + NombreTemp.
+
 % 'Calcule les points d\'un état en appelant différentes fonctions de points'
-calculState(Equipe,Joueurs,Points) :- position(Equipe, Joueurs, Points).
+calculState(Equipe,Joueurs,Points) :- position(Equipe, Joueurs, Points1), bonus(Equipe,Joueurs,Points2), chute(Equipe,Joueurs,Joueurs,Points3), Points is Points1+Points2+Points3.
 
 % 'Fonction de points par rapport aux numéros de case'
 position(_,[],0).
-position(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, position(Equipe,Joueurs,Points2), nth0(2,Joueur,Case), Points is Points2 - Case.
-position(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, position(Equipe,Joueurs,Points2), nth0(2,Joueur,Case), Points is Points2 + Case.
+position(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, position(Equipe,Joueurs,PointsTemp), nth0(2,Joueur,Case), Points is PointsTemp - Case.
+position(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, position(Equipe,Joueurs,PointsTemp), nth0(2,Joueur,Case), Points is PointsTemp + Case.
+
+% 'Fonction de points par rapport aux bonus de sprint + cases finales'
+bonus(_,[],0).
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case < 22, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is 0 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case >= 22, Case < 36, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -2 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case >= 36, Case < 76, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -4 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case >= 76, Case < 96, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -6 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case == 96, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -10 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case == 97, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -11 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case == 98, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -12 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case == 99, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -13 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case == 100, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -14 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case == 101, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -15 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case == 102, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -16 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case == 103, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -17 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case == 104, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -18 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case), Case == 105, 
+                                          bonus(Equipe,Joueurs,PointsTemp), Points is -19 + PointsTemp.
+bonus(Equipe,[Joueur|Joueurs],Points) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, bonus(Equipe,Joueurs,Points).
+
+% 'Fonction de points par rapport aux chutes en série'
+chute(_,[],_,0).
+chute(Equipe,[Joueur|Rjoueurs],Joueurs,Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case),
+                                                          joueursCase(Joueurs,Case,Nombrejoueurs),
+                                                          case(Case,Nombreplaces), Nombreplaces < Nombrejoueurs,
+                                                          chute(Equipe, Rjoueurs, Joueurs,PointsTemp), 
+                                                          Points is 10 + PointsTemp. 
+chute(Equipe,[Joueur|Rjoueurs],Joueurs,Points) :- nth0(0,Joueur,Ekip), Equipe == Ekip, nth0(2,Joueur,Case),
+                                                          joueursCase(Joueurs,Case,Nombrejoueurs),
+                                                          case(Case,Nombreplaces), Nombreplaces >= Nombrejoueurs,
+                                                          chute(Equipe, Rjoueurs, Joueurs,Points). 
+chute(Equipe,[Joueur|Rjoueurs],Joueurs,Points) :- nth0(0,Joueur,Ekip), Equipe \== Ekip, chute(Equipe, Rjoueurs, Joueurs,Points).
+
 
 
 
