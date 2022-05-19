@@ -120,28 +120,50 @@ indice(allemagne,3).
 % [[12,9,9,5,1],[10,10,6,2,2],[12,8,8,7,5],[12,10,9,8,2]].
 
 
-% 'Min-Max encore a modifier(Points dans le cas récursif)'
-minMax(Cards, [[],[],[],[]], [Joueur|Joueurs], Joueurs2, Card) :- nth0(0,Joueur,Equipe), nth0(1,Joueur,Numero), 
-                                                                    indice(Equipe,Ind), nth0(Ind,Cards, Ecards), Ecards = [Card],
-                                                                    useCard(Equipe, Numero, Card, [Joueur|Joueurs], Joueurs2),
-                                                                    delCard(Equipe,Card,Cards,[[],[],[],[]]).
-                                                
-minMax(Cards, Cards2, Joueurs, Joueurs2, Choix) :- Joueurs = [Joueur|Jreste], nth0(0,Joueur, Equipe), nth0(1,Joueur,Numero),
-                                                    indice(Equipe, Ind), nth0(Ind,Cards,Ecards), Ecards = [Card|Rcard],
+% 'Min-Max permettant de générer les différents états possibles'
+minMax([],[[],[],[],[]], [Joueur|_], Joueurs, Joueurs, Points, _) :- nth0(0,Joueur,Equipe),
+                                                                      calculState(Equipe, Joueurs, Points).
 
-                                                    minMax(Rcard,Cardstemp,Jreste,Joueurstemp,_),
+minMax([], Cards, [Joueur|Rjoueurs], Joueurs, Joueurs2, Points, _) :- nth0(0,Joueur,Equipe),
+                                                                      best(Cards, Rjoueurs, Joueurs, Joueurs2, _, _),
+                                                                      calculState(Equipe, Joueurs2, Points).
 
-% 'Choisis le meilleur choix de carte'
-% 'La liste de cartes correspond à aux cartes de l\'équipe et pas l\'ensemble de toutes les cartes'
-best(Equipe,Numero,[Card],Joueurs,Card, Points) :- useCard(Equipe,Numero,Card,Joueurs,Joueurs2), calculState(Equipe,Joueurs2,Points).
-best(Equipe, Numero, [Card|Rcard], Joueurs, Card,Points) :- best(Equipe, Numero, Rcard, Joueurs, _, Temppoints), 
-                                                        useCard(Equipe, Numero, Card, Joueurs, Newjoueurs), 
-                                                        calculState(Equipe,Newjoueurs,Points), 
-                                                        Temppoints >= Points.
-best(Equipe, Numero, [Card|Rcard], Joueurs, Best, Points) :- best(Equipe, Numero, Rcard, Joueurs, Best, Points), 
-                                                        useCard(Equipe, Numero, Card, Joueurs, Newjoueurs), 
-                                                        calculState(Equipe,Newjoueurs,Temppoints), 
-                                                        Temppoints > Points.
+minMax(_, Cards, [], [Joueur|Joueurs], [Joueur|Joueurs], Points, _) :- nth0(0,Joueur,Equipe),
+                                                                        calculState(Equipe, [Joueur|Joueurs], Points).
+
+minMax([Card], Cards, [Joueur|Rjoueurs], Joueurs,  Joueurs2, Points, Card) :-
+                                                            nth0(0,Joueur,Equipe), nth0(1,Joueur,Numero), 
+                                                            useCard(Equipe, Numero, Card, Joueurs, NewJoueurs),
+                                                            delCard(Equipe,Card,Cards,Cards2),
+                                                            best(Cards2, Rjoueurs, NewJoueurs, Joueurs2, Points, _).
+
+minMax([Card|Rcards], Cards, [Joueur|Rjoueurs], Joueurs, Joueurs2, Points, Card) :- 
+                                                            Rcards \== [], nth0(0,Joueur,Equipe), nth0(1,Joueur,Numero),
+                                                            useCard(Equipe, Numero, Card, Joueurs, Newjoueurs),
+                                                            delCard(Equipe,Card,Cards,Cards2),
+                                                            best(Cards2, Rjoueurs, Newjoueurs, Joueurs2, _, _),
+                                                            calculState(Equipe, Joueurs2, Points),
+                                                            minMax(Rcards,Cards,[Joueur|Rjoueurs],Joueurs,JoueursTemp,_,_),
+                                                            calculState(Equipe, JoueursTemp, PointsTemp),
+                                                            Points < PointsTemp.
+
+minMax([Card|Rcards], Cards, [Joueur|Rjoueurs], Joueurs, JoueursTemp, PointsTemp, CardTemp) :-
+                                                            Rcards \== [], nth0(0,Joueur,Equipe), nth0(1,Joueur,Numero),
+                                                            useCard(Equipe, Numero, Card, Joueurs, Newjoueurs),
+                                                            delCard(Equipe,Card,Cards,Cards2),
+                                                            best(Cards2, Rjoueurs, Newjoueurs, Joueurs2, _, _),
+                                                            calculState(Equipe, Joueurs2, Points),
+                                                            minMax(Rcards,Cards,[Joueur|Rjoueurs],Joueurs,JoueursTemp,_,CardTemp),
+                                                            calculState(Equipe, JoueursTemp, PointsTemp),
+                                                            Points >= PointsTemp.
+
+% 'Permet d\'appeler minMax et renvoie la carte à utiliser pour le joueur actuel'
+best(Cards, [Joueur|Rjoueurs], Joueurs, Joueurs2, Points, Card) :- nth0(0,Joueur,Equipe),
+                                                                    indice(Equipe,Ind), nth0(Ind,Cards,Ecards),
+                                                                    minMax(Ecards, Cards, [Joueur|Rjoueurs], Joueurs, Joueurs2, Points, Card).
+
+best(Cards, [], Joueurs, Joueurs, Points, Card) :- minMax(_, Cards, [], Joueurs, Joueurs, Points, Card).
+
 
 % 'Renvoie l\'etat après avoir utilisé une carte'
 useCard(_,_,_,[],[]).
