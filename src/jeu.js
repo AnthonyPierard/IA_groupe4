@@ -662,6 +662,9 @@ function affiche_carte(){
     let allCarte = document.createTextNode(allText)
     pCarte.appendChild(allCarte)
 }
+function PopUp(){
+    document.getElementById('ac-wrapper').style.display="none"; 
+}
 
 
 
