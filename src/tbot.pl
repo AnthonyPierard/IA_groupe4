@@ -91,7 +91,6 @@ produire_reponse([fin],[L1]) :-
    L1 = [merci, de, m, '\'', avoir, consulte], !.    
 
 produire_reponse(L,Rep) :-
-%   write(L),
    mclef(M,_), member(M,L),
    clause(regle_rep(M,_,Pattern,Rep),Body),
    match_pattern(Pattern,L),
@@ -156,54 +155,53 @@ regle_rep(commence,1,
   [ qui, commence, le, jeu ],
   [ [ "c'est au joueur ayant la plus haute carte secondes de commencer." ] ]).
 
-% ----------------------------------------------------------------%
 
 regle_rep(equipe,5,
   [ [ combien ], 3, [ coureurs], 5, [ equipe ] ],
   [ [ "Chaque equipe compte ", X, " coureurs." ] ]) :- nb_coureurs(X).
 
 
-regle_rep(dynamique,6,
-        [ [qui],3,[commencer],4,[dynamique],2],
-        [["C'est au joueur de tete qui doit commencer la partie dynamique"]]).
+regle_rep(dynamique,5,
+        [  [qui ], 3 , [ commencer ], 4 , [dynamique] ],
+        [ [ "C'est au joueur de tete qui doit commencer la partie dynamique"] ]).
 
-regle_rep(tour,4,
-         [ [qui],3, [jouer],2],
+regle_rep(tour,7,
+         [ [a],2,[qui],3,[tour],2,[jouer]],
          [["C'est au tour du joueur",X]]):- nb_coureurs(X).  %Need javascript to get which player has to play%
 
 
-regle_rep(depasser,10,
-          [[puis],2,[depasser],3,[au-dessus],3,[groupe],3,[coureurs],2],
+regle_rep(depasser,9,
+          [[puis],2,[depasser],3,[au-dessus],3,[groupe],3,[coureurs]],
           ["Oui il est permis de depasser par le bas cote de la route pour autant que le coureur arrive sur une cases non occupee, sinon tous les joueurs apres lui chutent ainsi que les
           joueurs sur la meme case"]).
 
-regle_rep(vitesse,6,
-        [[quand],4,[prendre],4,[vitesse],2],
+regle_rep(vitesse,5,
+        [[quand],4,[prendre],4,[vitesse]],
         ["Tu peux prendre de la vitesse lorsque tu es au sein du peloton ou lorsqu'un joueur est derriere toi"]).
 
-regle_rep(vitesse,6,
-          [[comment],4,[prendre],4,[vitesse],2],
+regle_rep(vitesse,5,
+          [[comment],4,[prendre],4,[vitesse]],
           ["La prise de vitesse fonctionne comme suit, tu avances d\'une seconde supplementaire selon la carte seconde jouee"]).
 
-regle_rep(montee,8,
-        [[quelle],2,[ma],2,[vitesse],4,[montee],2],
+regle_rep(montee,7,
+        [[quelle],2,[ma],2,[vitesse],4,[montee]],
         ["Ta vitesse dans les montees est divisee par deux selon la cases jouees"]).
 
-regle_rep(descente,8,
-          [[quelle],2,[ma],2,[vitesse],4,[descente],2],
+regle_rep(descente,7,
+          [[quelle],2,[ma],2,[vitesse],4,[descente]],
           ["Si tu es en prise de vitesse alors tu gagnes deux secondes"]).
 
-regle_rep(chute,8,
-           [[comment],2,[provoquer],3,[chute],3,[serie],2],
+regle_rep(chute,7,
+           [[comment],2,[provoquer],3,[chute],3,[serie]],
            ["Pour provoquer une chute en serie, tu dois etre en contact avec un autre coureur si plusieurs joueurs se trouvent sur la meme case"]).
 
 
-regle_rep(chute,8,
-           [[comment],2,[provoquer],3,[chute],3,[serie],2],
+regle_rep(chute,7,
+           [[comment],2,[provoquer],3,[chute],3,[serie]],
            ["Pour provoquer une chute en serie, tu dois etre en contact avec un autre coureur si plusieurs joueurs se trouvent sur la meme case"]).
 
-regle_rep(beau,5,
-           [ 5,[est],4,[beau],2],
+regle_rep(beau,4,
+           [ [qui],1,[est],4,[beau]],
            ["Il s'agit de toute evidence de Monsieur Jacquet!"]).
 
 %-----------------------------------------------------------------%
