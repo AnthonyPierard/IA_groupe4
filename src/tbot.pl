@@ -140,13 +140,13 @@ nb_equipes(4).
 
 mclef(commence,10).
 mclef(equipe,5).
-mclef(dynamique,9).
-mclef(tour,4).
-mclef(depasser,8).
-mclef(vitesse,7).
-mclef(montee,6).
+mclef(dynamique,6).
+mclef(tour,7).
+mclef(depasser,10).
+mclef(vitesse,6).
+mclef(montee,8).
 mclef(descente,8).
-mclef(chute,5).
+mclef(chute,8).
 mclef(beau,5).
 
 % ----------------------------------------------------------------%
@@ -155,19 +155,18 @@ regle_rep(commence,1,
   [ qui, commence, le, jeu ],
   [ [ "c'est au joueur ayant la plus haute carte secondes de commencer." ] ]).
 
-% ----------------------------------------------------------------%
 
 regle_rep(equipe,5,
-  [ [ combien ], 3, [ coureurs], 5, [ equipe ] ],
-  [ [ "Chaque equipe compte ", X, " coureurs." ] ]) :- nb_coureurs(X).
+ [ [ combien ], 3, [ coureurs], 5, [ equipe ] ],
+ [ [ "Chaque equipe compte ", X, " coureurs." ] ]) :- nb_coureurs(X).
 
 
 regle_rep(dynamique,6,
         [ [qui],3,[commencer],4,[dynamique],2],
         [["C'est au joueur de tete qui doit commencer la partie dynamique"]]).
 
-regle_rep(tour,4,
-         [ [qui],3, [jouer],2],
+regle_rep(tour,7,
+         [2,[qui],3,[tour],2,[jouer],2],
          [["C'est au tour du joueur",X]]):- nb_coureurs(X).  %Need javascript to get which player has to play%
 
 
@@ -486,4 +485,4 @@ tourdefrance :-
 /*                                                                       */
 /* --------------------------------------------------------------------- */
 
-:- tourdefrance.
+%:- tourdefrance.
