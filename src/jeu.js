@@ -770,8 +770,8 @@ function envoyer_A_prolog(Pos_general){
             if(index_to_update==2){
                 index_to_update=0;
             }
-
-
+            
+           index_to_update++; 
         }
     }
 
