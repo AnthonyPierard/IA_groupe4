@@ -43,7 +43,7 @@ var Pos_general = {
 
 
 class Equipe {
-    constructor(nom,id, point){
+    constructor(nom,id, point, type){
         // ajout des cartes pour chaques équipes
         recharge_carte(this)
         //le nom de l'équipe
@@ -54,6 +54,8 @@ class Equipe {
         this.coureurs = [new Coureur(1,this.nom),new Coureur(2,this.nom),new Coureur(3,this.nom)]
         //les points de l'équipe
         this.point = point
+        //si le joueur est un humain ou une IA
+        this.type = type
     }
 }
 
