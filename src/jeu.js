@@ -43,7 +43,7 @@ var Pos_general = {
 
 
 class Equipe {
-    constructor(nom,id){
+    constructor(nom,id, point){
         // ajout des cartes pour chaques équipes
         recharge_carte(this)
         //le nom de l'équipe
@@ -53,7 +53,7 @@ class Equipe {
         //les 3 coureurs de l'équipe
         this.coureurs = [new Coureur(1,this.nom),new Coureur(2,this.nom),new Coureur(3,this.nom)]
         //les points de l'équipe
-        this.point = 0
+        this.point = point
     }
 }
 
@@ -198,10 +198,10 @@ let map = [[new Case(1,1,false,false, 321, -72),new Case(1,2,false,false, 321, -
             [new Case(-9,1,false,false,259,-36),new Case(-9,2,false,false,271,-36),new Case(-9,3,false,false,283,-36)]]
 
 //Initialisation des équipes
-const bel = new Equipe("Belgique",0);
-const it = new Equipe("Italie",1);
-const hol = new Equipe("Hollande",2);
-const all = new Equipe("Allemagne",3);
+const bel = new Equipe("Belgique",0, 0);
+const it = new Equipe("Italie",1, 0);
+const hol = new Equipe("Hollande",2, 0);
+const all = new Equipe("Allemagne",3, 0);
 const all_equipe = [bel,it,hol,all]
 
 /**
@@ -362,12 +362,6 @@ function action(){
             if (cartes.length==0){
                 recharge_carte(all_equipe[current_equip])
             }
-
-            console.log("========")
-            all_coureur.forEach(function(coureur){
-                console.log(coureur)
-            })
-            console.log("========")
             
             //Si il n'y a plus de coureur disponible on re remplit la liste avec les coureurs qui ne sont pas tombé ou qui n'ont pas finit
             if (all_coureur.length==0){ 
@@ -453,17 +447,18 @@ function assigner_nouvelle_case(current_coureur, action){
             }
             //On regarde si tout les joueurs n'ont pas finis
             if(finish_coureur.length==12){
-                console.log("fin de partie")
-                console.log("voici les résultats : ")
-                let meilleur_equipe = new Equipe("temp", 6)
+                let p_fin = document.getElementById="fin"
+                p_fin += "Fin de partie, voici les résultats : \n"
+                
+                let meilleur_equipe = new Equipe("temp", 6, 1000)
                 all_equipe.forEach(function(equipe){
-                    console.log(equipe.nom + " : " + equipe.point)
-                    if(meilleur_equipe.point< equipe.point){
+                    p_fin += "score de l'équipe de/d' " + equipe.nom + " : " + equipe.point
+                    if(meilleur_equipe.point > equipe.point){
                         meilleur_equipe = equipe
                     }
                 })
-                console.log("l'équipe gagnante est : " + meilleur_equipe.nom)
-                console.log("Merci d'avoir joué")
+                p_fin += "l'équipe gagnante est : " + meilleur_equipe.nom
+                p_fin += "Merci d'avoir joué, si vous souhaitez rejouer actualisé la page."
             }
         }
 
@@ -479,7 +474,7 @@ function assigner_nouvelle_case(current_coureur, action){
             if(finish_coureur.length==12){
                 console.log("fin de partie !")
                 console.log("voici les résultats : ")
-                let meilleur_equipe = new Equipe("temp", 6)
+                let meilleur_equipe = new Equipe("temp", 6, 1000)
                 all_equipe.forEach(function(equipe){
                     console.log(equipe.nom + " : " + equipe.point)
                     if(meilleur_equipe.point< equipe.point){

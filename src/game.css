@@ -4,6 +4,7 @@
         background-attachment: fixed;
         background-size: 50%; 
         float: left;
+        z-index: 1;
 }
 
 #belgium_player_1 { visibility: hidden; }
@@ -36,8 +37,34 @@
 
 div.game-map{
         vertical-align: center;
+        z-index: 1;
 }
 
 *{
         font: 90% sans-serif;
+}
+
+.col-size{
+        width: 100%;
+        padding: 100% 0 0 0 !important;
+        background: #ff0000;   
+        z-index: 2;
+}
+
+.vert-center {
+	position: absolute !important;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.vert-center p {
+	font-size: 24px;
+	color: rgb(0, 0, 0);
+	text-align: center;
+	padding-left: 30px;
+	padding-right: 30px
 }
