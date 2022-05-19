@@ -97,8 +97,8 @@ produire_reponse(L,Rep) :-
 
 produire_reponse(_,[L1,L2, L3]) :-
    L1 = ['Je ne sais pas,'],
-   L2 = [' les etudiants vont m\'aider.'],
-   L3 = [' Vous le verrez !'].
+   L2 = ['Votre question semble hors de mes capacités.'],
+   L3 = ['Pouvez-vous posez une question plus pertinante ?'].
 
 match_pattern(Pattern,Lmots) :-
    sublist(Pattern,Lmots).
