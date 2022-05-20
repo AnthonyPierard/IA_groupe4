@@ -60,7 +60,7 @@ get_response(Message, Response) :-
 
 
 :- use_module(library(lists)).
-
+:- import('IA.pl').
 /* --------------------------------------------------------------------- */
 /*                                                                       */
 /*        PRODUIRE_REPONSE(L_Mots,L_Lignes_reponse) :                    */

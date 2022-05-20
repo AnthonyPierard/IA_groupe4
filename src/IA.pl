@@ -1,3 +1,7 @@
+
+
+
+
 %--------------Base de connaissances----------------%
 case(0,12).
 case(1,3).

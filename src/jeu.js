@@ -1,4 +1,3 @@
-
 //sert a compter le nombre de carte seconde qu'il y a l'indice un étant pour la 
 //carte 1, l'indice 2 la 2 ect.
 let nbr_carte = [0,0,0,0,0,0,0,0,0,0,0,0]
