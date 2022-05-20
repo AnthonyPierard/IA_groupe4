@@ -24,6 +24,7 @@ let coureur_fall = []
 
 
 //Sert à envoyer au prolog
+let Pos_general_const = [["belgique",0,0],["belgique",1,0],["belgique",2,0],["italie",0,0],["italie",1,0],["italie",2,0],["allemagne",0,0],["allemagne",1,0],["allemagne",2,0],["hollande",0,0],["hollande",1,0],["hollande",2,0]]
 let Pos_general = []
 let bel_pos = [["belgique",0,0],["belgique",1,0],["belgique",2,0]]
 let it_pos = [["italie",0,0],["italie",1,0],["italie",2,0]]
@@ -374,7 +375,6 @@ function action(){
             }
             //on passe au round suivant
             round ++
-            Pos_general.push(Pos_general[0])
             Pos_general.splice(0,1)
         }
         else{
@@ -735,8 +735,6 @@ function envoyer_A_prolog(){
         all_coureur.forEach(function(cour){
             tmp_coureur.push(cour)
         })
-        let rest_coureur = []
-        initialize_coureur(rest_coureur)
         Pos_general = []
         coureur_pass = []
         for(let i=0; i<tmp_coureur.length; i++){
@@ -750,15 +748,21 @@ function envoyer_A_prolog(){
             })
             Pos_general.push([max_coureur.equipe, max_coureur.numero-1, max_coureur.position.numero])
             coureur_pass.push(max_coureur)
-            rest_coureur.splice(rest_coureur.indexOf(max_coureur),1)
         }
-        rest_coureur.forEach(function(c){
-            Pos_general.push([c.equipe,c.numero-1, c.position.numero])
-        })
     }
-    console.log(Pos_general)
-    
 
+    Pos_general_const.forEach(function(all_Pos){
+        all_coureur_const.forEach(function(al_cour){
+            if(all_Pos[0]==al_cour.equipe && all_Pos[1] == al_cour.numero-1){
+                all_Pos[2] = al_cour.position.numero
+            }
+        })
+    })
+    console.log(Pos_general)
+    console.log(Pos_general_const)
+    
+    //Pos_general = liste dans l'ordre
+    //Pos_general_const = liste constante avec valeurs a jour
     //sendMessage(connection,Pos_general, all_card);
 }
 
