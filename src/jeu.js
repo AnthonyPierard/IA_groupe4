@@ -23,6 +23,7 @@ let coureur_fall = []
 
 
 //Sert à envoyer au prolog
+let Pos_general_const = [["belgique",0,0],["belgique",1,0],["belgique",2,0],["italie",0,0],["italie",1,0],["italie",2,0],["allemagne",0,0],["allemagne",1,0],["allemagne",2,0],["hollande",0,0],["hollande",1,0],["hollande",2,0]]
 let Pos_general = []
 let bel_pos = [["belgique",0,0],["belgique",1,0],["belgique",2,0]]
 let it_pos = [["italie",0,0],["italie",1,0],["italie",2,0]]
@@ -195,6 +196,7 @@ const hol = new Equipe("hollande",2, 0, "IA");
 const all = new Equipe("allemagne",3, 0, "IA");
 const all_equipe = [bel,it,hol,all]
 
+
 /**
  * Recharge les cartes de l'équipe passer en paramètre
  * 
@@ -218,6 +220,7 @@ const all_equipe = [bel,it,hol,all]
     }
     const by_value = (a,b) => a -b
     equipe.cartes.sort(by_value)
+    equipe.cartes.reverse()
 }
 
 //Initialisation des coureurs
@@ -251,12 +254,12 @@ function load(){
 
     //partie initialisation de l'entrée des actions//
     let laction = document.getElementById("label_action")
-    let first_card = bel.cartes[ bel.cartes.length - 1]
+    let first_card = bel.cartes[0]
     let first_nom = bel.nom
     let first_equipe = bel
     for (const equip of all_equipe) {
-        if (equip.cartes[equip.cartes.length - 1] > first_card){
-            first_card = equip.cartes[equip.cartes.length - 1]
+        if (equip.cartes[0] > first_card){
+            first_card = equip.cartes[0]
             first_nom = equip.nom
             first_equipe = equip
         }
@@ -266,61 +269,37 @@ function load(){
     current_equip = all_equipe.indexOf(first_equipe)
 
     if(current_equip == 0){
-        bel_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        it_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        hol_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        all_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
+        for (let i = 0; i<3; i++){
+            Pos_general.push(bel_pos[i])
+            Pos_general.push(it_pos[i])
+            Pos_general.push(hol_pos[i])
+            Pos_general.push(all_pos[i])
+        }
     }
     else if (current_equip == 1){
-        it_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        hol_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        all_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        bel_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
+        for (let i = 0; i<3; i++){
+            Pos_general.push(it_pos[i])
+            Pos_general.push(hol_pos[i])
+            Pos_general.push(all_pos[i])
+            Pos_general.push(bel_pos[i])
+        }
     }
     else if(current_equip == 2){
-        hol_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        all_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        bel_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        it_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
+        for (let i = 0; i<3; i++){
+            Pos_general.push(hol_pos[i])
+            Pos_general.push(all_pos[i])
+            Pos_general.push(bel_pos[i])
+            Pos_general.push(it_pos[i])
+        }
     }
 
     else {
-        all_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        bel_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        it_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
-        hol_pos.forEach(function(coureur){
-            Pos_general.push(coureur)
-        })
+        for (let i = 0; i<3; i++){
+            Pos_general.push(all_pos[i])
+            Pos_general.push(bel_pos[i])
+            Pos_general.push(it_pos[i])
+            Pos_general.push(hol_pos[i])
+        }
     }
 }
 
@@ -331,7 +310,7 @@ function action(){
     let action
     if(all_equipe[current_equip].type == "IA"){
         //On va envoyer les informations à l'équipe
-        envoyer_A_prolog(Pos_general)
+        envoyer_A_prolog()
         //ici on devra récuperer la carte jouer par l'IA 
         action = parseInt(document.getElementById("action").value)
     }
@@ -341,7 +320,7 @@ function action(){
     //On prends la valeur de l'input
     let cartes = all_equipe[current_equip].cartes
     //si c'est le premier tour c'est comme ça que ça fonctionne
-    if (nbTour ==0) {
+    if (nbTour == 0) {
         //on vérifie si la valeur est bien dans les cartes de l'équipe actuelle
         if (cartes.includes(action)){
             //On avance la position du coureur
@@ -388,8 +367,6 @@ function action(){
                     }
                 })
 
-                //partie communication avec Prolog
-
 
             }
             else {
@@ -397,8 +374,7 @@ function action(){
             }
             //on passe au round suivant
             round ++
-            Pos_general.slice(0,1)
-
+            Pos_general.splice(0,1)
         }
         else{
             var name_next_equipe = all_equipe[current_equip].nom
@@ -660,7 +636,6 @@ function assigner_nouvelle_case(current_coureur, action){
         sprint_3 = true
     }
     console.log(current_coureur)
-    console.log(current_coureur.position)
 }
 
 function chute_en_serie(rangee, coureur, intervalle){
@@ -698,8 +673,6 @@ function chute_en_serie(rangee, coureur, intervalle){
         })
     }
     coureur_fall.push(coureur)
-    console.log("fall ")
-    console.log(coureur_fall)
 
 }
 
@@ -748,24 +721,48 @@ function PopUp(){
     document.getElementById('ac-wrapper').style.display="none"; 
 }
 
-function envoyer_A_prolog(Pos_general){
+function envoyer_A_prolog(){
 
     //On assigne toutes les cartes 
-    all_card = [bel.cartes.reverse(), it.cartes.reverse(), hol.cartes.reverse(), all.cartes.reverse()]
+    all_card = [bel.cartes, it.cartes, hol.cartes,all.cartes]
+
 
     /** Mettre à jours les coordonnée des joueurs avant de les envoyer au prolog **/
     
-    Pos_general.forEach(function(coureur){
-        all_coureur_const.forEach(function(cour){
-            if(cour.equipe == coureur[0] && cour.numero == coureur[1]){
-                coureur[2] = cour.position.numero
+    if(nbTour!=0){
+        let tmp_coureur = []
+        all_coureur.forEach(function(cour){
+            tmp_coureur.push(cour)
+        })
+        Pos_general = []
+        coureur_pass = []
+        for(let i=0; i<tmp_coureur.length; i++){
+            let m_pos = 0
+            let max_coureur
+            tmp_coureur.forEach(function(cou){
+                if (cou.position.numero>m_pos && !coureur_pass.includes(cou)){
+                    m_pos = cou.position.numero
+                    max_coureur = cou
+                }
+            })
+            Pos_general.push([max_coureur.equipe, max_coureur.numero-1, max_coureur.position.numero])
+            coureur_pass.push(max_coureur)
+        }
+    }
+
+    Pos_general_const.forEach(function(all_Pos){
+        all_coureur_const.forEach(function(al_cour){
+            if(all_Pos[0]==al_cour.equipe && all_Pos[1] == al_cour.numero-1){
+                all_Pos[2] = al_cour.position.numero
             }
         })
     })
-
-    sendMessage(connection,Pos_general, all_card);
-
-
+    console.log(Pos_general)
+    console.log(Pos_general_const)
+    
+    //Pos_general = liste dans l'ordre
+    //Pos_general_const = liste constante avec valeurs a jour
+    //sendMessage(connection,Pos_general, all_card);
 }
 
 
