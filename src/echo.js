@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const connection = openWebSocket()
   button.addEventListener("click", (event) => {
     const payload = {
-      message: question.value
+      message: question.value,
+      forwho:'bot'
     }
     sendMessage(connection, JSON.stringify(payload))
     question.value = "";

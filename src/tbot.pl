@@ -3,13 +3,12 @@
 % =start_server.=
 %
 % Then navigate to http://localhost:3000 in your browser
-
 :- module(echo_server,
   [ start_server/0,
     stop_server/0
   ]
 ).
-
+:- include('IA.pl').
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_files)).
@@ -49,7 +48,7 @@ echo(WebSocket) :-
 
 get_response(Message, Response) :-
   get_time(Time),
-
+   writeln("ok"),
   string_codes(Message.message, String),
   clean_string(String,Cleanstring),
   extract_atomics(Cleanstring,ListOfAtomics),
@@ -57,10 +56,15 @@ get_response(Message, Response) :-
   flatten(L_ligne_reponse,ListRep),
   atomic_list_concat(ListRep, StringRep),
   Response = _{message:StringRep, time: Time}.
-
+get_response(Message, Response) :-
+  writeln(Message.all_cards),
+  writeln(Message.pos_gen),
+  writeln(Message.pos_gen_const),
+  best(Message.all_cards,Message.pos_gen,Message.pos_gen_const,_,_,Card),
+  Response = _{message:Card}.
 
 :- use_module(library(lists)).
-:- import('IA.pl').
+
 /* --------------------------------------------------------------------- */
 /*                                                                       */
 /*        PRODUIRE_REPONSE(L_Mots,L_Lignes_reponse) :                    */

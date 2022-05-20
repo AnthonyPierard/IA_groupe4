@@ -1,3 +1,10 @@
+
+/** */
+
+
+
+let forwho = 'bot'
+
 //sert a compter le nombre de carte seconde qu'il y a l'indice un étant pour la 
 //carte 1, l'indice 2 la 2 ect.
 let nbr_carte = [0,0,0,0,0,0,0,0,0,0,0,0]
@@ -310,7 +317,11 @@ function action(){
     let action
     if(all_equipe[current_equip].type == "IA"){
         //On va envoyer les informations à l'équipe
-        envoyer_A_prolog()
+        const connection = openWebSocket()
+        
+        sendMessage(connection,envoyer_A_prolog())
+        log("OnLoad", "Add event listeners")
+    
         //ici on devra récuperer la carte jouer par l'IA 
         action = parseInt(document.getElementById("action").value)
     }
@@ -722,7 +733,6 @@ function PopUp(){
 }
 
 function envoyer_A_prolog(){
-
     //On assigne toutes les cartes 
     all_card = [bel.cartes, it.cartes, hol.cartes,all.cartes]
 
@@ -757,12 +767,21 @@ function envoyer_A_prolog(){
             }
         })
     })
-    console.log(Pos_general)
-    console.log(Pos_general_const)
+    //console.log(Pos_general)
+    //console.log(Pos_general_const)
     
+    let json_to_pl = '{ "pos_gen":'+Pos_general+','+
+                        '"pos_gen_const":'+Pos_general_const+','+
+                        '"all_cards":'+all_card+','+
+                        '"forwho":IA'+'}';
+
+
+
     //Pos_general = liste dans l'ordre
     //Pos_general_const = liste constante avec valeurs a jour
-    //sendMessage(connection,Pos_general, all_card);
+    //sendMessages(connection,json_to_pl);
+    
+    return json_to_pl;
 }
 
 
