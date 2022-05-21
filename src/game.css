@@ -106,3 +106,8 @@ div.game-map{
         position: relative;
         top: 150px; left: 375px;
 }
+
+strong{
+        font-weight: bold;
+        color: chocolate;
+}
