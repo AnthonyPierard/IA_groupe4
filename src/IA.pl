@@ -106,16 +106,16 @@ case(103,3).
 case(104,3).
 case(105,3).
 
-indice(belgique,0).
-indice(italie,1).
-indice(hollande,2).
-indice(allemagne,3).
+indice("belgique",0).
+indice("italie",1).
+indice("hollande",2).
+indice("allemagne",3).
 
 %--------------Illustrations de notre structure d états----------------%
 
 % 'Exemple de liste "Joueurs"'
-% [[belgique,0,0],[belgique,1,0],[belgique,2,0],[allemagne,0,0],[allemagne,1,0],[allemagne,2,0],
-%  [italie,0,0],[italie,1,0],[italie,2,0],[hollande,0,0],[hollande,1,0],[hollande,2,0]].
+% [["belgique",0,0],["belgique",1,0],["belgique",2,0],["allemagne",0,0],["allemagne",1,0],["allemagne",2,0],
+%  ["italie",0,0],["italie",1,0],["italie",2,0],["hollande",0,0],["hollande",1,0],["hollande",2,0]].
 
 % 'Un joueur se défini donc comme [Equipe,Numero,Position]'
 
@@ -123,7 +123,7 @@ indice(allemagne,3).
 % [[12,9,9,5,1],[10,10,6,2,2],[12,8,8,7,5],[12,10,9,8,2]].
 
 % 'Exemple de transition d\'état'
-% [[belgique,0,0],[belgique,1,0],[italie,0,0],[italie,1,0]]  -->  [[belgique,0,12],[belgique,1,0],[italie,0,0],[italie,1,0]]
+% [["belgique",0,0],["belgique",1,0],["italie",0,0],["italie",1,0]]  -->  [["belgique",0,12],["belgique",1,0],["italie",0,0],["italie",1,0]]
 %                     [[12,5],[9,7]]                         -->                       [[5],[9,7]]   
 
 %--------------Récursion de l arbre min-max----------------%

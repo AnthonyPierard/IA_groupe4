@@ -315,7 +315,16 @@ function action(){
     if(all_equipe[current_equip].type == "IA"){
         //On va envoyer les informations à l'équipe
 
-        sendMessage(connection,envoyer_A_prolog())
+        // Valeurs de test rapides
+        var test = new Object()
+        test.pos_gen= [["belgique", 0, 0], ["italie", 0, 0], ["hollande", 0, 0], ["allemagne", 0, 0]]
+        test.pos_gen_const= [["belgique", 0, 0], ["italie", 0, 0], ["hollande", 0, 0], ["allemagne", 0, 0]]
+        test.all_cards= [[1,2,3],[2,4,6],[4,6],[7,3]]
+        test.forwho="ia"
+
+        var json_to_pl = JSON.stringify(test);
+
+        sendMessage(connection,json_to_pl)
         //ici on devra récuperer la carte jouer par l'IA 
         action = parseInt(document.getElementById("action").value)
     }
@@ -761,8 +770,6 @@ function envoyer_A_prolog(){
             }
         })
     })
-    //console.log(Pos_general)
-    //console.log(Pos_general_const)
 
     var obj = new Object()
     obj.pos_gen=Pos_general
@@ -772,9 +779,6 @@ function envoyer_A_prolog(){
 
     var json_to_pl = JSON.stringify(obj);
 
-    //Pos_general = liste dans l'ordre
-    //Pos_general_const = liste constante avec valeurs a jour
-    //sendMessages(connection,json_to_pl);
     
     return json_to_pl;
 }

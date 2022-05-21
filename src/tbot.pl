@@ -63,7 +63,8 @@ get_response(Message, Response) :-
   writeln(Message.pos_gen),
   writeln(Message.pos_gen_const),
   best(Message.all_cards,Message.pos_gen,Message.pos_gen_const,_,_,Card),
-  Response = _{carte:ok}.
+  writeln(Card),
+  Response = _{carte:Card}.
 
 :- use_module(library(lists)).
 
