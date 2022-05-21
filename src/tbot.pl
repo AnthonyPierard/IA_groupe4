@@ -13,6 +13,7 @@
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_files)).
 :- use_module(library(http/websocket)).
+:- use_module(library(http/http_error)).
 
 :- http_handler(root(.),
                 http_reply_from_files('.', []),
@@ -48,6 +49,7 @@ echo(WebSocket) :-
 
 get_response(Message, Response) :-
   get_time(Time),
+  Message.forwho=="bot",
   string_codes(Message.message, String),
   clean_string(String,Cleanstring),
   extract_atomics(Cleanstring,ListOfAtomics),
@@ -56,11 +58,12 @@ get_response(Message, Response) :-
   atomic_list_concat(ListRep, StringRep),
   Response = _{message:StringRep, time: Time}.
 get_response(Message, Response) :-
+  Message.forwho=="ia",
   writeln(Message.all_cards),
   writeln(Message.pos_gen),
   writeln(Message.pos_gen_const),
   best(Message.all_cards,Message.pos_gen,Message.pos_gen_const,_,_,Card),
-  Response = _{message:Card}.
+  Response = _{carte:ok}.
 
 :- use_module(library(lists)).
 

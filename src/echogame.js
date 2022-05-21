@@ -2,26 +2,27 @@ const WS_PROTOS = "ws://"
 const WS_ROUTES = "/echogame"
 
 
-function logs(topic, message) {
+function logIA(topic, message) {
   console.log('[' + topic + '] ' + message)
 }
 
-function wsMessageHandlers(event) {
-  //TODO : traiter une fois qu'on reçois
-  child.scrollIntoView()
+function wsMessageIAHandler(event) {
+  log("WS_IA Response", "Received message: '" + event.data + "'")
 }
 
-function sendMessages(connections, message) {
-  logs("Client", "sending message \"" + message + "\"")
-  connections.send(message)
+function sendIAMessage(connection, message) {
+  logIA("Client", "sending message \"" + message + "\"")
+  logIA("Connection IA STATE" + connection.readyState)
+  connection.send(message)
 }
 
-function openWebSockets() {
-  connections = new WebSocket(WS_PROTOS + "localhost:4000" + WS_ROUTES)
-  connections.onerror = (error) => {
-    logs("WS", error)
+function openIAWebSocket() {
+  connection = new WebSocket(WS_PROTOS + "localhost:4000" + WS_ROUTES)
+  connection.onerror = (error) => {
+    log("WS IA err", error)
   }
-  connections.onmessage = wsMessageHandler
-  return connections
+  connection.onmessage = wsMessageIAHandler
+  return connection
 }
+
 

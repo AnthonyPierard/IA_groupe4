@@ -1,3 +1,4 @@
+
 const WS_PROTO = "ws://"
 const WS_ROUTE = "/echo"
 
@@ -10,8 +11,8 @@ function wsMessageHandler(event) {
   const question = document.getElementById("question")
   const payload = JSON.parse(event.data)
   log("WS Response", "Received message: '" + event.data + "'")
-
-  const bot_zone = document.getElementById("answer") 
+  /**
+  const bot_zone = document.getElementById("answer")
   const message = document.createElement("div")
   message.className = 'message'
 
@@ -24,6 +25,7 @@ function wsMessageHandler(event) {
   let child = bot_zone.appendChild(message)
   question.value=""
   child.scrollIntoView()
+ **/
 }
 
 function sendMessage(connection, message) {
@@ -35,7 +37,7 @@ function sendMessage(connection, message) {
 function openWebSocket() {
   connection = new WebSocket(WS_PROTO + "localhost:3000" + WS_ROUTE)
   connection.onerror = (error) => {
-    log("WS", error)
+    log("WS err", error)
   }
   connection.onmessage = wsMessageHandler
   return connection
@@ -55,3 +57,4 @@ document.addEventListener('DOMContentLoaded', (e) => {
   })
   log("OnLoad", "Add event listeners")
 })
+
