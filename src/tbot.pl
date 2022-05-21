@@ -48,7 +48,6 @@ echo(WebSocket) :-
 
 get_response(Message, Response) :-
   get_time(Time),
-   writeln("ok"),
   string_codes(Message.message, String),
   clean_string(String,Cleanstring),
   extract_atomics(Cleanstring,ListOfAtomics),
@@ -101,9 +100,9 @@ produire_reponse(L,Rep) :-
    call(Body), !.
 
 produire_reponse(_,[L1,L2, L3]) :-
-   L1 = ['Je ne sais pas,'],
-   L2 = [' les etudiants vont m\'aider.'],
-   L3 = [' Vous le verrez !'].
+   L1 = ['Cette question dépasse mes limites...,'],
+   L2 = [' Pose moi une question concernant le jeu, je suis un véritable expert.'],
+   L3 = [' tu verras !'].
 
 match_pattern(Pattern,Lmots) :-
    sublist(Pattern,Lmots).
@@ -178,7 +177,7 @@ regle_rep(dynamique,5,
 
 regle_rep(tour,7,
          [ [a],1,[qui],3,[tour],2,[jouer]],
-         [["C'est au tour du joueur",X]]):- nb_coureurs(X).  %Need javascript to get which player has to play%
+         [["C'est au tour du joueur",X]]):- nb_coureurs(X).
 
 regle_rep(depasser,9,
           [[puis],2,[depasser],3,[au-dessus],3,[groupe],3,[coureurs]],

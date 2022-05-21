@@ -1,3 +1,7 @@
+body{
+        background-image: url("img/TDF.jpg");
+}
+
 #game_map {
         background-image: url("img/map_large.png");
         background-repeat: no-repeat;
@@ -105,4 +109,30 @@ div.game-map{
         -webkit-box-shadow: #64686e 0px 0px 3px 3px;
         position: relative;
         top: 150px; left: 375px;
+}
+
+
+.bot-box{
+    margin-top:4%;
+    margin-left:80%;
+    font-size:150%;
+    background-color:white;
+    position:absolute;
+    border-radius:5%;
+}
+
+.info-game{
+    background-color: white;
+    font-size:160%;
+    margin-top:10%;
+    position: absolute;
+}
+#interJeu{
+    font-weight: bold;
+}
+#title{
+    text-align: center;
+    font-weight: bold;
+    font-size: 300%;
+    color: 	#FFD700;
 }

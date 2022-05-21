@@ -7,6 +7,7 @@ function log(topic, message) {
 }
 
 function wsMessageHandler(event) {
+  const question = document.getElementById("question")
   const payload = JSON.parse(event.data)
   log("WS Response", "Received message: '" + event.data + "'")
 
@@ -16,15 +17,18 @@ function wsMessageHandler(event) {
 
   const contentElement = document.createElement("div")
   contentElement.className = 'content'
+  contentElement.appendChild(document.createTextNode("VOUS:" + question.value))
+  contentElement.appendChild(document.createElement("br"))
   contentElement.appendChild(document.createTextNode("TBOT: " + payload.message))
   message.appendChild(contentElement)
   let child = bot_zone.appendChild(message)
-
+  question.value=""
   child.scrollIntoView()
 }
 
 function sendMessage(connection, message) {
   log("Client", "sending message \"" + message + "\"")
+  log(connection.readyState)
   connection.send(message)
 }
 
@@ -47,7 +51,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
       forwho:'bot'
     }
     sendMessage(connection, JSON.stringify(payload))
-    question.value = "";
+    //question.value = "";
   })
   log("OnLoad", "Add event listeners")
 })

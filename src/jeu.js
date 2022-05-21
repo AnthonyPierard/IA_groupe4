@@ -317,8 +317,6 @@ function action(){
     let action
     if(all_equipe[current_equip].type == "IA"){
         //On va envoyer les informations à l'équipe
-        const connection = openWebSocket()
-        
         sendMessage(connection,envoyer_A_prolog())
         log("OnLoad", "Add event listeners")
     
@@ -772,7 +770,7 @@ function envoyer_A_prolog(){
     
     let json_to_pl = '{ "pos_gen":'+Pos_general+','+
                         '"pos_gen_const":'+Pos_general_const+','+
-                        '"all_cards":'+all_card+','+
+                        '"all_cards":'+[all_card]+','+
                         '"forwho":IA'+'}';
 
 
