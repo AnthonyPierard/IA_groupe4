@@ -30,9 +30,9 @@ function wsMessageHandler(event) {
   }
 
   if(payload.from_who === "ia"){
-    var topushaction = document.getElementById("action")
     log("WS Response", "Received message: '" + payload.carte + "'")
-    topushaction.value=payload.carte
+    let action = parseInt(payload.carte)
+    act(action)
   }
  
 }

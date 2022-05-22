@@ -311,30 +311,36 @@ function load(){
     affiche_carte()
 }
 
-/**
- * Execute une action carte sur un joueur et une équipe
- */
-function action(){
+function action_aux(){
     let action
     if(all_equipe[current_equip].type == "IA"){
         //On va envoyer les informations à l'équipe
 
         // Valeurs de test rapides
         var test = new Object()
-        test.pos_gen= [["belgique", 0, 0], ["italie", 0, 0], ["hollande", 0, 0], ["allemagne", 0, 0]]
+        test.pos_gen= [["hollande", 0, 0], ["allemagne", 0, 0], ["hollande", 0, 0], ["allemagne", 0, 0]]
         test.pos_gen_const= [["belgique", 0, 0], ["italie", 0, 0], ["hollande", 0, 0], ["allemagne", 0, 0]]
-        test.all_cards= [[1,2,3],[2,4,6],[4,6],[7,3]]
+        test.all_cards= [[1,2,3],[2,4,6],[hol.cartes[0]],[7,3]]
         test.forwho="ia"
 
         var json_to_pl = JSON.stringify(test);
 
-        sendMessage(connection,envoyer_A_prolog())
-        //ici on devra récuperer la carte jouer par l'IA 
-        action = parseInt(document.getElementById("action").value)
+        sendMessage(connection,json_to_pl)
+        document.getElementById("action").value = "";
     }
     else {
         action = parseInt(document.getElementById("action").value)
+        document.getElementById("action").value = "";
+        act(action)
     }
+
+}
+/**
+ * Execute une action carte sur un joueur et une équipe
+ */
+function act(action){
+    console.log(action)
+    
     //On prends la valeur de l'input
     let cartes = all_equipe[current_equip].cartes
     //si c'est le premier tour c'est comme ça que ça fonctionne
