@@ -249,9 +249,7 @@ function add_br(pCarte){
 }
 
 function load(){
-    //partie initialisation des cartes//
-
-    affiche_carte()
+    
 
     //partie initialisation de l'entrée des actions//
     let laction = document.getElementById("label_action")
@@ -268,6 +266,10 @@ function load(){
     let nEquip = document.createTextNode(first_nom + " coureur 1 :")
     laction.appendChild(nEquip)
     current_equip = all_equipe.indexOf(first_equipe)
+
+    //partie initialisation des cartes//
+
+    affiche_carte()
 
     if(current_equip == 0){
         for (let i = 0; i<3; i++){
