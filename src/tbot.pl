@@ -62,6 +62,8 @@ get_response(Message, Response) :-
   writeln(Message.all_cards),
   writeln(Message.pos_gen),
   writeln(Message.pos_gen_const),
+  nth0(0,Message.pos_gen,Tamp),
+  nth0(0,Tamp,Equipe),
   best(Message.all_cards,Message.pos_gen,Message.pos_gen_const,_,_,Card),
   Response = _{carte:ok}.
 
