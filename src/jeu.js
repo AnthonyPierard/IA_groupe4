@@ -56,7 +56,7 @@ class Equipe {
 class Coureur {
     constructor(numero,equipe){
         //La case ou est positionner le coureur
-        this.position = map[90][0]
+        this.position = new Case(0,1,false,false, 888, 888)
         //son numéro dans l'équipe, ça peut être donc soit 1, 2 ou 3
         this.numero = numero
         //le nom de l'équipe a laquel il appartient
