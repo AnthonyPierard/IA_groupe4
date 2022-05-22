@@ -26,14 +26,14 @@ function wsMessageHandler(event) {
     message.appendChild(contentElement)
     let child = bot_zone.appendChild(message)
     question.value = ""
+    child.scrollIntoView()
   }
 
   if(payload.from_who === "ia"){
     var topushaction = document.getElementById("action")
+    log("WS Response", "Received message: '" + payload.carte + "'")
     topushaction.value=payload.carte
   }
-
-  child.scrollIntoView()
  
 }
 
