@@ -3,17 +3,17 @@
 % =start_server.=
 %
 % Then navigate to http://localhost:3000 in your browser
-
 :- module(echo_server,
   [ start_server/0,
     stop_server/0
   ]
 ).
-
+:- include('IA.pl').
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_files)).
 :- use_module(library(http/websocket)).
+:- use_module(library(http/http_error)).
 
 :- http_handler(root(.),
                 http_reply_from_files('.', []),
@@ -48,16 +48,25 @@ echo(WebSocket) :-
     ).
 
 get_response(Message, Response) :-
-  get_time(Time),
-
+  Message.forwho=="bot",
   string_codes(Message.message, String),
   clean_string(String,Cleanstring),
   extract_atomics(Cleanstring,ListOfAtomics),
   produire_reponse(ListOfAtomics,L_ligne_reponse),
   flatten(L_ligne_reponse,ListRep),
   atomic_list_concat(ListRep, StringRep),
-  Response = _{message:StringRep, time: Time}.
-
+  Response = _{message:StringRep, from_who:"bot"}.
+  
+get_response(Message, Response) :-
+  Message.forwho=="ia",
+  writeln(Message.all_cards),
+  writeln(Message.pos_gen),
+  writeln(Message.pos_gen_const),
+  nth0(0,Message.pos_gen,Tamp),
+  nth0(0,Tamp,Equipe),
+  best(Message.all_cards,Message.pos_gen,Message.pos_gen_const,_,_,Card),
+  writeln(Card),
+  Response = _{carte:Card, from_who:"ia"}.
 
 :- use_module(library(lists)).
 
@@ -97,9 +106,9 @@ produire_reponse(L,Rep) :-
    call(Body), !.
 
 produire_reponse(_,[L1,L2, L3]) :-
-   L1 = ['Je ne sais pas,'],
-   L2 = [' les etudiants vont m\'aider.'],
-   L3 = [' Vous le verrez !'].
+   L1 = ["Cette question depasse mes limites..."],
+   L2 = [" Pose moi une question concernant le jeu, je suis un veritable expert."],
+   L3 = [" Tu verras !"].
 
 match_pattern(Pattern,Lmots) :-
    sublist(Pattern,Lmots).
@@ -174,7 +183,7 @@ regle_rep(dynamique,5,
 
 regle_rep(tour,7,
          [ [a],1,[qui],3,[tour],2,[jouer]],
-         [["C'est au tour du joueur",X]]):- nb_coureurs(X).  %Need javascript to get which player has to play%
+         [["C'est au tour du joueur",X]]):- nb_coureurs(X).
 
 regle_rep(depasser,9,
           [[puis],2,[depasser],3,[au-dessus],3,[groupe],3,[coureurs]],

@@ -1,4 +1,7 @@
 
+/** */
+
+
 //sert a compter le nombre de carte seconde qu'il y a l'indice un étant pour la 
 //carte 1, l'indice 2 la 2 ect.
 let nbr_carte = [0,0,0,0,0,0,0,0,0,0,0,0]
@@ -308,20 +311,36 @@ function load(){
     affiche_carte()
 }
 
-/**
- * Execute une action carte sur un joueur et une équipe
- */
-function action(){
+function action_aux(){
     let action
     if(all_equipe[current_equip].type == "IA"){
         //On va envoyer les informations à l'équipe
-        envoyer_A_prolog()
-        //ici on devra récuperer la carte jouer par l'IA 
-        action = parseInt(document.getElementById("action").value)
+
+        // Valeurs de test rapides
+        var test = new Object()
+        test.pos_gen= [["hollande", 0, 0], ["allemagne", 0, 0], ["hollande", 0, 0], ["allemagne", 0, 0]]
+        test.pos_gen_const= [["belgique", 0, 0], ["italie", 0, 0], ["hollande", 0, 0], ["allemagne", 0, 0]]
+        test.all_cards= [[1,2,3],[2,4,6],[hol.cartes[0]],[7,3]]
+        test.forwho="ia"
+
+        var json_to_pl = JSON.stringify(test);
+
+        sendMessage(connection,json_to_pl)
+        document.getElementById("action").value = "";
     }
     else {
         action = parseInt(document.getElementById("action").value)
+        document.getElementById("action").value = "";
+        act(action)
     }
+
+}
+/**
+ * Execute une action carte sur un joueur et une équipe
+ */
+function act(action){
+    console.log(action)
+    
     //On prends la valeur de l'input
     let cartes = all_equipe[current_equip].cartes
     //si c'est le premier tour c'est comme ça que ça fonctionne
@@ -477,6 +496,7 @@ function assigner_nouvelle_case(current_coureur, action){
         }
         //Si c'est une case finale
         else if(map[current_coureur.position.numero + action-1][i].numero<=0){
+            console.log("je passe")
             //On ajoute le coureur qui a finit
             finish_coureur.push(current_coureur)
             //On ajoute les points à l'équipe
@@ -504,7 +524,7 @@ function assigner_nouvelle_case(current_coureur, action){
                     }
                 })
                 let fin2 = document.createTextNode("L'équipe gagnante est : " + meilleur_equipe.nom)
-                let fin3 = document.createTextNode("Merci d'avoir joué, si vous souhaitez rejouer actualisé la page.")
+                let fin3 = document.createTextNode("Merci d'avoir joué, veuillez actualiser la page si vous souhaitez rejouer.")
                 add_br(p_fin)
                 p_fin.appendChild(fin2)
                 add_br(p_fin)
@@ -513,6 +533,7 @@ function assigner_nouvelle_case(current_coureur, action){
                 add_br(p_fin)
 
             }
+            assigner = false
         }
 
         //si on va plus loin que les cases finales
@@ -550,6 +571,7 @@ function assigner_nouvelle_case(current_coureur, action){
                 p_fin.appendChild(fin3)
                 add_br(p_fin)
             }
+            assigner = false
         }
         else{
             //si la rangée contient une rigole
@@ -748,14 +770,12 @@ function PopUp(){
 }
 
 function envoyer_A_prolog(){
-
     //On assigne toutes les cartes 
     all_card = [bel.cartes, it.cartes, hol.cartes,all.cartes]
 
 
     /** Mettre à jours les coordonnée des joueurs avant de les envoyer au prolog **/
-    
-    if(nbTour!=0){
+    if(nbTour!=0 && finish_coureur.length!=12){
         let tmp_coureur = []
         all_coureur.forEach(function(cour){
             tmp_coureur.push(cour)
@@ -783,12 +803,17 @@ function envoyer_A_prolog(){
             }
         })
     })
-    console.log(Pos_general)
-    console.log(Pos_general_const)
+
+    var obj = new Object()
+    obj.pos_gen=Pos_general
+    obj.pos_gen_const=Pos_general_const
+    obj.all_cards=all_card
+    obj.forwho="ia"
+
+    var json_to_pl = JSON.stringify(obj);
+
     
-    //Pos_general = liste dans l'ordre
-    //Pos_general_const = liste constante avec valeurs a jour
-    //sendMessage(connection,Pos_general, all_card);
+    return json_to_pl;
 }
 
 
