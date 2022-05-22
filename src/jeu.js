@@ -249,7 +249,6 @@ function add_br(pCarte){
 }
 
 function load(){
-    
 
     //partie initialisation de l'entrée des actions//
     let laction = document.getElementById("label_action")
@@ -304,6 +303,9 @@ function load(){
             Pos_general.push(hol_pos[i])
         }
     }
+    //partie initialisation des cartes//
+
+    affiche_carte()
 }
 
 /**
@@ -680,6 +682,7 @@ function chute_en_serie(rangee, coureur, intervalle){
 }
 
 function affiche_carte(){
+    let bold = document.createElement('strong');
     let pCarte = document.getElementById("carte");
     
     while (pCarte.firstChild) {
@@ -692,7 +695,12 @@ function affiche_carte(){
         itText += it.cartes[i]
     }
     let itCarte = document.createTextNode(itText)
-    pCarte.appendChild(itCarte)
+    if(all_equipe[current_equip].nom == "italie"){
+        bold.appendChild(itCarte)
+        pCarte.appendChild(bold)
+    } else{
+        pCarte.appendChild(itCarte)
+    }
     pCarte.appendChild(br)
     let holText = "Equipe de Hollande : " + String(hol.cartes[0])
     for (i=1; i<hol.cartes.length;i++){
@@ -700,7 +708,12 @@ function affiche_carte(){
         holText += hol.cartes[i]
     }
     let holCarte = document.createTextNode(holText);
-    pCarte.appendChild(holCarte)
+    if(all_equipe[current_equip].nom == "hollande"){
+        bold.appendChild(holCarte)
+        pCarte.appendChild(bold)
+    } else{
+        pCarte.appendChild(holCarte)
+    }
     let br2 = document.createElement("br");
     pCarte.appendChild(br2)
     let belText = "Equipe de Belgique : " + String(bel.cartes[0])
@@ -709,7 +722,12 @@ function affiche_carte(){
         belText += bel.cartes[i]
     }
     let belCarte = document.createTextNode(belText)
-    pCarte.appendChild(belCarte)
+    if(all_equipe[current_equip].nom == "belgique"){
+        bold.appendChild(belCarte)
+        pCarte.appendChild(bold)
+    } else{
+        pCarte.appendChild(belCarte)
+    }
     let br3 = document.createElement("br");
     pCarte.appendChild(br3)
     let allText = "Equipe d'Allemagne : " + String(all.cartes[0])
@@ -718,7 +736,12 @@ function affiche_carte(){
         allText += all.cartes[i]
     }
     let allCarte = document.createTextNode(allText)
-    pCarte.appendChild(allCarte)
+    if(all_equipe[current_equip].nom == "allemagne"){
+        bold.appendChild(allCarte)
+        pCarte.appendChild(bold)
+    } else{
+        pCarte.appendChild(allCarte)
+    }
 }
 function PopUp(){
     document.getElementById('ac-wrapper').style.display="none"; 
