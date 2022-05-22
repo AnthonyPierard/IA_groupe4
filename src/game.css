@@ -137,3 +137,7 @@ div.game-map{
     font-size: 300%;
     color: 	#FFD700;
 }
+strong{
+        font-weight: bold;
+        color: chocolate;
+}

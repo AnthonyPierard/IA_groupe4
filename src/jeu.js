@@ -252,9 +252,6 @@ function add_br(pCarte){
 }
 
 function load(){
-    //partie initialisation des cartes//
-
-    affiche_carte()
 
     //partie initialisation de l'entrée des actions//
     let laction = document.getElementById("label_action")
@@ -271,6 +268,10 @@ function load(){
     let nEquip = document.createTextNode(first_nom + " coureur 1 :")
     laction.appendChild(nEquip)
     current_equip = all_equipe.indexOf(first_equipe)
+
+    //partie initialisation des cartes//
+
+    affiche_carte()
 
     if(current_equip == 0){
         for (let i = 0; i<3; i++){
@@ -305,6 +306,9 @@ function load(){
             Pos_general.push(hol_pos[i])
         }
     }
+    //partie initialisation des cartes//
+
+    affiche_carte()
 }
 
 /**
@@ -694,6 +698,7 @@ function chute_en_serie(rangee, coureur, intervalle){
 }
 
 function affiche_carte(){
+    let bold = document.createElement('strong');
     let pCarte = document.getElementById("carte");
     
     while (pCarte.firstChild) {
@@ -706,7 +711,12 @@ function affiche_carte(){
         itText += it.cartes[i]
     }
     let itCarte = document.createTextNode(itText)
-    pCarte.appendChild(itCarte)
+    if(all_equipe[current_equip].nom == "italie"){
+        bold.appendChild(itCarte)
+        pCarte.appendChild(bold)
+    } else{
+        pCarte.appendChild(itCarte)
+    }
     pCarte.appendChild(br)
     let holText = "Equipe de Hollande : " + String(hol.cartes[0])
     for (i=1; i<hol.cartes.length;i++){
@@ -714,7 +724,12 @@ function affiche_carte(){
         holText += hol.cartes[i]
     }
     let holCarte = document.createTextNode(holText);
-    pCarte.appendChild(holCarte)
+    if(all_equipe[current_equip].nom == "hollande"){
+        bold.appendChild(holCarte)
+        pCarte.appendChild(bold)
+    } else{
+        pCarte.appendChild(holCarte)
+    }
     let br2 = document.createElement("br");
     pCarte.appendChild(br2)
     let belText = "Equipe de Belgique : " + String(bel.cartes[0])
@@ -723,7 +738,12 @@ function affiche_carte(){
         belText += bel.cartes[i]
     }
     let belCarte = document.createTextNode(belText)
-    pCarte.appendChild(belCarte)
+    if(all_equipe[current_equip].nom == "belgique"){
+        bold.appendChild(belCarte)
+        pCarte.appendChild(bold)
+    } else{
+        pCarte.appendChild(belCarte)
+    }
     let br3 = document.createElement("br");
     pCarte.appendChild(br3)
     let allText = "Equipe d'Allemagne : " + String(all.cartes[0])
@@ -732,7 +752,12 @@ function affiche_carte(){
         allText += all.cartes[i]
     }
     let allCarte = document.createTextNode(allText)
-    pCarte.appendChild(allCarte)
+    if(all_equipe[current_equip].nom == "allemagne"){
+        bold.appendChild(allCarte)
+        pCarte.appendChild(bold)
+    } else{
+        pCarte.appendChild(allCarte)
+    }
 }
 function PopUp(){
     document.getElementById('ac-wrapper').style.display="none"; 
@@ -793,7 +818,7 @@ function updateCoordinates(){
     document.getElementById("belplayer_1").style.top = all_equipe[0].coureurs[0].position.coord_y + "px";
     if (all_equipe[0].coureurs[0].position.coord_x != 888 && all_equipe[0].coureurs[0].position.coord_y != 888){
         document.getElementById("belgium_player_1").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Belgique"){
+        if(all_equipe[current_equip].nom == "belgique"){
             document.getElementById("belplayer_1").style.visibility = "visible"; // set its marker visible
         } else {
             document.getElementById("belplayer_1").style.visibility = "hidden"; // set its marker hidden
@@ -806,7 +831,7 @@ function updateCoordinates(){
     document.getElementById("belplayer_2").style.top = all_equipe[0].coureurs[1].position.coord_y + "px";
     if (all_equipe[0].coureurs[1].position.coord_x != 888 && all_equipe[0].coureurs[1].position.coord_y != 888){
         document.getElementById("belgium_player_2").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Belgique"){
+        if(all_equipe[current_equip].nom == "belgique"){
             document.getElementById("belplayer_2").style.visibility = "visible"; // set its marker visible
         } else {
             document.getElementById("belplayer_2").style.visibility = "hidden"; // set its marker hidden
@@ -819,7 +844,7 @@ function updateCoordinates(){
     document.getElementById("belplayer_3").style.top = all_equipe[0].coureurs[2].position.coord_y + "px";
     if (all_equipe[0].coureurs[2].position.coord_x != 888 && all_equipe[0].coureurs[2].position.coord_y != 888){
         document.getElementById("belgium_player_3").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Belgique"){
+        if(all_equipe[current_equip].nom == "belgique"){
             document.getElementById("belplayer_3").style.visibility = "visible"; // set its marker visible
         } else {
             document.getElementById("belplayer_3").style.visibility = "hidden"; // set its marker hidden
@@ -833,7 +858,7 @@ function updateCoordinates(){
     document.getElementById("gerplayer_1").style.top = all_equipe[3].coureurs[0].position.coord_y + "px";
     if (all_equipe[3].coureurs[0].position.coord_x != 888 && all_equipe[3].coureurs[0].position.coord_y !=888){
         document.getElementById("germany_player_1").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Allemagne"){
+        if(all_equipe[current_equip].nom == "allemagne"){
             document.getElementById("gerplayer_1").style.visibility = "visible"; // set its marker visible
         } else {
             document.getElementById("gerplayer_1").style.visibility = "hidden"; // set its marker hidden
@@ -846,7 +871,7 @@ function updateCoordinates(){
     document.getElementById("gerplayer_2").style.top = all_equipe[3].coureurs[1].position.coord_y + "px";
     if (all_equipe[3].coureurs[1].position.coord_x != 888 && all_equipe[3].coureurs[1].position.coord_y != 888){
         document.getElementById("germany_player_2").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Allemagne"){
+        if(all_equipe[current_equip].nom == "allemagne"){
             document.getElementById("gerplayer_2").style.visibility = "visible"; // set its marker visible
         } else {
             document.getElementById("gerplayer_2").style.visibility = "hidden"; // set its marker hidden
@@ -859,7 +884,7 @@ function updateCoordinates(){
     document.getElementById("gerplayer_3").style.top = all_equipe[3].coureurs[2].position.coord_y + "px";
     if (all_equipe[3].coureurs[2].position.coord_x != 888 && all_equipe[3].coureurs[2].position.coord_y != 888){
         document.getElementById("germany_player_3").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Allemagne"){
+        if(all_equipe[current_equip].nom == "allemagne"){
             document.getElementById("gerplayer_3").style.visibility = "visible"; // set its marker visible
         } else {
             document.getElementById("gerplayer_3").style.visibility = "hidden"; // set its marker hidden
@@ -873,7 +898,7 @@ function updateCoordinates(){
     document.getElementById("nedplayer_1").style.top = all_equipe[2].coureurs[0].position.coord_y + "px";
     if (all_equipe[2].coureurs[0].position.coord_x != 888 && all_equipe[2].coureurs[0].position.coord_y != 888){
         document.getElementById("netherlands_player_1").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Hollande"){
+        if(all_equipe[current_equip].nom == "hollande"){
             document.getElementById("nedplayer_1").style.visibility = "visible"; // set its marker visible
         } else {
             document.getElementById("nedplayer_1").style.visibility = "hidden"; // set its marker hidden
@@ -886,7 +911,7 @@ function updateCoordinates(){
     document.getElementById("nedplayer_2").style.top = all_equipe[2].coureurs[1].position.coord_y + "px";
     if (all_equipe[2].coureurs[1].position.coord_x != 888 && all_equipe[2].coureurs[1].position.coord_y != 888){
         document.getElementById("netherlands_player_2").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Hollande"){
+        if(all_equipe[current_equip].nom == "hollande"){
             document.getElementById("nedplayer_2").style.visibility = "visible"; // set its marker visible
         } else{
             document.getElementById("nedplayer_2").style.visibility = "hidden"; // set its marker hidden
@@ -899,7 +924,7 @@ function updateCoordinates(){
     document.getElementById("nedplayer_3").style.top = all_equipe[2].coureurs[2].position.coord_y + "px";
     if (all_equipe[2].coureurs[2].position.coord_x != 888 && all_equipe[2].coureurs[2].position.coord_y != 888){
         document.getElementById("netherlands_player_3").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Hollande"){
+        if(all_equipe[current_equip].nom == "hollande"){
             document.getElementById("nedplayer_3").style.visibility = "visible"; // set its marker visible
         } else{
             document.getElementById("nedplayer_3").style.visibility = "hidden"; // set its marker hidden
@@ -913,7 +938,7 @@ function updateCoordinates(){
     document.getElementById("itaplayer_1").style.top = all_equipe[1].coureurs[0].position.coord_y + "px";
     if (all_equipe[1].coureurs[0].position.coord_x != 888 && all_equipe[1].coureurs[0].position.coord_y != 888){
         document.getElementById("italy_player_1").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom === "Italie"){
+        if(all_equipe[current_equip].nom === "italie"){
             document.getElementById("itaplayer_1").style.visibility = "visible"; // set its marker visible
         } else {
             document.getElementById("itaplayer_1").style.visibility = "hidden"; // set its marker hidden
@@ -926,7 +951,7 @@ function updateCoordinates(){
     document.getElementById("itaplayer_2").style.top = all_equipe[1].coureurs[1].position.coord_y + "px";
     if (all_equipe[1].coureurs[1].position.coord_x != 888 && all_equipe[1].coureurs[1].position.coord_y != 888){
         document.getElementById("italy_player_2").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Italie"){
+        if(all_equipe[current_equip].nom == "italie"){
             document.getElementById("itaplayer_2").style.visibility = "visible"; // set its marker visible
         } else {
             document.getElementById("itaplayer_2").style.visibility = "hidden"; // set its marker hidden
@@ -939,7 +964,7 @@ function updateCoordinates(){
     document.getElementById("itaplayer_3").style.top = all_equipe[1].coureurs[2].position.coord_y + "px";
     if (all_equipe[1].coureurs[2].position.coord_x != 888 && all_equipe[1].coureurs[2].position.coord_y != 888){
         document.getElementById("italy_player_3").style.visibility = "visible"; // set the player visible
-        if(all_equipe[current_equip].nom == "Italie"){
+        if(all_equipe[current_equip].nom == "italie"){
             document.getElementById("itaplayer_3").style.visibility = "visible"; // set its marker visible
         } else {
             document.getElementById("itaplayer_3").style.visibility = "hidden"; // set its marker hidden
