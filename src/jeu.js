@@ -514,7 +514,7 @@ function assigner_nouvelle_case(current_coureur, action){
                     }
                 })
                 let fin2 = document.createTextNode("L'équipe gagnante est : " + meilleur_equipe.nom)
-                let fin3 = document.createTextNode("Merci d'avoir joué, si vous souhaitez rejouer actualisé la page.")
+                let fin3 = document.createTextNode("Merci d'avoir joué, veuillez actualiser la page si vous souhaitez rejouer.")
                 add_br(p_fin)
                 p_fin.appendChild(fin2)
                 add_br(p_fin)
