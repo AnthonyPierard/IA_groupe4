@@ -124,7 +124,7 @@ indice("allemagne",3).
 
 % 'Exemple de transition d\'état'
 % [["belgique",0,0],["belgique",1,0],["italie",0,0],["italie",1,0]]  -->  [["belgique",0,12],["belgique",1,0],["italie",0,0],["italie",1,0]]
-%                     [[12,5],[9,7]]                         -->                       [[5],[9,7]]   
+%                     [[12,5],[9,7]]                                 -->                       [[5],[9,7]]   
 
 %--------------Récursion de l arbre min-max----------------%
 

@@ -48,7 +48,6 @@ echo(WebSocket) :-
     ).
 
 get_response(Message, Response) :-
-  get_time(Time),
   Message.forwho=="bot",
   string_codes(Message.message, String),
   clean_string(String,Cleanstring),
@@ -56,7 +55,7 @@ get_response(Message, Response) :-
   produire_reponse(ListOfAtomics,L_ligne_reponse),
   flatten(L_ligne_reponse,ListRep),
   atomic_list_concat(ListRep, StringRep),
-  Response = _{message:StringRep, time: Time}.
+  Response = _{message:StringRep, from_who:"bot"}.
 get_response(Message, Response) :-
   Message.forwho=="ia",
   writeln(Message.all_cards),
@@ -64,7 +63,7 @@ get_response(Message, Response) :-
   writeln(Message.pos_gen_const),
   best(Message.all_cards,Message.pos_gen,Message.pos_gen_const,_,_,Card),
   writeln(Card),
-  Response = _{carte:Card}.
+  Response = _{carte:Card, from_who:"ia"}.
 
 :- use_module(library(lists)).
 
