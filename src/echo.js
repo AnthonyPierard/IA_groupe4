@@ -18,7 +18,7 @@ function wsMessageHandler(event) {
 
   const contentElement = document.createElement("div")
   contentElement.className = 'content'
-  contentElement.appendChild(document.createTextNode("VOUS:" + question.value))
+  contentElement.appendChild(document.createTextNode("VOUS: " + question.value))
   contentElement.appendChild(document.createElement("br"))
   contentElement.appendChild(document.createTextNode("TBOT: " + payload.message))
   message.appendChild(contentElement)
