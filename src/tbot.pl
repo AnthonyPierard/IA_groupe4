@@ -48,7 +48,6 @@ echo(WebSocket) :-
     ).
 
 get_response(Message, Response) :-
-  get_time(Time),
   Message.forwho=="bot",
   string_codes(Message.message, String),
   clean_string(String,Cleanstring),
@@ -56,7 +55,8 @@ get_response(Message, Response) :-
   produire_reponse(ListOfAtomics,L_ligne_reponse),
   flatten(L_ligne_reponse,ListRep),
   atomic_list_concat(ListRep, StringRep),
-  Response = _{message:StringRep, time: Time}.
+  Response = _{message:StringRep, from_who:"bot"}.
+  
 get_response(Message, Response) :-
   Message.forwho=="ia",
   writeln(Message.all_cards),
@@ -65,7 +65,8 @@ get_response(Message, Response) :-
   nth0(0,Message.pos_gen,Tamp),
   nth0(0,Tamp,Equipe),
   best(Message.all_cards,Message.pos_gen,Message.pos_gen_const,_,_,Card),
-  Response = _{carte:ok}.
+  writeln(Card),
+  Response = _{carte:Card, from_who:"ia"}.
 
 :- use_module(library(lists)).
 
@@ -105,9 +106,9 @@ produire_reponse(L,Rep) :-
    call(Body), !.
 
 produire_reponse(_,[L1,L2, L3]) :-
-   L1 = ['Cette question dépasse mes limites...,'],
-   L2 = [' Pose moi une question concernant le jeu, je suis un véritable expert.'],
-   L3 = [' tu verras !'].
+   L1 = ["Cette question depasse mes limites..."],
+   L2 = [" Pose moi une question concernant le jeu, je suis un veritable expert."],
+   L3 = [" Tu verras !"].
 
 match_pattern(Pattern,Lmots) :-
    sublist(Pattern,Lmots).

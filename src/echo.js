@@ -11,21 +11,21 @@ function wsMessageHandler(event) {
   const question = document.getElementById("question")
   const payload = JSON.parse(event.data)
   log("WS Response", "Received message: '" + event.data + "'")
-  /**
+  
   const bot_zone = document.getElementById("answer")
   const message = document.createElement("div")
   message.className = 'message'
 
   const contentElement = document.createElement("div")
   contentElement.className = 'content'
-  contentElement.appendChild(document.createTextNode("VOUS:" + question.value))
+  contentElement.appendChild(document.createTextNode("VOUS: " + question.value))
   contentElement.appendChild(document.createElement("br"))
   contentElement.appendChild(document.createTextNode("TBOT: " + payload.message))
   message.appendChild(contentElement)
   let child = bot_zone.appendChild(message)
   question.value=""
   child.scrollIntoView()
- **/
+ 
 }
 
 function sendMessage(connection, message) {
