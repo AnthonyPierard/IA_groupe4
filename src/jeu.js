@@ -311,21 +311,20 @@ function load(){
     affiche_carte()
 }
 
+// Valeurs de test rapides
+let test = new Object()
+test.pos_gen= [["hollande", 0, 0], ["allemagne", 0, 0], ["belgique", 0, 0], ["italie", 0, 0]]
+test.pos_gen_const= [["belgique", 0, 0], ["italie", 0, 0], ["hollande", 0, 0], ["allemagne", 0, 0]]
+test.all_cards= [[1,2,3],[2,4,6],[hol.cartes[0], hol.cartes[1]],[all.cartes[0], all.cartes[1]]]
+test.forwho="ia"
+var json_to_pl = JSON.stringify(test);
+
 function action_aux(){
     let action
     if(all_equipe[current_equip].type == "IA"){
         //On va envoyer les informations à l'équipe
 
-        // Valeurs de test rapides
-        var test = new Object()
-        test.pos_gen= [["hollande", 0, 0], ["allemagne", 0, 0], ["hollande", 0, 0], ["allemagne", 0, 0]]
-        test.pos_gen_const= [["belgique", 0, 0], ["italie", 0, 0], ["hollande", 0, 0], ["allemagne", 0, 0]]
-        test.all_cards= [[1,2,3],[2,4,6],[hol.cartes[0]],[7,3]]
-        test.forwho="ia"
-
-        var json_to_pl = JSON.stringify(test);
-
-        sendMessage(connection,json_to_pl)
+        sendMessage(connection,envoyer_A_prolog())
         document.getElementById("action").value = "";
     }
     else {
