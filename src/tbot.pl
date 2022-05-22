@@ -56,6 +56,7 @@ get_response(Message, Response) :-
   flatten(L_ligne_reponse,ListRep),
   atomic_list_concat(ListRep, StringRep),
   Response = _{message:StringRep, from_who:"bot"}.
+  
 get_response(Message, Response) :-
   Message.forwho=="ia",
   writeln(Message.all_cards),
@@ -103,9 +104,9 @@ produire_reponse(L,Rep) :-
    call(Body), !.
 
 produire_reponse(_,[L1,L2, L3]) :-
-   L1 = ['Cette question dépasse mes limites...,'],
-   L2 = [' Pose moi une question concernant le jeu, je suis un véritable expert.'],
-   L3 = [' tu verras !'].
+   L1 = ["Cette question depasse mes limites..."],
+   L2 = [" Pose moi une question concernant le jeu, je suis un veritable expert."],
+   L3 = [" Tu verras !"].
 
 match_pattern(Pattern,Lmots) :-
    sublist(Pattern,Lmots).
